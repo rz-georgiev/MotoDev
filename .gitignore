@@ -1,0 +1,13 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/Server/MotoDev/MotoDev/appsettings.Development.json
+/Server/MotoDev/MotoDev/appsettings.json
+/Server/MotoDev/.vs/MotoDev/FileContentIndex/7d98e7d6-1421-4611-aa64-2191b11cd22b.vsidx
+/Server/MotoDev/.vs/MotoDev/FileContentIndex/b6f54cb8-7e3c-4ca4-a8f9-404efa570a73.vsidx
+/Server/MotoDev/.vs/MotoDev/FileContentIndex/bf5303a6-563c-4334-a76a-1fe5ce6813d7.vsidx
+/Server/MotoDev/.vs/MotoDev/v17/.suo
+/Server/MotoDev/.vs/MotoDev/v17/DocumentLayout.json
+/Server/MotoDev/MotoDev/obj/Debug/net8.0/MotoDev.AssemblyInfo.cs
+/Server/MotoDev/MotoDev/obj/Debug/net8.0/MotoDev.AssemblyInfoInputs.cache
