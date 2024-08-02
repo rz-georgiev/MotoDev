@@ -15,3 +15,4 @@ D:\Development\MotoDev\Server\MotoDev\MotoDev.Services\bin\Debug\net8.0\MotoDev.
 D:\Development\MotoDev\Server\MotoDev\MotoDev.Services\bin\Debug\net8.0\MotoDev.Core.pdb
 D:\Development\MotoDev\Server\MotoDev\MotoDev.Services\bin\Debug\net8.0\MotoDev.Data.pdb
 D:\Development\MotoDev\Server\MotoDev\MotoDev.Services\obj\Debug\net8.0\MotoDev..9703005F.Up2Date
+D:\Development\MotoDev\Server\MotoDev\MotoDev.Services\obj\Debug\net8.0\MotoDev.Services.sourcelink.json

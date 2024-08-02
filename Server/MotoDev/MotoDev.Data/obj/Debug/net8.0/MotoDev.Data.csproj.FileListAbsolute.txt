@@ -12,3 +12,4 @@ D:\Development\MotoDev\Server\MotoDev\MotoDev.Data\obj\Debug\net8.0\refint\MotoD
 D:\Development\MotoDev\Server\MotoDev\MotoDev.Data\obj\Debug\net8.0\MotoDev.Data.pdb
 D:\Development\MotoDev\Server\MotoDev\MotoDev.Data\obj\Debug\net8.0\MotoDev.Data.genruntimeconfig.cache
 D:\Development\MotoDev\Server\MotoDev\MotoDev.Data\obj\Debug\net8.0\ref\MotoDev.Data.dll
+D:\Development\MotoDev\Server\MotoDev\MotoDev.Data\obj\Debug\net8.0\MotoDev.Data.sourcelink.json

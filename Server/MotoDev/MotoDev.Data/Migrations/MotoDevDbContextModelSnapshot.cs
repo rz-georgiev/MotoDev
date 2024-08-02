@@ -17,7 +17,7 @@ namespace MotoDev.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.6")
+                .HasAnnotation("ProductVersion", "8.0.2")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
@@ -44,8 +44,8 @@ namespace MotoDev.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime>("CreatedByUserId")
-                        .HasColumnType("datetime(6)");
+                    b.Property<int>("CreatedByUserId")
+                        .HasColumnType("int");
 
                     b.Property<int>("EngineTypeId")
                         .HasColumnType("int");
@@ -59,8 +59,8 @@ namespace MotoDev.Data.Migrations
                     b.Property<DateTime?>("LastUpdatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime?>("LastUpdatedByUserId")
-                        .HasColumnType("datetime(6)");
+                    b.Property<int?>("LastUpdatedByUserId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Model")
                         .IsRequired()
@@ -94,14 +94,14 @@ namespace MotoDev.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime>("CreatedByUserId")
-                        .HasColumnType("datetime(6)");
+                    b.Property<int>("CreatedByUserId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("LastUpdatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime?>("LastUpdatedByUserId")
-                        .HasColumnType("datetime(6)");
+                    b.Property<int?>("LastUpdatedByUserId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -123,8 +123,8 @@ namespace MotoDev.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime>("CreatedByUserId")
-                        .HasColumnType("datetime(6)");
+                    b.Property<int>("CreatedByUserId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -141,8 +141,8 @@ namespace MotoDev.Data.Migrations
                     b.Property<DateTime?>("LastUpdatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime?>("LastUpdatedByUserId")
-                        .HasColumnType("datetime(6)");
+                    b.Property<int?>("LastUpdatedByUserId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Phone")
                         .IsRequired()
@@ -170,14 +170,14 @@ namespace MotoDev.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime>("CreatedByUserId")
-                        .HasColumnType("datetime(6)");
+                    b.Property<int>("CreatedByUserId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("LastUpdatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime?>("LastUpdatedByUserId")
-                        .HasColumnType("datetime(6)");
+                    b.Property<int?>("LastUpdatedByUserId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -199,14 +199,14 @@ namespace MotoDev.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime>("CreatedByUserId")
-                        .HasColumnType("datetime(6)");
+                    b.Property<int>("CreatedByUserId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("LastUpdatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime?>("LastUpdatedByUserId")
-                        .HasColumnType("datetime(6)");
+                    b.Property<int?>("LastUpdatedByUserId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -231,8 +231,8 @@ namespace MotoDev.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime>("CreatedByUserId")
-                        .HasColumnType("datetime(6)");
+                    b.Property<int>("CreatedByUserId")
+                        .HasColumnType("int");
 
                     b.Property<int>("LastKilometers")
                         .HasColumnType("int");
@@ -240,8 +240,8 @@ namespace MotoDev.Data.Migrations
                     b.Property<DateTime?>("LastUpdatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime?>("LastUpdatedByUserId")
-                        .HasColumnType("datetime(6)");
+                    b.Property<int?>("LastUpdatedByUserId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Notes")
                         .IsRequired()
@@ -273,14 +273,14 @@ namespace MotoDev.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime>("CreatedByUserId")
-                        .HasColumnType("datetime(6)");
+                    b.Property<int>("CreatedByUserId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("LastUpdatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime?>("LastUpdatedByUserId")
-                        .HasColumnType("datetime(6)");
+                    b.Property<int?>("LastUpdatedByUserId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -319,14 +319,14 @@ namespace MotoDev.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime>("CreatedByUserId")
-                        .HasColumnType("datetime(6)");
+                    b.Property<int>("CreatedByUserId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime?>("LastUpdatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime?>("LastUpdatedByUserId")
-                        .HasColumnType("datetime(6)");
+                    b.Property<int?>("LastUpdatedByUserId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -348,8 +348,8 @@ namespace MotoDev.Data.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime>("CreatedByUserId")
-                        .HasColumnType("datetime(6)");
+                    b.Property<int>("CreatedByUserId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -361,8 +361,8 @@ namespace MotoDev.Data.Migrations
                     b.Property<DateTime?>("LastUpdatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<DateTime?>("LastUpdatedByUserId")
-                        .HasColumnType("datetime(6)");
+                    b.Property<int?>("LastUpdatedByUserId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Password")
                         .IsRequired()
