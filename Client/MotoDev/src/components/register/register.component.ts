@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, RequiredValidator, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, RequiredValidator, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth/auth.service';
 import { Router, RouterModule } from '@angular/router';
 import { AppRoutingModule, routes } from '../app/app.routes';
@@ -7,20 +7,21 @@ import { AppRoutingModule, routes } from '../app/app.routes';
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, ReactiveFormsModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })
 export class RegisterComponent {
   
-  registerForm: FormGroup | undefined;
+  registerForm!: FormGroup;
 
   constructor(private formBuilder: FormBuilder,
      private authService: AuthService,
      private router: Router) {
       this.registerForm = this.formBuilder.group({
-        username: ['', Validators.required],
+        name: ['', Validators.required],
         email: ['', Validators.required],
+        username: ['', Validators.required],
         password: ['', [Validators.required, Validators.minLength(8)]]
       });
   }
