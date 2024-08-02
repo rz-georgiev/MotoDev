@@ -1,21 +1,2 @@
-@if (isLoggedIn) {
-    <nav>
-        <a [routerLink]="['/home']">Home</a>
-        <a [routerLink]="['/about']">About</a>
-        <a [routerLink]="['/contact']">Contact</a>
-        <!-- <button (click)="logout()">Logout</button> -->
-      </nav>
-}
-@else {
-    <app-login></app-login>
-}
-
-
-<!-- <nav>
-    <a routerLink="/login">Home</a>
-    <a routerLink="/register">About</a>
-  </nav>
 <router-outlet></router-outlet>
-   -->
 
- <router-outlet></router-outlet>
