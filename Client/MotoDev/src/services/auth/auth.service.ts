@@ -19,4 +19,8 @@ export class AuthService {
     return this.httpClient.post(`${this.baseUrl}/register`, credentials);
   }
 
+  forgotPassword(email: any) : Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/forgottenPassword`, email);
+  }
+
 }

@@ -25,7 +25,7 @@
                   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="row g-3 needs-validation" [ngClass]="{
                     'was-validated': isSubmitted && registerForm.invalid,
                     'novalidate': !isSubmitted
-                  }"> 
+                  }">
                     <div class="col-12">
                       <label for="name" class="form-label">Your Name</label>
                       <input type="text" name="name" class="form-control" id="name" formControlName="name" required>
@@ -41,20 +41,23 @@
                     <div class="col-12">
                       <label for="username" class="form-label">Username</label>
                       <div class="input-group has-validation">
-                        <input type="text" name="username" class="form-control" id="username" formControlName="username"  required>
+                        <input type="text" name="username" class="form-control" id="username" formControlName="username"
+                          required>
                         <div class="invalid-feedback">Please choose a username.</div>
                       </div>
                     </div>
 
                     <div class="col-12">
                       <label for="password" class="form-label">Password</label>
-                      <input type="password" name="password" class="form-control" id="password" formControlName="password" minlength="8" required >
+                      <input type="password" name="password" class="form-control" id="password"
+                        formControlName="password" minlength="8" required>
                       <div class="invalid-feedback">Please enter your password!</div>
                     </div>
 
                     <div class="col-12">
                       <div class="form-check">
-                        <input class="form-check-input" name="terms" type="checkbox" value="" id="acceptTerms" formControlName="acceptTerms" required >
+                        <input class="form-check-input" name="terms" type="checkbox" value="" id="acceptTerms"
+                          formControlName="acceptTerms" required>
                         <label class="form-check-label" for="acceptTerms">I agree and accept the <a href="#">terms and
                             conditions</a></label>
                         <div class="invalid-feedback">You must agree before submitting.</div>
@@ -65,7 +68,8 @@
                     </div>
                     <div class="col-12">
                       <p class="small mb-0">Already have an account? <a [routerLink]="['/login']">Log in</a></p>
-                      <p class="small mb-0">Forgot your password? <a [routerLink]="['/forgottenPassword']">Click here</a></p>
+                      <p class="small mb-0">Forgot your password? <a [routerLink]="['/forgottenPassword']">Send password
+                          reset link</a></p>
                     </div>
                   </form>
 
