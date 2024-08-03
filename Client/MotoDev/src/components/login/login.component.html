@@ -28,11 +28,11 @@
                     'novalidate': !isSubmitted
                   }">
                     <div class="col-12"> 
-                      <label for="email" class="form-label">Email</label>
+                      <label for="username" class="form-label">Email</label>
                       <div class="input-group has-validation">
-                        <input type="text" name="email" class="form-control" id="email" type="email" formControlName="email" required>
+                        <input type="text" name="username" class="form-control" id="username" type="username" formControlName="username" required>
                         @if(isSubmitted && loginForm.invalid) {
-                          <div class="invalid-feedback">Please enter your email.</div>  
+                          <div class="invalid-feedback">Please enter your email/username.</div>  
                         }   
                       </div>
                     </div>

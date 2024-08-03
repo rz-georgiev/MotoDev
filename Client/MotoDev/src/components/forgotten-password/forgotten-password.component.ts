@@ -23,7 +23,7 @@ export class ForgottenPasswordComponent {
     private formBuilder: FormBuilder) {
 
   }
-
+  
   ngOnInit() {
     this.forgottenPasswordForm = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]]

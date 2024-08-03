@@ -22,9 +22,8 @@ export class LoginComponent {
     private authService: AuthService,
     private router: Router ) {
       this.loginForm = this.formBuilder.group({
-        email: ['', [Validators.required, Validators.email]],
-        password: ['', Validators.required],
-        rememberMe: ['', Validators.required]
+        username: ['', [Validators.required, Validators.email]],
+        password: ['', Validators.required]
       });
   }
 
@@ -35,7 +34,7 @@ export class LoginComponent {
       this.authService.login(this.loginForm.value).subscribe(
         response => {
           console.log('Is good');
-          localStorage.setItem('token', response.token)
+          localStorage.setItem('authToken', response.message)
           this.router.navigate(['/']);
         },
         error => {

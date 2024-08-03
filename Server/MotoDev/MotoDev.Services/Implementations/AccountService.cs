@@ -19,7 +19,7 @@ namespace MotoDev.Services.Implementations
         private readonly IConfiguration _configuration = configuration;
         private readonly IEmailService _emailService = emailService;
         private readonly MotoDevDbContext _dbContext = dbContext;
-
+        
         public async Task<BaseResponseModel> LoginAsync(LoginRequest request)
         {
             var username = request.Username;

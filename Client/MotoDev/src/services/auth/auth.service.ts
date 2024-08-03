@@ -7,20 +7,20 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AuthService {
 
-  private baseUrl = 'https://localhost:7204'; // Replace with your API URL 
+  private baseUrl = 'https://localhost:7204/Account'; // Replace with your API URL 
 
   constructor(private httpClient: HttpClient) {}
 
   login(user: any): Observable<any> {
-    return this.httpClient.post(`${this.baseUrl}/login`, user);
+    return this.httpClient.post(`${this.baseUrl}/Login`, user);
   }
 
   register(credentials: any) : Observable<any> {
-    return this.httpClient.post(`${this.baseUrl}/register`, credentials);
+    return this.httpClient.post(`${this.baseUrl}/Register`, credentials);
   }
 
   forgotPassword(email: any) : Observable<any> {
-    return this.httpClient.post(`${this.baseUrl}/forgottenPassword`, email);
+    return this.httpClient.post(`${this.baseUrl}/ForgottenPassword`, email);
   }
 
 }
