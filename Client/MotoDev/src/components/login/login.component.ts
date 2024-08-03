@@ -23,11 +23,10 @@ export class LoginComponent {
     private router: Router ) {
       this.loginForm = this.formBuilder.group({
         email: ['', [Validators.required, Validators.email]],
-        password: ['', Validators.required]
+        password: ['', Validators.required],
+        rememberMe: ['', Validators.required]
       });
   }
-
-  get f() { return this.loginForm.controls; }
 
 
   onSubmit() {

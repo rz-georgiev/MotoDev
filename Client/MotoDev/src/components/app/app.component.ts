@@ -12,9 +12,5 @@ import { LoginComponent } from '../login/login.component';
 export class AppComponent {
  
    title = 'MotoDev';
-   isLoggedIn: boolean = false;
-
-  constructor() {
-    
-  }
+   
 }
