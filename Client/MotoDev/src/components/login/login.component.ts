@@ -33,17 +33,16 @@ export class LoginComponent {
     if (this.loginForm?.valid) {
       this.authService.login(this.loginForm.value).subscribe(
         response => {
-          console.log('Is good');
-          localStorage.setItem('authToken', response.message)
-          this.router.navigate(['/']);
+          if (response.isOk){
+            localStorage.setItem('authToken', response.message)
+          }     
+          this.router.navigate(['/mainScreen']);
         },
         error => {
-          console.log('Is not good');
         }
       )
     } 
     else {
-      console.log('Is not good 2');
     }
   }
   
