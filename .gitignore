@@ -479,3 +479,5 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+/Server/MotoDev/MotoDev/appsettings.json
+/Server/MotoDev/MotoDev/appsettings.Development.json
