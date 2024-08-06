@@ -16,6 +16,7 @@ export class RegisterComponent {
   
   registerForm!: FormGroup;
   isSubmitted: boolean = false;
+  errorMessage: string = "";
 
   constructor(private formBuilder: FormBuilder,
     private authService: AuthService,
@@ -24,9 +25,7 @@ export class RegisterComponent {
  
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
-      name: ['', Validators.required],
       email: ['', Validators.required],
-      username: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(8)]],
       acceptTerms: [false, Validators.required]
     });
@@ -37,9 +36,13 @@ export class RegisterComponent {
     this.isSubmitted = true;
     if (this.registerForm?.valid) {
       this.authService.register(this.registerForm.value).subscribe(
-        response => {
-          console.log('Registration successful', response);
-          this.router.navigate(['/login']);
+        response => {      
+          if (response.isOk) {
+            this.router.navigate(['/confirmAccount']);
+          }
+          else {
+            this.errorMessage = response.message;
+          }         
         },
         error => {
           console.error('Registration error', error);

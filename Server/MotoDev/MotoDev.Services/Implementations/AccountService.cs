@@ -42,8 +42,9 @@ namespace MotoDev.Services.Implementations
                     Subject = new ClaimsIdentity(new Claim[]
                     {
                         new(ClaimTypes.NameIdentifier, username),
+                        new(ClaimTypes.UserData, user.Id.ToString()),
                     }),
-                    Expires = DateTime.UtcNow.AddMinutes(2),
+                    Expires = DateTime.UtcNow.AddDays(7),
                     Issuer = _configuration["Jwt:Issuer"],
                     Audience = _configuration["Jwt:Audience"],
                     SigningCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature)
@@ -51,7 +52,7 @@ namespace MotoDev.Services.Implementations
 
                 foreach (var userRole in user.UserRoles)
                     tokenDescriptor.Subject.AddClaim(new Claim(ClaimTypes.Role, userRole.Role.Name));
-
+                
                 var token = tokenHandler.CreateToken(tokenDescriptor);
                 return new BaseResponseModel
                 {
@@ -68,7 +69,7 @@ namespace MotoDev.Services.Implementations
                 };
             }
         }
-
+        
         public async Task<BaseResponseModel> RegisterAsync(RegisterAccountRequest request)
         {
             var doesExist = await _dbContext.Users.AnyAsync(x => x.Username == request.Email
@@ -80,7 +81,7 @@ namespace MotoDev.Services.Implementations
                     Message = "A user with the provided username/email already exists"
                 };
 
-            if (request.Username.Length < 8 || !request.Username.Any(char.IsLetter))
+            if (request.Email.Length < 8 || !request.Email.Any(char.IsLetter))
             {
                 return new BaseResponseModel
                 {
@@ -113,7 +114,7 @@ namespace MotoDev.Services.Implementations
 
             await _dbContext.AddAsync(new User
             {
-                Username = request.Username,
+                Username = request.Email,
                 Password = GetHashString(request.Password),
                 Email = request.Email,
                 CreatedAt = DateTime.Now,

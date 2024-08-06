@@ -8,6 +8,7 @@ import { ForgottenPasswordComponent } from '../forgotten-password/forgotten-pass
 import { CommonModule } from '@angular/common';
 import { MainScreenComponent } from '../main-screen/main-screen.component';
 import { RoleGuard } from '../../guards/role/role.guard';
+import { ConfirmAccountComponent } from '../confirm-account/confirm-account.component';
 
 export const routes: Routes = [
     {
@@ -27,6 +28,10 @@ export const routes: Routes = [
         component: MainScreenComponent,
         canActivate: [RoleGuard],
         data: { expectedRole: 'Administrator' }
+    },
+    {
+        path: 'confirmAccount',
+        component: ConfirmAccountComponent
     },
     {
         path: '',

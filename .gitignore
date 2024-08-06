@@ -481,3 +481,4 @@ testem.log
 Thumbs.db
 /Server/MotoDev/MotoDev/appsettings.json
 /Server/MotoDev/MotoDev/appsettings.Development.json
+/Server/MotoDev/MotoDev/appsettings.Production.json

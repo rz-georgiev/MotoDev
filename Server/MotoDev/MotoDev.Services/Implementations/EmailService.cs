@@ -14,7 +14,7 @@ namespace MotoDev.Services.Implementations
         {
             _configuration = configuration;
         }
-
+        
         public async Task<BaseResponseModel> SendEmailAsync(string recipient, string message)
         {
             try

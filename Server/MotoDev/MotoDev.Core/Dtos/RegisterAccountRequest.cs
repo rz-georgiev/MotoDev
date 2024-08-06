@@ -4,7 +4,7 @@ namespace MotoDev.Core.Dtos
 {
     public class RegisterAccountRequest
     {
-        public string Username { get; set; }
+        //public string Username { get; set; }
 
         public string Password { get; set; }
 

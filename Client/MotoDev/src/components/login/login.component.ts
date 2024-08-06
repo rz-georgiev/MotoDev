@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, ɵparseCookieValue } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth/auth.service';
@@ -9,22 +9,24 @@ import { AppRoutingModule } from '../app/app.routes';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],  templateUrl: './login.component.html',
+  imports: [CommonModule, ReactiveFormsModule, RouterModule], templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
 
 export class LoginComponent {
-  
-  loginForm!: FormGroup; 
+
+  loginForm!: FormGroup;
   isSubmitted: boolean = false;
-  
+  errorMessage: string = "";
+
   constructor(private formBuilder: FormBuilder,
     private authService: AuthService,
-    private router: Router ) {
-      this.loginForm = this.formBuilder.group({
-        username: ['', [Validators.required, Validators.email]],
-        password: ['', Validators.required]
-      });
+    private router: Router) {
+    this.loginForm = this.formBuilder.group({
+      username: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required]
+      // rememberMe: ['', Validators.required]
+    });
   }
 
 
@@ -33,21 +35,24 @@ export class LoginComponent {
     if (this.loginForm?.valid) {
       this.authService.login(this.loginForm.value).subscribe(
         response => {
-          if (response.isOk){
+          if (response.isOk) {
             localStorage.setItem('authToken', response.message)
-          }     
-          this.router.navigate(['/mainScreen']);
+            this.router.navigate(['/mainScreen']);
+          }
+          else {
+            this.errorMessage = response.message;
+          }
         },
         error => {
         }
       )
-    } 
+    }
     else {
     }
   }
-  
+
   onLogin() {
-  
+
   }
 
   goToRegisterPage() {
