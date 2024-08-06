@@ -18,6 +18,7 @@ export class RoleGuard implements CanActivate {
       return true;
     }
     else {
+      localStorage.removeItem('authToken');
       this.router.navigate(['/login']);
       return false;
     }

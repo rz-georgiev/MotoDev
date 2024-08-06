@@ -15,7 +15,16 @@ export class AuthService {
 
   isLoggedIn(): boolean {
     const authToken = localStorage.getItem('authToken');
-    return !!authToken;
+    if (!authToken) {
+      return false;
+    }
+
+    const decoded = this.getDecodedToken(authToken);
+    const date = new Date(0);
+    date.setUTCSeconds(decoded.exp ?? 0);
+    const hasExpired = date.valueOf() <= Date.now().valueOf();
+    
+    return !!authToken && !hasExpired;
   }
 
   getUserRoles(): string[] {
@@ -43,10 +52,6 @@ export class AuthService {
 
   login(user: any): Observable<any> {
     return this.httpClient.post(`${this.baseUrl}/Login`, user);
-  }
-
-  logout() {
-    localStorage.removeItem('authToken');
   }
 
   register(credentials: any) : Observable<any> {
