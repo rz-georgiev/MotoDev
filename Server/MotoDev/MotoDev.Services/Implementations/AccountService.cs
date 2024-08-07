@@ -1,4 +1,4 @@
-﻿using EngineExpert.Data.Models;
+﻿using MotoDev.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -124,7 +124,7 @@ namespace MotoDev.Services.Implementations
 
             await _dbContext.SaveChangesAsync();
 
-            var message = $"Please click here to confirm your account -> http://www.engineexpert.com/ConfirmAccount/{randomHash}";
+            var message = $"Please click here to confirm your account -> http://www.motodev.com/ConfirmAccount/{randomHash}";
             await _emailService.SendEmailAsync(request.Email, message);
 
             return new BaseResponseModel
@@ -189,7 +189,7 @@ namespace MotoDev.Services.Implementations
                 user.ResetPasswordToken = randomHash;
                 await _dbContext.SaveChangesAsync();
 
-                var message = $"Please click here to reset your password -> http://www.engineexpert.com/ResetPassword/{randomHash}";
+                var message = $"Please click here to reset your password -> http://www.motodev.com/ResetPassword/{randomHash}";
                 var isSent = await _emailService.SendEmailAsync(request.RecipientEmail, message);
                 if (!isSent.IsOk)
                 {

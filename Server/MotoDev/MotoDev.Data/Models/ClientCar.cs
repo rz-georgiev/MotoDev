@@ -1,4 +1,4 @@
-﻿namespace EngineExpert.Data.Models
+﻿namespace MotoDev.Data.Models
 {
     public class ClientCar : BaseModel
     {

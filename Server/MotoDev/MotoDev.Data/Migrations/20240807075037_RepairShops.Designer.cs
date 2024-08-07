@@ -12,8 +12,8 @@ using MotoDev.Data;
 namespace MotoDev.Data.Migrations
 {
     [DbContext(typeof(MotoDevDbContext))]
-    [Migration("20240627144802_FixingIdColumns")]
-    partial class FixingIdColumns
+    [Migration("20240807075037_RepairShops")]
+    partial class RepairShops
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -263,6 +263,19 @@ namespace MotoDev.Data.Migrations
                     b.HasIndex("RepairTypeId");
 
                     b.ToTable("Repairs");
+                });
+
+            modelBuilder.Entity("MotoDev.Data.Models.RepairShop", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RepairShops");
                 });
 
             modelBuilder.Entity("MotoDev.Data.Models.RepairType", b =>

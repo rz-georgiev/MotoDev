@@ -40,7 +40,7 @@ namespace MotoDev.Services.Implementations
                 mailMessage.To.Add(recipient);
 
                 // Set the subject and body of the email.
-                mailMessage.Subject = "EngineExpert mail";
+                mailMessage.Subject = "MotoDev mail";
                 mailMessage.Body = message;
 
                 // Send the email.

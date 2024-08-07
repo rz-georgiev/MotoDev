@@ -25,7 +25,7 @@ namespace MotoDev.Data.Migrations
 
             MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
-            modelBuilder.Entity("EngineExpert.Data.Models.Car", b =>
+            modelBuilder.Entity("MotoDev.Data.Models.Car", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -86,7 +86,7 @@ namespace MotoDev.Data.Migrations
                     b.ToTable("Cars");
                 });
 
-            modelBuilder.Entity("EngineExpert.Data.Models.CarType", b =>
+            modelBuilder.Entity("MotoDev.Data.Models.CarType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -115,7 +115,7 @@ namespace MotoDev.Data.Migrations
                     b.ToTable("CarTypes");
                 });
 
-            modelBuilder.Entity("EngineExpert.Data.Models.Client", b =>
+            modelBuilder.Entity("MotoDev.Data.Models.Client", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -156,7 +156,7 @@ namespace MotoDev.Data.Migrations
                     b.ToTable("Clients");
                 });
 
-            modelBuilder.Entity("EngineExpert.Data.Models.ClientCar", b =>
+            modelBuilder.Entity("MotoDev.Data.Models.ClientCar", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -191,7 +191,7 @@ namespace MotoDev.Data.Migrations
                     b.ToTable("ClientCars");
                 });
 
-            modelBuilder.Entity("EngineExpert.Data.Models.EngineType", b =>
+            modelBuilder.Entity("MotoDev.Data.Models.EngineType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -220,7 +220,7 @@ namespace MotoDev.Data.Migrations
                     b.ToTable("EngineTypes");
                 });
 
-            modelBuilder.Entity("EngineExpert.Data.Models.Repair", b =>
+            modelBuilder.Entity("MotoDev.Data.Models.Repair", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -265,7 +265,7 @@ namespace MotoDev.Data.Migrations
                     b.ToTable("Repairs");
                 });
 
-            modelBuilder.Entity("EngineExpert.Data.Models.RepairType", b =>
+            modelBuilder.Entity("MotoDev.Data.Models.RepairType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -294,7 +294,7 @@ namespace MotoDev.Data.Migrations
                     b.ToTable("RepairType");
                 });
 
-            modelBuilder.Entity("EngineExpert.Data.Models.Role", b =>
+            modelBuilder.Entity("MotoDev.Data.Models.Role", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -311,7 +311,7 @@ namespace MotoDev.Data.Migrations
                     b.ToTable("Roles");
                 });
 
-            modelBuilder.Entity("EngineExpert.Data.Models.TransmissionType", b =>
+            modelBuilder.Entity("MotoDev.Data.Models.TransmissionType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -340,7 +340,7 @@ namespace MotoDev.Data.Migrations
                     b.ToTable("TransmissionTypes");
                 });
 
-            modelBuilder.Entity("EngineExpert.Data.Models.User", b =>
+            modelBuilder.Entity("MotoDev.Data.Models.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -383,7 +383,7 @@ namespace MotoDev.Data.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("EngineExpert.Data.Models.UserRole", b =>
+            modelBuilder.Entity("MotoDev.Data.Models.UserRole", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -406,21 +406,21 @@ namespace MotoDev.Data.Migrations
                     b.ToTable("UserRoles");
                 });
 
-            modelBuilder.Entity("EngineExpert.Data.Models.Car", b =>
+            modelBuilder.Entity("MotoDev.Data.Models.Car", b =>
                 {
-                    b.HasOne("EngineExpert.Data.Models.CarType", "CarType")
+                    b.HasOne("MotoDev.Data.Models.CarType", "CarType")
                         .WithMany()
                         .HasForeignKey("CarTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EngineExpert.Data.Models.EngineType", "EngineType")
+                    b.HasOne("MotoDev.Data.Models.EngineType", "EngineType")
                         .WithMany()
                         .HasForeignKey("EngineTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EngineExpert.Data.Models.TransmissionType", "TransmissionType")
+                    b.HasOne("MotoDev.Data.Models.TransmissionType", "TransmissionType")
                         .WithMany()
                         .HasForeignKey("TransmissionTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -433,15 +433,15 @@ namespace MotoDev.Data.Migrations
                     b.Navigation("TransmissionType");
                 });
 
-            modelBuilder.Entity("EngineExpert.Data.Models.ClientCar", b =>
+            modelBuilder.Entity("MotoDev.Data.Models.ClientCar", b =>
                 {
-                    b.HasOne("EngineExpert.Data.Models.Car", "Car")
+                    b.HasOne("MotoDev.Data.Models.Car", "Car")
                         .WithMany()
                         .HasForeignKey("CarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EngineExpert.Data.Models.Client", "Client")
+                    b.HasOne("MotoDev.Data.Models.Client", "Client")
                         .WithMany()
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -452,15 +452,15 @@ namespace MotoDev.Data.Migrations
                     b.Navigation("Client");
                 });
 
-            modelBuilder.Entity("EngineExpert.Data.Models.Repair", b =>
+            modelBuilder.Entity("MotoDev.Data.Models.Repair", b =>
                 {
-                    b.HasOne("EngineExpert.Data.Models.ClientCar", "ClientCar")
+                    b.HasOne("MotoDev.Data.Models.ClientCar", "ClientCar")
                         .WithMany("Repairs")
                         .HasForeignKey("ClientCarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EngineExpert.Data.Models.RepairType", "RepairType")
+                    b.HasOne("MotoDev.Data.Models.RepairType", "RepairType")
                         .WithMany()
                         .HasForeignKey("RepairTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -471,15 +471,15 @@ namespace MotoDev.Data.Migrations
                     b.Navigation("RepairType");
                 });
 
-            modelBuilder.Entity("EngineExpert.Data.Models.UserRole", b =>
+            modelBuilder.Entity("MotoDev.Data.Models.UserRole", b =>
                 {
-                    b.HasOne("EngineExpert.Data.Models.Role", "Role")
+                    b.HasOne("MotoDev.Data.Models.Role", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EngineExpert.Data.Models.User", "User")
+                    b.HasOne("MotoDev.Data.Models.User", "User")
                         .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -490,12 +490,12 @@ namespace MotoDev.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("EngineExpert.Data.Models.ClientCar", b =>
+            modelBuilder.Entity("MotoDev.Data.Models.ClientCar", b =>
                 {
                     b.Navigation("Repairs");
                 });
 
-            modelBuilder.Entity("EngineExpert.Data.Models.User", b =>
+            modelBuilder.Entity("MotoDev.Data.Models.User", b =>
                 {
                     b.Navigation("UserRoles");
                 });
