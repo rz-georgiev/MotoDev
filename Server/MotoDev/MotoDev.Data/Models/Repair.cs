@@ -10,10 +10,12 @@
 
         public int LastKilometers { get; set; }
 
-        public decimal Price { get; set; }
-
-        public RepairType RepairType { get; set; }
+        public decimal TotalPrice { get; set; }
 
         public ClientCar ClientCar { get; set; }
+
+        public IEnumerable<ClientCarRepair> ClientRepairs { get; set; }
+
+        
     }
 }

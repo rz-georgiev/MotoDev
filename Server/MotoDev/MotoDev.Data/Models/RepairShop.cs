@@ -1,7 +1,13 @@
 ﻿namespace MotoDev.Data.Models
 {
-    public class RepairShop
+    public class RepairShop : BaseModel
     {
-        public int Id { get; set; }
+        public int OwnerUserId { get; set; }
+
+        public string Name { get; set; }
+
+        public User OwnerUser { get; set; }
+
+        public IEnumerable<Client> Clients { get; set; }
     }
 }

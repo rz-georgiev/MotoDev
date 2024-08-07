@@ -9,6 +9,8 @@
         public string Phone { get; set; }
 
         public string Email { get; set; }
+
+        public IEnumerable<Car> Cars { get; set; }
         
     }
 }

@@ -6,6 +6,10 @@
 
         public int CarId { get; set; }
 
+        public string VinNumber { get; set; }
+
+        public string OtherModifications { get; set; }
+
         public Client Client { get; set; }
 
         public Car Car { get; set; }

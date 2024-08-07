@@ -13,5 +13,7 @@
         public bool IsActive { get; set; } = false;
 
         public IEnumerable<UserRole> UserRoles { get; set; }
+
+        public IEnumerable<RepairShop> RepairShops { get; set; }
     }
 }
