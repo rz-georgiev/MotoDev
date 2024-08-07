@@ -50,11 +50,7 @@ export class LoginComponent {
     else {
     }
   }
-
-  onLogin() {
-
-  }
-
+  
   goToRegisterPage() {
     console.log('reg page');
     this.router.navigate(['/register']);

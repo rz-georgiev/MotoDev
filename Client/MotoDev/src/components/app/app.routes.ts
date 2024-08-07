@@ -27,7 +27,7 @@ export const routes: Routes = [
         path: 'mainScreen',
         component: MainScreenComponent,
         canActivate: [RoleGuard],
-        data: { expectedRole: 'Administrator' }
+        data: { roles: ['Administrator', 'Owner', 'Mechanic'] }
     },
     {
         path: 'confirmAccount',

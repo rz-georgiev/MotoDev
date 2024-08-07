@@ -46,8 +46,9 @@ export class AuthService {
     return decoded;
   }
   
-  hasRole(role: string): boolean {
-    return this.getUserRoles().includes(role);
+  hasAnyOfTheRoles(roles: string[]): boolean {
+    const userRoles = this.getUserRoles();
+    return roles.some(role => userRoles.includes(role));
   }
 
   login(user: any): Observable<any> {
