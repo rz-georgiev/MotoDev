@@ -111,20 +111,21 @@ namespace MotoDev.Services.Implementations
             var bytes = new byte[16];
             bytes = RandomNumberGenerator.GetBytes(16);
             var randomHash = BitConverter.ToString(bytes).Replace("-", "").ToLower();
-
+            
             await _dbContext.AddAsync(new User
             {
                 Username = request.Email,
                 Password = GetHashString(request.Password),
                 Email = request.Email,
-                CreatedAt = DateTime.Now,
+                CreatedAt = DateTime.UtcNow,
                 ResetPasswordToken = randomHash,
+                AccountConfirmationHash = Guid.NewGuid().ToString().Replace("-", ""),
                 IsActive = false,
             });
 
             await _dbContext.SaveChangesAsync();
 
-            var message = $"Please click here to confirm your account -> http://www.motodev.com/ConfirmAccount/{randomHash}";
+            var message = $"Please click here to confirm your account -> http://www.motodev.space/ConfirmAccount/{randomHash}";
             await _emailService.SendEmailAsync(request.Email, message);
 
             return new BaseResponseModel

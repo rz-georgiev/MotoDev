@@ -29,10 +29,8 @@ export const routes: Routes = [
         canActivate: [RoleGuard],
         data: { roles: ['Administrator', 'Owner', 'Mechanic'] }
     },
-    {
-        path: 'confirmAccount',
-        component: ConfirmAccountComponent
-    },
+    { path: 'confirmAccount/:accountConfirmationHash', component: ConfirmAccountComponent },
+    { path: 'confirmAccount', component: ConfirmAccountComponent },
     {
         path: '',
         component: AuthComponent

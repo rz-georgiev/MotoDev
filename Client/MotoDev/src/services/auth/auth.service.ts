@@ -63,4 +63,8 @@ export class AuthService {
     return this.httpClient.post(`${this.baseUrl}/ForgottenPassword`, email);
   }
 
+  confirmAccount(accountConfirmationHash: string) : Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/ConfirmAccount`, accountConfirmationHash);
+  }
+
 }

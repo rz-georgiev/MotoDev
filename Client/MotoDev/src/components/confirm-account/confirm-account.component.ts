@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-confirm-account',
@@ -11,10 +12,26 @@ import { RouterModule } from '@angular/router';
   styleUrl: './confirm-account.component.css'
 })
 export class ConfirmAccountComponent {
-forgottenPasswordForm: any;
-isSubmitted: any;
-onSubmit() {
-throw new Error('Method not implemented.');
-}
+
+  private confirmationHash: string | null;
+  public resultMessage?: string | null;
+  
+  constructor(private route: ActivatedRoute, private authService: AuthService) {
+    this.confirmationHash = this.route.snapshot.paramMap.get('accountConfirmationHash');
+  }
+
+  ngOnInit() {
+    if (this.confirmationHash != null) {
+      this.authService.confirmAccount(this.confirmationHash).subscribe(response => {
+       this.resultMessage = response.message;
+      }, 
+      error => {
+      });
+      
+    }
+    else {
+      this.resultMessage = "Please check your email for confirmation link";
+    }
+  }
 
 }
