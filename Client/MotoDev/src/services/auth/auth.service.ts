@@ -48,6 +48,10 @@ export class AuthService {
   
   hasAnyOfTheRoles(roles: string[]): boolean {
     const userRoles = this.getUserRoles();
+    if (!userRoles){
+      return false;
+    }
+    
     return roles.some(role => userRoles.includes(role));
   }
 
@@ -63,7 +67,7 @@ export class AuthService {
     return this.httpClient.post(`${this.baseUrl}/ForgottenPassword`, email);
   }
 
-  confirmAccount(accountConfirmationHash: string) : Observable<any> {
+  confirmAccount(accountConfirmationHash: any) : Observable<any> {
     return this.httpClient.post(`${this.baseUrl}/ConfirmAccount`, accountConfirmationHash);
   }
 

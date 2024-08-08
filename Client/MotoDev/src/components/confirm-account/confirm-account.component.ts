@@ -22,7 +22,7 @@ export class ConfirmAccountComponent {
 
   ngOnInit() {
     if (this.confirmationHash != null) {
-      this.authService.confirmAccount(this.confirmationHash).subscribe(response => {
+      this.authService.confirmAccount({'confirmHash': this.confirmationHash}).subscribe(response => {
        this.resultMessage = response.message;
       }, 
       error => {

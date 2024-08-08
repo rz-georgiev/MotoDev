@@ -9,6 +9,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
+using MotoDev.Services.Enums;
+using Role = MotoDev.Services.Enums.Role;
 
 namespace MotoDev.Services.Implementations
 {
@@ -112,22 +114,33 @@ namespace MotoDev.Services.Implementations
             bytes = RandomNumberGenerator.GetBytes(16);
             var randomHash = BitConverter.ToString(bytes).Replace("-", "").ToLower();
             
-            await _dbContext.AddAsync(new User
+            var user = await _dbContext.AddAsync(new User
             {
                 Username = request.Email,
                 Password = GetHashString(request.Password),
                 Email = request.Email,
                 CreatedAt = DateTime.UtcNow,
                 ResetPasswordToken = randomHash,
-                AccountConfirmationHash = Guid.NewGuid().ToString().Replace("-", ""),
+                AccountConfirmationHash = randomHash,
                 IsActive = false,
             });
+        
 
             await _dbContext.SaveChangesAsync();
 
-            var message = $"Please click here to confirm your account -> http://www.motodev.space/ConfirmAccount/{randomHash}";
-            await _emailService.SendEmailAsync(request.Email, message);
+            await _dbContext.AddAsync(new UserRole
+            {
+                RoleId = (int)Role.Owner,
+                UserId = user.Entity.Id,
+            });
+            
+            // Repeating so we get the user id 
+            await _dbContext.SaveChangesAsync();
 
+            //var message = $"Please click here to confirm your account -> http://www.motodev.space/confirmAccount/{randomHash}";
+            var message = $"Please click here to confirm your account -> http://localhost:4200/confirmAccount/{randomHash}";
+            await _emailService.SendEmailAsync(request.Email, message);
+            
             return new BaseResponseModel
             {
                 IsOk = true,
