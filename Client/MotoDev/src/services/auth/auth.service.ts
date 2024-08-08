@@ -67,6 +67,10 @@ export class AuthService {
     return this.httpClient.post(`${this.baseUrl}/ForgottenPassword`, email);
   }
 
+  resetPassword(resetModel: any) : Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/ResetPassword`, resetModel);
+  }
+
   confirmAccount(accountConfirmationHash: any) : Observable<any> {
     return this.httpClient.post(`${this.baseUrl}/ConfirmAccount`, accountConfirmationHash);
   }

@@ -9,20 +9,13 @@ import { CommonModule } from '@angular/common';
 import { MainScreenComponent } from '../main-screen/main-screen.component';
 import { RoleGuard } from '../../guards/role/role.guard';
 import { ConfirmAccountComponent } from '../confirm-account/confirm-account.component';
+import { ForgottenPasswordConfirmComponent } from '../forgotten-password-confirm/forgotten-password-confirm.component';
 
 export const routes: Routes = [
-    {
-        path: 'login',
-        component: LoginComponent
-    },
-    {
-        path: 'register',
-        component: RegisterComponent
-    },
-    {
-        path: 'forgottenPassword',
-        component: ForgottenPasswordComponent
-    },
+    { path: 'login', component: LoginComponent },
+    { path: 'register', component: RegisterComponent },
+    { path: 'forgottenPassword', component: ForgottenPasswordComponent },
+    { path: 'forgottenPasswordConfirm/:resetPasswordHash', component: ForgottenPasswordConfirmComponent },
     {
         path: 'mainScreen',
         component: MainScreenComponent,
@@ -31,10 +24,7 @@ export const routes: Routes = [
     },
     { path: 'confirmAccount/:accountConfirmationHash', component: ConfirmAccountComponent },
     { path: 'confirmAccount', component: ConfirmAccountComponent },
-    {
-        path: '',
-        component: AuthComponent
-    }
+    { path: '', component: AuthComponent }
 ];
 
 @NgModule({

@@ -203,7 +203,8 @@ namespace MotoDev.Services.Implementations
                 user.ResetPasswordToken = randomHash;
                 await _dbContext.SaveChangesAsync();
 
-                var message = $"Please click here to reset your password -> http://www.motodev.com/ResetPassword/{randomHash}";
+                //var message = $"Please click here to reset your password -> http://www.motodev.com/forgottenPasswordConfirm/{randomHash}";
+                var message =   $"Please click here to reset your password -> http://localhost:4200/forgottenPasswordConfirm/{randomHash}";
                 var isSent = await _emailService.SendEmailAsync(request.RecipientEmail, message);
                 if (!isSent.IsOk)
                 {
@@ -217,7 +218,7 @@ namespace MotoDev.Services.Implementations
                 return new BaseResponseModel
                 {
                     IsOk = true,
-                    Message = message
+                    Message = "A password reset link is sent. Please check your email",
                 };
             }
             catch (Exception ex)
