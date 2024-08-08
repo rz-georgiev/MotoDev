@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MotoDev.Data;
 
@@ -11,9 +12,11 @@ using MotoDev.Data;
 namespace MotoDev.Data.Migrations
 {
     [DbContext(typeof(MotoDevDbContext))]
-    partial class MotoDevDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240808155705_ClientCarsAltering")]
+    partial class ClientCarsAltering
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

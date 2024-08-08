@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MotoDev.Data;
 
@@ -11,9 +12,11 @@ using MotoDev.Data;
 namespace MotoDev.Data.Migrations
 {
     [DbContext(typeof(MotoDevDbContext))]
-    partial class MotoDevDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240808152343_BrandsAndModels")]
+    partial class BrandsAndModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -65,6 +68,9 @@ namespace MotoDev.Data.Migrations
                     b.Property<int>("CarTypeId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ClientId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Color")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -104,6 +110,8 @@ namespace MotoDev.Data.Migrations
                     b.HasIndex("BrandId");
 
                     b.HasIndex("CarTypeId");
+
+                    b.HasIndex("ClientId");
 
                     b.HasIndex("EngineTypeId");
 
@@ -572,6 +580,10 @@ namespace MotoDev.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("MotoDev.Data.Models.Client", null)
+                        .WithMany("Cars")
+                        .HasForeignKey("ClientId");
+
                     b.HasOne("MotoDev.Data.Models.EngineType", "EngineType")
                         .WithMany()
                         .HasForeignKey("EngineTypeId")
@@ -617,7 +629,7 @@ namespace MotoDev.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("MotoDev.Data.Models.Client", "Client")
-                        .WithMany("ClientCars")
+                        .WithMany()
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -705,7 +717,7 @@ namespace MotoDev.Data.Migrations
 
             modelBuilder.Entity("MotoDev.Data.Models.Client", b =>
                 {
-                    b.Navigation("ClientCars");
+                    b.Navigation("Cars");
                 });
 
             modelBuilder.Entity("MotoDev.Data.Models.ClientCar", b =>

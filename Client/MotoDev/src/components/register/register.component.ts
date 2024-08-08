@@ -8,7 +8,9 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [RouterModule, ReactiveFormsModule, CommonModule],
+  imports: [RouterModule,
+     ReactiveFormsModule,
+     CommonModule],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css'
 })

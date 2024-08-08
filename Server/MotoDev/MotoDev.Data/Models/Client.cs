@@ -10,7 +10,7 @@
 
         public string Email { get; set; }
 
-        public IEnumerable<Car> Cars { get; set; }
+        public IEnumerable<ClientCar> ClientCars{ get; set; }
         
     }
 }

@@ -44,7 +44,7 @@
                       <div class="form-check">
                         <input class="form-check-input" name="terms" type="checkbox" value="" id="acceptTerms"
                           formControlName="acceptTerms" required>
-                        <label class="form-check-label" for="acceptTerms">I agree and accept the <a href="#">terms and
+                        <label class="form-check-label" for="acceptTerms">I agree and accept the <a [routerLink]="['/gdprScreen']">terms and
                             conditions</a></label>
                         <div class="invalid-feedback">You must agree before submitting.</div>
                         @if (errorMessage) {

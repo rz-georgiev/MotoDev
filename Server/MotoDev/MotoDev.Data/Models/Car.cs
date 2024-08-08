@@ -2,9 +2,9 @@
 {
     public class Car : BaseModel
     {
-        public string Brand { get; set; }
+        public int BrandId { get; set; }
 
-        public string Model { get; set; }
+        public int ModelId { get; set; }
 
         public int HorsePowers { get; set; }
 
@@ -19,6 +19,10 @@
         public int TransmissionTypeId { get; set; }
 
         public string Color { get; set; }
+
+        public Brand Brand { get; set; }
+
+        public Model Model { get; set; }
 
         public CarType CarType { get; set; }
 
