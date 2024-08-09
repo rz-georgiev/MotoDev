@@ -487,3 +487,12 @@ $RECYCLE.BIN/
 /Server/MotoDev/MotoDev/appsettings.Production.json
 /Server/MotoDev/MotoDev/bin/Debug/net8.0/appsettings.Development.json
 /Server/MotoDev/MotoDev/bin/Debug/net8.0/appsettings.json
+/Server/MotoDev/MotoDev/obj/Debug/net8.0/apphost.exe
+/Server/MotoDev/MotoDev/obj/Debug/net8.0/MotoDev.assets.cache
+/Server/MotoDev/MotoDev/obj/Debug/net8.0/MotoDev.csproj.FileListAbsolute.txt
+/Server/MotoDev/MotoDev.Core/obj/Debug/net8.0/MotoDev.Core.assets.cache
+/Server/MotoDev/MotoDev.Core/obj/Debug/net8.0/MotoDev.Core.csproj.FileListAbsolute.txt
+/Server/MotoDev/MotoDev.Data/obj/Debug/net8.0/MotoDev.Data.assets.cache
+/Server/MotoDev/MotoDev.Data/obj/Debug/net8.0/MotoDev.Data.csproj.FileListAbsolute.txt
+/Server/MotoDev/MotoDev.Services/obj/Debug/net8.0/MotoDev.Services.assets.cache
+/Server/MotoDev/MotoDev.Services/obj/Debug/net8.0/MotoDev.Services.csproj.FileListAbsolute.txt
