@@ -482,3 +482,8 @@ $RECYCLE.BIN/
 
 # Vim temporary swap files
 *.swp
+/Server/MotoDev/MotoDev/appsettings.Development.json
+/Server/MotoDev/MotoDev/appsettings.json
+/Server/MotoDev/MotoDev/appsettings.Production.json
+/Server/MotoDev/MotoDev/bin/Debug/net8.0/appsettings.Development.json
+/Server/MotoDev/MotoDev/bin/Debug/net8.0/appsettings.json
