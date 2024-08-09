@@ -5,6 +5,8 @@ import { AuthService } from '../../services/auth/auth.service';
 import { Router, RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from '../app/app.routes';
+import { SpinnerService } from '../../services/spinner/spinner.service';
+import { delay } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -21,7 +23,9 @@ export class LoginComponent {
 
   constructor(private formBuilder: FormBuilder,
     private authService: AuthService,
-    private router: Router) {
+    private router: Router,
+  private spinner: SpinnerService) {
+
     this.loginForm = this.formBuilder.group({
       username: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
@@ -32,22 +36,26 @@ export class LoginComponent {
 
   onSubmit() {
     this.isSubmitted = true;
-    if (this.loginForm?.valid) {
+    this.spinner.show();
+    if (this.loginForm?.valid) {   
       this.authService.login(this.loginForm.value).subscribe(
         response => {
           if (response.isOk) {
             localStorage.setItem('authToken', response.message)
-            this.router.navigate(['/mainScreen']);
+            this.router.navigate(['/mainScreen']); 
           }
           else {
             this.errorMessage = response.message;
-          }
+          }  
+          this.spinner.hide();      
         },
         error => {
+          this.spinner.hide();
         }
       )
     }
     else {
+      this.spinner.hide();
     }
   }
   

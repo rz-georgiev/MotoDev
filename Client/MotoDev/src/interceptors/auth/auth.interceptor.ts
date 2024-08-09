@@ -1,8 +1,9 @@
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, Observable, throwError } from 'rxjs';
-import { AuthService } from '../services/auth/auth.service';
+import { catchError, finalize, Observable, throwError } from 'rxjs';
+import { AuthService } from '../../services/auth/auth.service';
 import { Router } from '@angular/router';
+import { SpinnerService } from '../../services/spinner/spinner.service';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
   return next(req);
@@ -12,7 +13,8 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
-  constructor(private authService: AuthService, private router: Router ) { }
+  constructor(private authService: AuthService, 
+    private router: Router) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const authToken = localStorage.getItem('authToken');
