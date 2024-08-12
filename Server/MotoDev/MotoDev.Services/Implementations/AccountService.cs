@@ -121,7 +121,6 @@ namespace MotoDev.Services.Implementations
                 Email = request.Email,
                 CreatedAt = DateTime.UtcNow,
                 ResetPasswordToken = randomHash,
-                AccountConfirmationHash = randomHash,
                 IsActive = false,
             });
         

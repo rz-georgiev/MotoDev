@@ -10,12 +10,10 @@
 
         public string? ResetPasswordToken { get; set; }
 
-        public string? AccountConfirmationHash { get; set; }
-
         public bool IsActive { get; set; } = false;
 
         public IEnumerable<UserRole> UserRoles { get; set; }
 
-        public IEnumerable<RepairShop> RepairShops { get; set; }
+        public IEnumerable<RepairShop>? RepairShops { get; set; }
     }
 }

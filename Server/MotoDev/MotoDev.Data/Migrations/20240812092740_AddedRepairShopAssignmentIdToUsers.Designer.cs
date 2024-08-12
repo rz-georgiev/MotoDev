@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MotoDev.Data;
 
@@ -11,9 +12,11 @@ using MotoDev.Data;
 namespace MotoDev.Data.Migrations
 {
     [DbContext(typeof(MotoDevDbContext))]
-    partial class MotoDevDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240812092740_AddedRepairShopAssignmentIdToUsers")]
+    partial class AddedRepairShopAssignmentIdToUsers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -414,41 +417,6 @@ namespace MotoDev.Data.Migrations
                     b.ToTable("RepairShops");
                 });
 
-            modelBuilder.Entity("MotoDev.Data.Models.RepairShopUser", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("CreatedByUserId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("LastUpdatedAt")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int?>("LastUpdatedByUserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RepairShopId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("RepairShopId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("RepairShopUser");
-                });
-
             modelBuilder.Entity("MotoDev.Data.Models.RepairType", b =>
                 {
                     b.Property<int>("Id")
@@ -531,6 +499,12 @@ namespace MotoDev.Data.Migrations
                         .HasColumnType("int");
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AccountConfirmationHash")
+                        .HasColumnType("longtext");
+
+                    b.Property<int?>("AssignedToRepairShopId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
@@ -711,25 +685,6 @@ namespace MotoDev.Data.Migrations
                     b.Navigation("OwnerUser");
                 });
 
-            modelBuilder.Entity("MotoDev.Data.Models.RepairShopUser", b =>
-                {
-                    b.HasOne("MotoDev.Data.Models.RepairShop", "RepairShop")
-                        .WithMany("WorkingUsers")
-                        .HasForeignKey("RepairShopId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("MotoDev.Data.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("RepairShop");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("MotoDev.Data.Models.UserRole", b =>
                 {
                     b.HasOne("MotoDev.Data.Models.Role", "Role")
@@ -772,8 +727,6 @@ namespace MotoDev.Data.Migrations
             modelBuilder.Entity("MotoDev.Data.Models.RepairShop", b =>
                 {
                     b.Navigation("Clients");
-
-                    b.Navigation("WorkingUsers");
                 });
 
             modelBuilder.Entity("MotoDev.Data.Models.User", b =>
