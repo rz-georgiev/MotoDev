@@ -10,6 +10,14 @@ import { MainScreenComponent } from '../main-screen/main-screen.component';
 import { RoleGuard } from '../../guards/role/role.guard';
 import { ConfirmAccountComponent } from '../confirm-account/confirm-account.component';
 import { ForgottenPasswordConfirmComponent } from '../forgotten-password-confirm/forgotten-password-confirm.component';
+import { UsersComponent } from '../users/users.component';
+import { ClientsComponent } from '../clients/clients.component';
+import { RepairsComponent } from '../repairs/repairs.component';
+import { StatisticsComponent } from '../statistics/statistics.component';
+import { CarsComponent } from '../cars/cars.component';
+import { RepairShopsComponent } from '../repair-shops/repair-shops.component';
+import { BaseDataComponent } from '../base-data/base-data.component';
+import { AboutComponent } from '../about/about.component';
 
 export const routes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -24,6 +32,14 @@ export const routes: Routes = [
     },
     { path: 'confirmAccount/:accountConfirmationHash', component: ConfirmAccountComponent },
     { path: 'confirmAccount', component: ConfirmAccountComponent },
+    { path: 'users', component: UsersComponent },
+    { path: 'clients', component: ClientsComponent },
+    { path: 'repairs', component: RepairsComponent },
+    { path: 'statistics', component: StatisticsComponent },
+    { path: 'cars', component: CarsComponent },
+    { path: 'repairShops', component: RepairShopsComponent },
+    { path: 'baseData', component: BaseDataComponent },
+    { path: 'about', component: AboutComponent },
     { path: '', component: AuthComponent }
 ];
 

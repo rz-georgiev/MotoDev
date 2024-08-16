@@ -1,74 +1,72 @@
-
 <aside id="sidebar" class="sidebar">
+  <ul class="sidebar-nav" id="sidebar-nav">
 
-    <ul class="sidebar-nav" id="sidebar-nav">
+    <li class="nav-item">
+      <a class="nav-link " [routerLink]="['/mainScreen']">
+        <i class="bi bi-grid"></i>
+        <span>Dashboard</span>
+      </a>
+    </li><!-- End Dashboard Nav -->
 
-      <li class="nav-item">
-        <a class="nav-link " href="index.html">
-          <i class="bi bi-grid"></i>
-          <span>Dashboard</span>
-        </a>
-      </li><!-- End Dashboard Nav -->
 
-    
-      <li class="nav-heading">Main</li>
+    <li class="nav-heading">Main</li>
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="users-profile.html">
-          <i class="bi bi-person"></i>
-          <span>Users</span>
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="users-profile.html">
-          <i class="bi bi-person"></i>
-          <span>Clients</span>
-        </a>
-      </li>
+    <li class="nav-item">
+      <a class="nav-link collapsed" [routerLink]="['/users']">
+        <i class="bi bi-person"></i>
+        <span>Users</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link collapsed" [routerLink]="['/clients']">
+        <i class="bi bi-person"></i>
+        <span>Clients</span>
+      </a>
+    </li>
 
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="users-profile.html">
-          <i class="bi bi-person"></i>
-          <span>Repairs</span>
-        </a>
-      </li>
-     
-      <li class="nav-heading">Budget</li>
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="users-profile.html">
-          <i class="bi bi-person"></i>
-          <span>Statistics</span>
-        </a>
-      </li>
-      <li class="nav-heading">Other</li>
-      <li class="nav-item">
-        <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
-          <i class="bi bi-journal-text"></i><span>Settings</span><i class="bi bi-chevron-down ms-auto"></i>
-        </a>
-        <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-          <li>
-            <a href="forms-elements.html">
-              <i class="bi bi-circle"></i><span>Cars</span>
-            </a>
-          </li>
-          <li>
-            <a href="forms-layouts.html">
-              <i class="bi bi-circle"></i><span>Repairs Shops</span>
-            </a>
-          </li>
-          <li>
-            <a href="forms-editors.html">
-              <i class="bi bi-circle"></i><span>Readonly /for now/</span>
-            </a>
-          </li>
-        </ul>
-      </li><!-- End Forms Nav -->
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="users-profile.html">
-          <i class="bi bi-person"></i>
-          <span>About</span>
-        </a>
-      </li>
-    </ul>
+    <li class="nav-item">
+      <a class="nav-link collapsed" [routerLink]="['/repairs']">
+        <i class="bi bi-person"></i>
+        <span>Repairs</span>
+      </a>
+    </li>
 
-  </aside><!-- End Sidebar-->
+    <li class="nav-heading">Budget</li>
+    <li class="nav-item">
+      <a class="nav-link collapsed" [routerLink]="['/statistics']">
+        <i class="bi bi-person"></i>
+        <span>Statistics</span>
+      </a>
+    </li>
+    <li class="nav-heading">Other</li>
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-journal-text"></i><span>Settings</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+        <li>
+          <a [routerLink]="['/cars']">
+            <i class="bi bi-circle"></i><span>Cars</span>
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/repairShops']">
+            <i class="bi bi-circle"></i><span>Repair Shops</span>
+          </a>
+        </li>
+        <li>
+          <a [routerLink]="['/baseData']">
+            <i class="bi bi-circle"></i><span>Base data /readonly/</span>
+          </a>
+        </li>
+      </ul>
+    </li><!-- End Forms Nav -->
+    <li class="nav-item">
+      <a class="nav-link collapsed" [routerLink]="['/about']">
+        <i class="bi bi-person"></i>
+        <span>About</span>
+      </a>
+    </li>
+  </ul>
+
+</aside><!-- End Sidebar-->
