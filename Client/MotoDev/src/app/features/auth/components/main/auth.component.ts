@@ -20,11 +20,5 @@ export class AuthComponent {
 
   ngOnInit() {
     this.isLoggedIn = this.authService.isLoggedIn();
-    // if (this.isLoggedIn) {
-    //   this.router.navigate(['/mainScreen']);
-    // }
-    // else {
-    //   this.router.navigate(['/login']);
-    // }
   }
 }

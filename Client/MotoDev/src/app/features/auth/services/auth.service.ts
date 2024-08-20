@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { jwtDecode } from 'jwt-decode';
 import { ExtendedJwtPayload } from '../models/extendedJwtPayload';
@@ -10,12 +10,15 @@ import { ExtendedJwtPayload } from '../models/extendedJwtPayload';
 export class AuthService {
 
   private baseUrl = 'https://localhost:7204/Account'; // Replace with your API URL 
-
+  private isLoggedInSubject = new BehaviorSubject<boolean>(false);
+  public isLoggedIn$ = this.isLoggedInSubject.asObservable();
+  
   constructor(private httpClient: HttpClient) {}
 
   isLoggedIn(): boolean {
     const authToken = localStorage.getItem('authToken');
     if (!authToken) {
+      this.isLoggedInSubject.next(false);
       return false;
     }
 
@@ -24,7 +27,9 @@ export class AuthService {
     date.setUTCSeconds(decoded.exp ?? 0);
     const hasExpired = date.valueOf() <= Date.now().valueOf();
     
-    return !!authToken && !hasExpired;
+    const result = !!authToken && !hasExpired;
+    this.isLoggedInSubject.next(result);
+    return result;
   }
 
   getUserRoles(): string[] {

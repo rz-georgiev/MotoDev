@@ -18,10 +18,12 @@ export class AppComponent {
     title = 'MotoDev';
     isLoggedIn: boolean = false;
 
-    constructor(private authService: AuthService) {
-        this.isLoggedIn = this.authService.isLoggedIn();
-    }
+    constructor(private authService: AuthService) { }
 
     ngOnInit() {
+        this.isLoggedIn = this.authService.isLoggedIn();
+        this.authService.isLoggedIn$.subscribe(result => {
+            this.isLoggedIn = result;
+        });
     }
 }
