@@ -5,7 +5,9 @@ namespace MotoDev.Data
 {
     public class MotoDevDbContext(DbContextOptions<MotoDevDbContext> options) : DbContext(options)
     {
-        public DbSet<RepairShop> RepairShops { get; set; }
+        public DbSet<Brand> Brands { get; set; }
+
+        public DbSet<BrandModel> BrandModels { get; set; }
 
         public DbSet<Car> Cars { get; set; }
 
@@ -15,9 +17,19 @@ namespace MotoDev.Data
         
         public DbSet<ClientCar> ClientCars { get; set; }
 
+        public DbSet<ClientCarRepair> ClientCarRepairs { get; set; }
+
         public DbSet<EngineType> EngineTypes { get; set; }
 
+        public DbSet<Model> Models { get; set; }
+
         public DbSet<Repair> Repairs { get; set; }
+
+        public DbSet<RepairShop> RepairShops { get; set; }
+
+        public DbSet<RepairShopClient> RepairShopClients { get; set; }
+
+        public DbSet<RepairShopUser> RepairShopUsers { get; set; }
 
         public DbSet<RepairType> RepairType { get; set; }
 
@@ -26,6 +38,8 @@ namespace MotoDev.Data
         public DbSet<TransmissionType> TransmissionTypes { get; set; }
 
         public DbSet<User> Users { get; set; }
+
+        public DbSet<UserRepairShop> UserRepairShops { get; set; }
 
         public DbSet<UserRole> UserRoles{ get; set; }
 
