@@ -1,3 +1,4 @@
+using CloudinaryDotNet;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -86,6 +87,17 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("Mechanic", policy =>
     { policy.RequireClaim(ClaimTypes.Role, "Mechanic"); });
 });
+
+
+Account account = new Account(
+                builder.Configuration["Cloudinary:CloudName"],
+                builder.Configuration["Cloudinary:ApiKey"],
+                builder.Configuration["Cloudinary:ApiSecret"]);
+
+var cloudinary = new Cloudinary(account);
+
+builder.Services.AddSingleton(cloudinary);
+builder.Services.AddSingleton<ICloudinaryService, CloudinaryService>();
 
 builder.Services.AddTransient<IAccountService, AccountService>();
 builder.Services.AddTransient<IEmailService, EmailService>();

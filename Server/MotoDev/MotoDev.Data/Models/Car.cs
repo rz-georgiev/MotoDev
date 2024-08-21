@@ -20,6 +20,8 @@
 
         public string Color { get; set; }
 
+        public string ImageId { get; set; }
+
         public Brand Brand { get; set; }
 
         public Model Model { get; set; }

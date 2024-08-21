@@ -9,7 +9,7 @@ import { ExtendedJwtPayload } from '../models/extendedJwtPayload';
 })
 export class AuthService {
 
-  private baseUrl = 'https://localhost:7204/Account'; // Replace with your API URL 
+  private baseUrl = 'https://localhost:5078/Account';
   private isLoggedInSubject = new BehaviorSubject<boolean>(false);
   public isLoggedIn$ = this.isLoggedInSubject.asObservable();
   
