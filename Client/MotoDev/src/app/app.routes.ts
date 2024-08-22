@@ -18,6 +18,7 @@ import { RepairShopsComponent } from './features/repair-shops/components/repair-
 import { BaseDataComponent } from './features/baseData/components/base-data.component';
 import { AboutComponent } from './features/about/components/about.component';
 import { RoleGuard } from './core/guards/role/role.guard';
+import { NotFoundComponent } from './core/components/not-found/not-found.component';
 
 export const routes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -40,6 +41,7 @@ export const routes: Routes = [
     { path: 'repairShops', component: RepairShopsComponent },
     { path: 'baseData', component: BaseDataComponent },
     { path: 'about', component: AboutComponent },
+    { path: '**', component: NotFoundComponent },
     { path: '', component: AuthComponent }
 ];
 
