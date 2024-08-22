@@ -41,17 +41,26 @@
                     </div>
 
                     <div class="col-12">
-                      <div class="form-check">
-                        <input class="form-check-input" name="terms" type="checkbox" value="" id="acceptTerms"
-                          formControlName="acceptTerms" required>
-                        <label class="form-check-label" for="acceptTerms">I agree and accept the <a [routerLink]="['/gdprScreen']">terms and
-                            conditions</a></label>
-                        <div class="invalid-feedback">You must agree before submitting.</div>
+                        <div class="form-check">
+                            <input class="form-check-input" name="terms" type="checkbox" value="" id="acceptTerms"
+                                   formControlName="acceptTerms" required>
+                            <label class="form-check-label" for="acceptTerms">
+                                I agree and accept the <a (click)="isGdprModalOpened=true">
+                                    terms and
+                                    conditions
+                                </a>
+                            </label>
+                            <div class="invalid-feedback">You must agree before submitting.</div>
+                        </div>
+
                         @if (errorMessage) {
-                          <p>{{errorMessage}}</p>
+                        <div class="alert alert-danger" role="alert">
+                            {{errorMessage}}
+                        </div>
                         }
-                      </div>
+
                     </div>
+
                     <div class="col-12">
                       <button class="btn btn-primary w-100" type="submit">Create Account</button>
                     </div>
