@@ -15,8 +15,9 @@ import { NavbarService } from '../services/navbar.service';
 export class NavbarComponent {
 
   currentUsername: string | undefined;
+  isSidebarOpened: boolean = true;
   
-  constructor(private router: Router, private navbarService: NavbarService) { }
+  constructor(private router: Router) { }
 
   handleConfirmation(isConfirmed: boolean) {
     if (isConfirmed) {
@@ -24,8 +25,14 @@ export class NavbarComponent {
       this.router.navigate(['/login']);
     }
   }
-
+  
   toggleSidebar() {
-    this.navbarService.toggleSidebar();
+    this.isSidebarOpened = !this.isSidebarOpened;
+    if (this.isSidebarOpened) {
+      document.body.classList.remove('toggle-sidebar');
+    }
+    else {
+      document.body.classList.add('toggle-sidebar');
+    }
   }
 }

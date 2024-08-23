@@ -12,20 +12,7 @@ import { RedirectCommand } from '@angular/router';
 })
 export class MainScreenComponent {
 
-  isSideBarOpened: boolean = true;
+  constructor(private navbarService: NavbarService) { }
 
-  constructor(private navbarService: NavbarService, private renderer: Renderer2) { }
-
-  ngAfterViewInit() {
-    this.navbarService.isSideBarOpened$.subscribe(result => {
-      this.isSideBarOpened = result;
-      if (result) {
-        document.body.classList.add('toggle-sidebar');
-      }
-      else {
-        document.body.classList.remove('toggle-sidebar');
-      }
-    });
-  }
 
 }
