@@ -41,8 +41,8 @@ export const routes: Routes = [
     { path: 'repairShops', component: RepairShopsComponent },
     { path: 'baseData', component: BaseDataComponent },
     { path: 'about', component: AboutComponent },
-    { path: '**', component: NotFoundComponent },
-    { path: '', component: AuthComponent }
+    { path: '', component: AuthComponent },
+    { path: '**', component: NotFoundComponent }
 ];
 
 @NgModule({

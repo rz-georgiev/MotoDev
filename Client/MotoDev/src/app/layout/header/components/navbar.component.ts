@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { ConfirmAccountComponent } from "../../../features/auth/components/confirm-account/confirm-account.component";
 import { ConfirmationModalComponent } from "../../../features/auth/components/confirmation-modal/confirmation-modal.component";
+import { NavbarService } from '../services/navbar.service';
 
 @Component({
   selector: 'app-navbar',
@@ -15,15 +16,16 @@ export class NavbarComponent {
 
   currentUsername: string | undefined;
   
-  constructor(private router: Router) { }
+  constructor(private router: Router, private navbarService: NavbarService) { }
 
   handleConfirmation(isConfirmed: boolean) {
     if (isConfirmed) {
       localStorage.removeItem('authToken');
       this.router.navigate(['/login']);
     }
-    else {
-      
-    } 
+  }
+
+  toggleSidebar() {
+    this.navbarService.toggleSidebar();
   }
 }
