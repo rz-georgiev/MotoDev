@@ -15,7 +15,7 @@ namespace MotoDev.Services.Implementations
             _configuration = configuration;
         }
         
-        public async Task<BaseResponseModel> SendEmailAsync(string recipient, string message)
+        public async Task<BaseResponse> SendEmailAsync(string recipient, string message)
         {
             try
             {
@@ -46,7 +46,7 @@ namespace MotoDev.Services.Implementations
                 // Send the email.
                 await smtpClient.SendMailAsync(mailMessage);
 
-                return new BaseResponseModel
+                return new BaseResponse
                 {
                     IsOk = true,
                     Message = "Email sent successfully"
@@ -54,7 +54,7 @@ namespace MotoDev.Services.Implementations
             }
             catch (Exception ex)
             {
-                return new BaseResponseModel
+                return new BaseResponse
                 {
                     IsOk = false,
                     Message = $"Email not sent successfully -> {ex.ToString()}"

@@ -4,14 +4,14 @@ namespace MotoDev.Services.Interaces
 {
     public interface IAccountService
     {
-        Task<BaseResponseModel> LoginAsync(LoginRequest request);
+        Task<BaseResponse> LoginAsync(LoginRequest request);
 
-        Task<BaseResponseModel> RegisterAsync(RegisterAccountRequest request);
+        Task<BaseResponse> RegisterAsync(RegisterAccountRequest request);
 
-        Task<BaseResponseModel> ConfirmAccountAsync(ConfirmAccountRequest request);
+        Task<BaseResponse> ConfirmAccountAsync(ConfirmAccountRequest request);
 
-        Task<BaseResponseModel> ForgottenPasswordAsync(ForgottenEmailRequest request);
+        Task<BaseResponse> ForgottenPasswordAsync(ForgottenEmailRequest request);
 
-        Task<BaseResponseModel> ResetPasswordAsync(ResetPasswordRequest request);
+        Task<BaseResponse> ResetPasswordAsync(ResetPasswordRequest request);
     }
 }

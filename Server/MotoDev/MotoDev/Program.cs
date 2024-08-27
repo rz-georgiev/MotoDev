@@ -84,6 +84,9 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("Admin", policy =>
     { policy.RequireClaim(ClaimTypes.Role, "Admin"); });
 
+    options.AddPolicy("Owner", policy =>
+    { policy.RequireClaim(ClaimTypes.Role, "Owner"); });
+
     options.AddPolicy("Mechanic", policy =>
     { policy.RequireClaim(ClaimTypes.Role, "Mechanic"); });
 });
@@ -101,6 +104,7 @@ builder.Services.AddSingleton<ICloudinaryService, CloudinaryService>();
 
 builder.Services.AddTransient<IAccountService, AccountService>();
 builder.Services.AddTransient<IEmailService, EmailService>();
+builder.Services.AddTransient<IUserService, UserService>();
 
 
 
@@ -124,6 +128,10 @@ app.UseHttpsRedirection();
 app.UseStatusCodePages();
 
 app.UseRouting();
+
+app.UseAuthentication();
+
+app.UseAuthorization();
 
 app.MapControllers();
 

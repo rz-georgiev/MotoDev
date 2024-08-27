@@ -22,7 +22,7 @@ namespace MotoDev.Services.Implementations
         private readonly IEmailService _emailService = emailService;
         private readonly MotoDevDbContext _dbContext = dbContext;
         
-        public async Task<BaseResponseModel> LoginAsync(LoginRequest request)
+        public async Task<BaseResponse> LoginAsync(LoginRequest request)
         {
             var username = request.Username;
             var password = request.Password;
@@ -56,7 +56,7 @@ namespace MotoDev.Services.Implementations
                     tokenDescriptor.Subject.AddClaim(new Claim(ClaimTypes.Role, userRole.Role.Name));
                 
                 var token = tokenHandler.CreateToken(tokenDescriptor);
-                return new BaseResponseModel
+                return new BaseResponse
                 {
                     IsOk = true,
                     Message = tokenHandler.WriteToken(token),
@@ -64,7 +64,7 @@ namespace MotoDev.Services.Implementations
             }
             else
             {
-                return new BaseResponseModel
+                return new BaseResponse
                 {
                     IsOk = false,
                     Message = "Invalid username/email or password"
@@ -72,12 +72,12 @@ namespace MotoDev.Services.Implementations
             }
         }
         
-        public async Task<BaseResponseModel> RegisterAsync(RegisterAccountRequest request)
+        public async Task<BaseResponse> RegisterAsync(RegisterAccountRequest request)
         {
             var doesExist = await _dbContext.Users.AnyAsync(x => x.Username == request.Email
                     || x.Email == request.Email);
             if (doesExist)
-                return new BaseResponseModel
+                return new BaseResponse
                 {
                     IsOk = false,
                     Message = "A user with the provided username/email already exists"
@@ -85,7 +85,7 @@ namespace MotoDev.Services.Implementations
 
             if (request.Email.Length < 8 || !request.Email.Any(char.IsLetter))
             {
-                return new BaseResponseModel
+                return new BaseResponse
                 {
                     IsOk = false,
                     Message = "Username/email should be at least 8 characters long and should contain letters"
@@ -94,7 +94,7 @@ namespace MotoDev.Services.Implementations
 
             if (!IsValidEmail(request.Email))
             {
-                return new BaseResponseModel
+                return new BaseResponse
                 {
                     IsOk = false,
                     Message = "Invalid email provided"
@@ -103,7 +103,7 @@ namespace MotoDev.Services.Implementations
 
             if (request.Password.Length < 8 || !request.Password.Any(char.IsLetter))
             {
-                return new BaseResponseModel
+                return new BaseResponse
                 {
                     IsOk = false,
                     Message = "Password should be at least 8 characters long and should contain letters"
@@ -140,21 +140,21 @@ namespace MotoDev.Services.Implementations
             var message = $"Please click here to confirm your account -> http://localhost:4200/confirmAccount/{randomHash}";
             await _emailService.SendEmailAsync(request.Email, message);
             
-            return new BaseResponseModel
+            return new BaseResponse
             {
                 IsOk = true,
                 Message = message,
             };
         }
 
-        public async Task<BaseResponseModel> ConfirmAccountAsync(ConfirmAccountRequest request)
+        public async Task<BaseResponse> ConfirmAccountAsync(ConfirmAccountRequest request)
         {
             try
             {
                 var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.ResetPasswordToken == request.ConfirmHash);
                 if (user == null)
                 {
-                    return new BaseResponseModel
+                    return new BaseResponse
                     {
                         IsOk = false,
                         Message = $"The provided token is invalid"
@@ -165,7 +165,7 @@ namespace MotoDev.Services.Implementations
                 user.ResetPasswordToken = null;
                 await _dbContext.SaveChangesAsync();
 
-                return new BaseResponseModel
+                return new BaseResponse
                 {
                     IsOk = true,
                     Message = "Account is activated successfully"
@@ -173,7 +173,7 @@ namespace MotoDev.Services.Implementations
             }
             catch (Exception ex)
             {
-                return new BaseResponseModel
+                return new BaseResponse
                 {
                     IsOk = false,
                     Message = $"An error occurred while activating your account"
@@ -181,14 +181,14 @@ namespace MotoDev.Services.Implementations
             }
         }
 
-        public async Task<BaseResponseModel> ForgottenPasswordAsync(ForgottenEmailRequest request)
+        public async Task<BaseResponse> ForgottenPasswordAsync(ForgottenEmailRequest request)
         {
             try
             {
                 var user = await _dbContext.Users.SingleOrDefaultAsync(x => x.Email == request.RecipientEmail);
                 if (user == null)
                 {
-                    return new BaseResponseModel
+                    return new BaseResponse
                     {
                         IsOk = true,
                         Message = $"If such a user exists, a password reset email will be send"
@@ -207,14 +207,14 @@ namespace MotoDev.Services.Implementations
                 var isSent = await _emailService.SendEmailAsync(request.RecipientEmail, message);
                 if (!isSent.IsOk)
                 {
-                    return new BaseResponseModel
+                    return new BaseResponse
                     {
                         IsOk = false,
                         Message = $"An error occurred while sending a reset password link"
                     };
                 }
 
-                return new BaseResponseModel
+                return new BaseResponse
                 {
                     IsOk = true,
                     Message = "A password reset link is sent. Please check your email",
@@ -222,7 +222,7 @@ namespace MotoDev.Services.Implementations
             }
             catch (Exception ex)
             {
-                return new BaseResponseModel
+                return new BaseResponse
                 {
                     IsOk = false,
                     Message = $"An error occurred while sending a reset password link"
@@ -230,14 +230,14 @@ namespace MotoDev.Services.Implementations
             }
         }
 
-        public async Task<BaseResponseModel> ResetPasswordAsync(ResetPasswordRequest request)
+        public async Task<BaseResponse> ResetPasswordAsync(ResetPasswordRequest request)
         {
             try
             {
                 var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.ResetPasswordToken == request.ResetPasswordToken);
                 if (user == null)
                 {
-                    return new BaseResponseModel
+                    return new BaseResponse
                     {
                         IsOk = false,
                         Message = $"The provided token is invalid"
@@ -246,7 +246,7 @@ namespace MotoDev.Services.Implementations
 
                 if (request.Password.Length < 8 || !request.Password.Any(char.IsLetter))
                 {
-                    return new BaseResponseModel
+                    return new BaseResponse
                     {
                         IsOk = false,
                         Message = "Password should be at least 8 characters long and should contain letters"
@@ -257,7 +257,7 @@ namespace MotoDev.Services.Implementations
                 user.ResetPasswordToken = null;
                 await _dbContext.SaveChangesAsync();
 
-                return new BaseResponseModel
+                return new BaseResponse
                 {
                     IsOk = true,
                     Message = "Password is changed successfully"
@@ -265,7 +265,7 @@ namespace MotoDev.Services.Implementations
             }
             catch (Exception ex)
             {
-                return new BaseResponseModel
+                return new BaseResponse
                 {
                     IsOk = false,
                     Message = $"An error occurred while changing the password"

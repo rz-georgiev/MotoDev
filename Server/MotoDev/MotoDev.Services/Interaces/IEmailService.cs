@@ -4,6 +4,6 @@ namespace MotoDev.Services.Interaces
 {
     public interface IEmailService
     {
-        Task<BaseResponseModel> SendEmailAsync(string receipient, string message);
+        Task<BaseResponse> SendEmailAsync(string receipient, string message);
     }
 }
