@@ -31,8 +31,7 @@ namespace MotoDev.Application.Services
                      (x.Username == username || x.Email == username)
                      && x.Password == GetHashString(password)
                      && x.IsActive)
-                .Include(x => x.UserRoles)
-                .ThenInclude(x => x.Role)
+                .Include(x => x.Role)
                 .FirstOrDefaultAsync();
 
             if (user != null)
@@ -52,8 +51,8 @@ namespace MotoDev.Application.Services
                     SigningCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature)
                 };
 
-                foreach (var userRole in user.UserRoles)
-                    tokenDescriptor.Subject.AddClaim(new Claim(ClaimTypes.Role, userRole.Role.Name));
+               
+               tokenDescriptor.Subject.AddClaim(new Claim(ClaimTypes.Role, user.Role.Name));
 
                 var token = tokenHandler.CreateToken(tokenDescriptor);
                 return new BaseResponse
@@ -120,19 +119,11 @@ namespace MotoDev.Application.Services
                 Password = GetHashString(request.Password),
                 Email = request.Email,
                 CreatedAt = DateTime.UtcNow,
+                RoleId = (int)RoleOption.Owner,
                 ResetPasswordToken = randomHash,
                 IsActive = false,
             });
 
-            await _dbContext.SaveChangesAsync();
-
-            await _dbContext.AddAsync(new UserRole
-            {
-                RoleId = (int)RoleOption.Owner,
-                UserId = user.Entity.Id,
-            });
-
-            // Repeating so we get the user id
             await _dbContext.SaveChangesAsync();
 
             //var message = $"Please click here to confirm your account -> http://www.motodev.space/confirmAccount/{randomHash}";
