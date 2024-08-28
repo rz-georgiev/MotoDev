@@ -8,6 +8,8 @@
 
         public string VinNumber { get; set; }
 
+        public string LicensePlateNumber { get; set; }
+
         public string OtherModifications { get; set; }
 
         public Client Client { get; set; }

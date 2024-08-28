@@ -2,15 +2,11 @@
 {
     public class Client : BaseModel
     {
-        public string FirstName { get; set; }
-    
-        public string LastName { get; set; }
+        public int UserId { get; set; }
 
-        public string Phone { get; set; }
+        public User User { get; set; }
 
-        public string Email { get; set; }
-
-        public IEnumerable<ClientCar> ClientCars{ get; set; }
+        public IEnumerable<ClientCar> ClientCars { get; set; }
         
     }
 }

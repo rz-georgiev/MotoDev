@@ -18,7 +18,7 @@ namespace MotoDev.Application.Services
         public async Task<BaseResponse<IEnumerable<UserResponse>>> GetAllForCurrentOwnerUserIdAsync(int ownerUserId)
         {
             var repairShops = await _dbContext.RepairShops.Where(x => x.OwnerUserId == ownerUserId)
-                .SelectMany(repairShop => repairShop.WorkingUsers, (RepairShop, WorkingUser) => new { RepairShop, WorkingUser })
+                .SelectMany(repairShop => repairShop.RepairShopUsers, (RepairShop, WorkingUser) => new { RepairShop, WorkingUser })
                 .Select(x => new UserResponse
                 {
                     Id = 0,

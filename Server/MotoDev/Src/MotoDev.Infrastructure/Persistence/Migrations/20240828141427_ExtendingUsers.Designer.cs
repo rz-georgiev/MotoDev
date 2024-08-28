@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MotoDev.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using MotoDev.Infrastructure.Persistence;
 namespace MotoDev.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(MotoDevDbContext))]
-    partial class MotoDevDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240828141427_ExtendingUsers")]
+    partial class ExtendingUsers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,7 +36,7 @@ namespace MotoDev.Infrastructure.Persistence.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int?>("CreatedByUserId")
+                    b.Property<int>("CreatedByUserId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("LastUpdatedAt")
@@ -95,7 +98,7 @@ namespace MotoDev.Infrastructure.Persistence.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int?>("CreatedByUserId")
+                    b.Property<int>("CreatedByUserId")
                         .HasColumnType("int");
 
                     b.Property<int>("EngineTypeId")
@@ -152,7 +155,7 @@ namespace MotoDev.Infrastructure.Persistence.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int?>("CreatedByUserId")
+                    b.Property<int>("CreatedByUserId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("LastUpdatedAt")
@@ -181,7 +184,7 @@ namespace MotoDev.Infrastructure.Persistence.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int?>("CreatedByUserId")
+                    b.Property<int>("CreatedByUserId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("LastUpdatedAt")
@@ -190,10 +193,15 @@ namespace MotoDev.Infrastructure.Persistence.Migrations
                     b.Property<int?>("LastUpdatedByUserId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("RepairShopId")
+                        .HasColumnType("int");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("RepairShopId");
 
                     b.HasIndex("UserId");
 
@@ -217,7 +225,7 @@ namespace MotoDev.Infrastructure.Persistence.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int?>("CreatedByUserId")
+                    b.Property<int>("CreatedByUserId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("LastUpdatedAt")
@@ -225,10 +233,6 @@ namespace MotoDev.Infrastructure.Persistence.Migrations
 
                     b.Property<int?>("LastUpdatedByUserId")
                         .HasColumnType("int");
-
-                    b.Property<string>("LicensePlateNumber")
-                        .IsRequired()
-                        .HasColumnType("longtext");
 
                     b.Property<string>("OtherModifications")
                         .IsRequired()
@@ -258,7 +262,7 @@ namespace MotoDev.Infrastructure.Persistence.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int?>("CreatedByUserId")
+                    b.Property<int>("CreatedByUserId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("LastUpdatedAt")
@@ -300,7 +304,7 @@ namespace MotoDev.Infrastructure.Persistence.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int?>("CreatedByUserId")
+                    b.Property<int>("CreatedByUserId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("LastUpdatedAt")
@@ -332,7 +336,7 @@ namespace MotoDev.Infrastructure.Persistence.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int?>("CreatedByUserId")
+                    b.Property<int>("CreatedByUserId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("LastUpdatedAt")
@@ -366,7 +370,7 @@ namespace MotoDev.Infrastructure.Persistence.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int?>("CreatedByUserId")
+                    b.Property<int>("CreatedByUserId")
                         .HasColumnType("int");
 
                     b.Property<int>("LastKilometers")
@@ -406,7 +410,7 @@ namespace MotoDev.Infrastructure.Persistence.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int?>("CreatedByUserId")
+                    b.Property<int>("CreatedByUserId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("LastUpdatedAt")
@@ -463,7 +467,7 @@ namespace MotoDev.Infrastructure.Persistence.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int?>("CreatedByUserId")
+                    b.Property<int>("CreatedByUserId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("LastUpdatedAt")
@@ -498,7 +502,7 @@ namespace MotoDev.Infrastructure.Persistence.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int?>("CreatedByUserId")
+                    b.Property<int>("CreatedByUserId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("LastUpdatedAt")
@@ -544,7 +548,7 @@ namespace MotoDev.Infrastructure.Persistence.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int?>("CreatedByUserId")
+                    b.Property<int>("CreatedByUserId")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("LastUpdatedAt")
@@ -573,7 +577,7 @@ namespace MotoDev.Infrastructure.Persistence.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<int?>("CreatedByUserId")
+                    b.Property<int>("CreatedByUserId")
                         .HasColumnType("int");
 
                     b.Property<string>("Email")
@@ -614,6 +618,29 @@ namespace MotoDev.Infrastructure.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("MotoDev.Domain.Entities.UserRepairShop", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("RepairShopId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RepairShopId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserRepairShops");
                 });
 
             modelBuilder.Entity("MotoDev.Domain.Entities.UserRole", b =>
@@ -703,6 +730,10 @@ namespace MotoDev.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("MotoDev.Domain.Entities.Client", b =>
                 {
+                    b.HasOne("MotoDev.Domain.Entities.RepairShop", null)
+                        .WithMany("Clients")
+                        .HasForeignKey("RepairShopId");
+
                     b.HasOne("MotoDev.Domain.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
@@ -775,7 +806,7 @@ namespace MotoDev.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("MotoDev.Domain.Entities.RepairShop", b =>
                 {
                     b.HasOne("MotoDev.Domain.Entities.User", "OwnerUser")
-                        .WithMany()
+                        .WithMany("RepairShops")
                         .HasForeignKey("OwnerUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -792,7 +823,7 @@ namespace MotoDev.Infrastructure.Persistence.Migrations
                         .IsRequired();
 
                     b.HasOne("MotoDev.Domain.Entities.RepairShop", "RepairShop")
-                        .WithMany("RepairShopClients")
+                        .WithMany()
                         .HasForeignKey("RepairShopId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -805,7 +836,26 @@ namespace MotoDev.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("MotoDev.Domain.Entities.RepairShopUser", b =>
                 {
                     b.HasOne("MotoDev.Domain.Entities.RepairShop", "RepairShop")
-                        .WithMany("RepairShopUsers")
+                        .WithMany("WorkingUsers")
+                        .HasForeignKey("RepairShopId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MotoDev.Domain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("RepairShop");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MotoDev.Domain.Entities.UserRepairShop", b =>
+                {
+                    b.HasOne("MotoDev.Domain.Entities.RepairShop", "RepairShop")
+                        .WithMany()
                         .HasForeignKey("RepairShopId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -862,13 +912,15 @@ namespace MotoDev.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("MotoDev.Domain.Entities.RepairShop", b =>
                 {
-                    b.Navigation("RepairShopClients");
+                    b.Navigation("Clients");
 
-                    b.Navigation("RepairShopUsers");
+                    b.Navigation("WorkingUsers");
                 });
 
             modelBuilder.Entity("MotoDev.Domain.Entities.User", b =>
                 {
+                    b.Navigation("RepairShops");
+
                     b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618

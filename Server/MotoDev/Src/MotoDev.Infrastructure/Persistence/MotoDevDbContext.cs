@@ -1,5 +1,6 @@
 ﻿using MotoDev.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using CloudinaryDotNet;
 
 namespace MotoDev.Infrastructure.Persistence
 {
@@ -39,10 +40,7 @@ namespace MotoDev.Infrastructure.Persistence
 
         public DbSet<User> Users { get; set; }
 
-        public DbSet<UserRepairShop> UserRepairShops { get; set; }
-
         public DbSet<UserRole> UserRoles{ get; set; }
-
 
     }
 }

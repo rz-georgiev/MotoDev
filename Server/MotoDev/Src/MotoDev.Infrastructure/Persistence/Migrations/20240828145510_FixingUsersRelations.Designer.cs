@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MotoDev.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using MotoDev.Infrastructure.Persistence;
 namespace MotoDev.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(MotoDevDbContext))]
-    partial class MotoDevDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240828145510_FixingUsersRelations")]
+    partial class FixingUsersRelations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -616,6 +619,29 @@ namespace MotoDev.Infrastructure.Persistence.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("MotoDev.Domain.Entities.UserRepairShop", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("RepairShopId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RepairShopId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserRepairShops");
+                });
+
             modelBuilder.Entity("MotoDev.Domain.Entities.UserRole", b =>
                 {
                     b.Property<int>("Id")
@@ -821,6 +847,25 @@ namespace MotoDev.Infrastructure.Persistence.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("MotoDev.Domain.Entities.UserRepairShop", b =>
+                {
+                    b.HasOne("MotoDev.Domain.Entities.RepairShop", "RepairShop")
+                        .WithMany()
+                        .HasForeignKey("RepairShopId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MotoDev.Domain.Entities.User", "User")
+                        .WithMany("UserRepairShops")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("RepairShop");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("MotoDev.Domain.Entities.UserRole", b =>
                 {
                     b.HasOne("MotoDev.Domain.Entities.Role", "Role")
@@ -869,6 +914,8 @@ namespace MotoDev.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("MotoDev.Domain.Entities.User", b =>
                 {
+                    b.Navigation("UserRepairShops");
+
                     b.Navigation("UserRoles");
                 });
 #pragma warning restore 612, 618

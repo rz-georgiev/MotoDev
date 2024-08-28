@@ -8,8 +8,8 @@
 
         public User OwnerUser { get; set; }
 
-        public IEnumerable<RepairShopUser> WorkingUsers { get; set; }
+        public IEnumerable<RepairShopUser> RepairShopUsers { get; set; }
 
-        public IEnumerable<Client> Clients { get; set; }
+        public IEnumerable<RepairShopClient> RepairShopClients { get; set; }
     }
 }
