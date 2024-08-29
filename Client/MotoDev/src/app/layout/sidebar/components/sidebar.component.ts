@@ -12,8 +12,9 @@ import { RouterModule } from '@angular/router';
 })
 export class SidebarComponent {
 
-  isToggled: boolean = false;
-  toggleStuff() {
-    this.isToggled = !this.isToggled;
+  public openedTabName: string = "Dashboard";
+
+  public toggleTab(tabName: string) {
+    this.openedTabName = tabName;
   }
 }

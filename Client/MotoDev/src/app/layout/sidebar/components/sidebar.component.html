@@ -1,8 +1,14 @@
 <aside id="sidebar" class="sidebar">
   <ul class="sidebar-nav" id="sidebar-nav">
 
-    <li class="nav-item">
-      <a class="nav-link " [routerLink]="['/mainScreen']">
+    <li (click)="toggleTab('Dashboard')" class="nav-item">    
+      <a class="nav-link " 
+         [ngClass]=" {
+        '': openedTabName == 'Dashboard',
+        'collapsed': openedTabName != 'Dashboard'
+     }"
+      [routerLink]="['/mainScreen']"
+      >
         <i class="bi bi-grid"></i>
         <span>Dashboard</span>
       </a>
@@ -11,58 +17,62 @@
 
     <li class="nav-heading">Main</li>
 
-    <li class="nav-item">
-      <a class="nav-link collapsed" [routerLink]="['/users']">
+    <li (click)="toggleTab('Users')" class="nav-item">
+      <a class="nav-link" [class.collapsed]="openedTabName !== 'Users'" 
+     [routerLink]="['/users']">
         <i class="bi bi-person"></i>
         <span>Users</span>
       </a>
     </li>
-    <li class="nav-item">
-      <a class="nav-link collapsed" [routerLink]="['/clients']">
+    <li (click)="toggleTab('Clients')" class="nav-item">
+      <a class="nav-link" [class.collapsed]="openedTabName !== 'Clients'" 
+     [routerLink]="['/clients']">
         <i class="bi bi-person"></i>
         <span>Clients</span>
       </a>
     </li>
 
-    <li class="nav-item">
-      <a class="nav-link collapsed" [routerLink]="['/repairs']">
+    <li (click)="toggleTab('Repairs')" class="nav-item">
+      <a class="nav-link " [class.collapsed]="openedTabName !== 'Repairs'" [routerLink]="['/repairs']">
         <i class="bi bi-person"></i>
         <span>Repairs</span>
       </a>
     </li>
 
     <li class="nav-heading">Budget</li>
-    <li class="nav-item">
-      <a class="nav-link collapsed" [routerLink]="['/statistics']">
+    <li (click)="toggleTab('Statistics')" class="nav-item">
+      <a class="nav-link" [class.collapsed]="openedTabName !== 'Statistics'" [routerLink]="['/statistics']">
         <i class="bi bi-person"></i>
         <span>Statistics</span>
       </a>
     </li>
     <li class="nav-heading">Other</li>
     <li class="nav-item">
-      <a class="nav-link collapsed" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+      <a class="nav-link" [ngClass]="{
+        'collapsed': openedTabName !== 'Cars' && openedTabName !== 'RepairShops' && openedTabName !== 'BaseData'
+      }" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
         <i class="bi bi-journal-text"></i><span>Settings</span><i class="bi bi-chevron-down ms-auto"></i>
       </a>
       <ul id="forms-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
-        <li>
-          <a [routerLink]="['/cars']">
+        <li (click)="toggleTab('Cars')">
+          <a class="nav-link" [class.collapsed]="openedTabName !== 'Cars'" [routerLink]="['/cars']">
             <i class="bi bi-circle"></i><span>Cars</span>
           </a>
         </li>
-        <li>
-          <a [routerLink]="['/repairShops']">
+        <li (click)="toggleTab('RepairShops')">
+          <a class="nav-link" [class.collapsed]="openedTabName !== 'RepairShops'" [routerLink]="['/repairShops']">
             <i class="bi bi-circle"></i><span>Repair Shops</span>
           </a>
         </li>
-        <li>
-          <a [routerLink]="['/baseData']">
+        <li (click)="toggleTab('BaseData')">
+          <a class="nav-link" [class.collapsed]="openedTabName !== 'BaseData'"  [routerLink]="['/baseData']">
             <i class="bi bi-circle"></i><span>Base data /readonly/</span>
           </a>
         </li>
       </ul>
     </li><!-- End Forms Nav -->
-    <li class="nav-item">
-      <a class="nav-link collapsed" [routerLink]="['/about']">
+    <li (click)="toggleTab('About')" class="nav-item">
+      <a class="nav-link" [class.collapsed]="openedTabName !== 'About'"  [routerLink]="['/about']">
         <i class="bi bi-person"></i>
         <span>About</span>
       </a>
