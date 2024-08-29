@@ -11,14 +11,11 @@ import { UserResponse } from '../models/userResponse';
 export class UserService {
 
   
-  private baseUrl = 'https://localhost:5078/Account';
-  private isLoggedInSubject = new BehaviorSubject<boolean>(false);
-  public isLoggedIn$ = this.isLoggedInSubject.asObservable();
-  
-  constructor(private httpClient: HttpClient) {}
+  private apiUrl = 'https://localhost:5078/Users/GetAllForCurrentOwnerUserId?ownerUserId=8'; // Example API
 
-  public login(user: any): Observable<UserResponse> {
-    return this.httpClient.post<UserResponse>(`${this.baseUrl}/Login`, user);
-  
+  constructor(private http: HttpClient) { }
+
+  getData(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl);
   }
 }

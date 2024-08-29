@@ -18,15 +18,16 @@ namespace MotoDev.Application.Services
         public async Task<BaseResponse<IEnumerable<UserResponse>>> GetAllForCurrentOwnerUserIdAsync(int ownerUserId)
         {
             var result = new List<UserResponse>();
-            var repairShops = _dbContext.RepairShops.Where(x => x.OwnerUserId == ownerUserId)
+            var repairShops = await _dbContext.RepairShops.Where(x => x.OwnerUserId == ownerUserId)
                 .Include(x => x.RepairShopUsers)
-                .ThenInclude(x => x.User)
-                .ThenInclude(x => x.Role);
-
+                    .ThenInclude(x => x.User)
+                        .ThenInclude(x => x.Role)
+                .ToListAsync();
+            
             foreach (var repairShop in repairShops)
             {
                 foreach (var repairShopUser in repairShop.RepairShopUsers)
-                {   
+                {
                     result.Add(new UserResponse
                     {
                         Id = repairShopUser.UserId,

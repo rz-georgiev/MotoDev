@@ -19,6 +19,8 @@ import { BaseDataComponent } from './features/baseData/components/base-data.comp
 import { AboutComponent } from './features/about/components/about.component';
 import { RoleGuard } from './core/guards/role/role.guard';
 import { NotFoundComponent } from './core/components/not-found/not-found.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
 export const routes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -48,6 +50,7 @@ export const routes: Routes = [
 @NgModule({
     imports: [RouterModule.forRoot(routes),
         ReactiveFormsModule,
+        BrowserModule,
         CommonModule],
     exports: [RouterModule],
 })

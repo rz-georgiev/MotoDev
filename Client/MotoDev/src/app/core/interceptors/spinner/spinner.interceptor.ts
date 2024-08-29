@@ -1,10 +1,15 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { SpinnerService } from '../../../shared/services/spinner.service';
 import { Observable, finalize } from 'rxjs';
 
 export const spinnerInterceptor: HttpInterceptorFn = (req, next) => {
-  return next(req);
+
+  const spinnerService = inject(SpinnerService);
+  spinnerService.show();
+
+  
+  return next(req).pipe();
 };
 
 @Injectable()

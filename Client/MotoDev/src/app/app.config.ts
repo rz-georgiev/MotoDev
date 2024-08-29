@@ -1,20 +1,19 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
-import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideClientHydration } from '@angular/platform-browser';
-import { AuthInterceptor } from './core/interceptors/auth/auth.interceptor';
+import { authInterceptor } from './core/interceptors/auth/auth.interceptor';
 import { SpinnerInterceptor } from './core/interceptors/spinner/spinner.interceptor';
 import { SpinnerService } from './shared/services/spinner.service';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideHttpClient(withInterceptors([ authInterceptor ])),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    // provideClientHydration(),
-    provideHttpClient(),
-    { provide: HTTP_INTERCEPTORS, useClass: SpinnerInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    provideAnimationsAsync()
   ]
 };
