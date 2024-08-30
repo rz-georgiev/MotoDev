@@ -9,6 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { UserService } from '../services/user.service';
 import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon'
 
 
 @Component({
@@ -20,13 +21,14 @@ import { CommonModule } from '@angular/common';
     MatPaginatorModule,
     MatSortModule,
     MatFormFieldModule,
-    MatInputModule],
+    MatInputModule,
+    MatIconModule],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css'
 })
 export class UsersComponent implements OnInit {
 
-  displayedColumns: string[] = ['firstName', 'lastName', 'repairShop', 'position'];
+  displayedColumns: string[] = ['firstName', 'lastName', 'repairShop', 'position', 'actions'];
   dataSource = new MatTableDataSource<any>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -48,5 +50,20 @@ export class UsersComponent implements OnInit {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  addAction(element: any): void {
+    console.log('Add action for', element);
+    // Implement your add logic here
+  }
+  
+  editAction(element: any): void {
+    console.log('Edit action for', element);
+    // Implement your edit logic here
+  }
+  
+  deleteAction(element: any): void {
+    console.log('Delete action for', element);
+    // Implement your delete logic here
   }
 }

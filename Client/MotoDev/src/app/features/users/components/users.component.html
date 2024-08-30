@@ -40,6 +40,30 @@
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Position</th>
                                         <td mat-cell *matCellDef="let element">{{ element.position }}</td>
                                     </ng-container>
+                                    
+                                    <ng-container matColumnDef="actions">
+                                        <th mat-header-cell *matHeaderCellDef> Actions </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <img
+                                            src="assets/icons/add.png"
+                                            alt="Add"
+                                            class="action-icon"
+                                            (click)="addAction(element)"
+                                          />
+                                          <img
+                                            src="assets/icons/edit.png"
+                                            alt="Edit"
+                                            class="action-icon"
+                                            (click)="editAction(element)"
+                                          />
+                                          <img
+                                            src="assets/icons/delete.png"
+                                            alt="Delete"
+                                            class="action-icon"
+                                            (click)="deleteAction(element)"
+                                          />
+                                        </td>
+                                      </ng-container>
 
                                     <!-- Header and Row Definitions -->
                                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
