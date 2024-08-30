@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using MotoDev.Application.Interfaces;
+using MotoDev.Common.Constants;
 using MotoDev.Common.Dtos;
 using MotoDev.Common.Enums;
 using MotoDev.Domain.Entities;
@@ -43,7 +44,7 @@ namespace MotoDev.Application.Services
                     Subject = new ClaimsIdentity(new Claim[]
                     {
                         new(ClaimTypes.NameIdentifier, username),
-                        new(ClaimTypes.UserData, user.Id.ToString()),
+                        new(CustomClaimTypes.UserId, user.Id.ToString()),
                     }),
                     Expires = DateTime.UtcNow.AddDays(7),
                     Issuer = _configuration["Jwt:Issuer"],

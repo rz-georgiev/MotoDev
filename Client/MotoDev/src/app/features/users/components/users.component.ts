@@ -36,7 +36,7 @@ export class UsersComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataService.getData().subscribe(data => {
-      this.dataSource.data = (data as any).result;
+      this.dataSource.data = data.result;
     });
   }
 

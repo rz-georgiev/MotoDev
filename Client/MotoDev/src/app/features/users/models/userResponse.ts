@@ -1,4 +1,6 @@
 export interface UserResponse {
-    name: string;
-    id: string;
+    firstName: string;
+    lastName: string;
+    repairShop: string;
+    position: string;
 }

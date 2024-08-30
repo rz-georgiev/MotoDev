@@ -12,7 +12,8 @@ export class AuthService {
   private baseUrl = 'https://localhost:5078/Accounts';
   private isLoggedInSubject = new BehaviorSubject<boolean>(false);
   public isLoggedIn$ = this.isLoggedInSubject.asObservable();
-  
+  public currentUserId!: number;
+
   constructor(private httpClient: HttpClient) {}
 
   isLoggedIn(): boolean {
@@ -23,11 +24,14 @@ export class AuthService {
     }
 
     const decoded = this.getDecodedToken(authToken);
+    this.currentUserId = decoded.userId;
+
     const date = new Date(0);
     date.setUTCSeconds(decoded.exp ?? 0);
+   
     const hasExpired = date.valueOf() <= Date.now().valueOf();
-    
     const result = !!authToken && !hasExpired;
+   
     this.isLoggedInSubject.next(result);
     return result;
   }

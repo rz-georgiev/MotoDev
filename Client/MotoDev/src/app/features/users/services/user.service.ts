@@ -4,18 +4,19 @@ import { jwtDecode } from 'jwt-decode';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ExtendedJwtPayload } from '../../auth/models/extendedJwtPayload';
 import { UserResponse } from '../models/userResponse';
+import { AuthService } from '../../auth/services/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  
-  private apiUrl = 'https://localhost:5078/Users/GetAllForCurrentOwnerUserId?ownerUserId=8'; // Example API
+  private baseUrl = `https://localhost:5078`; // Example API
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,
+    private authService: AuthService) { }
 
-  getData(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl);
+  getData(): Observable<any> {
+    return this.http.get(`${this.baseUrl}/Users/GetAllForCurrentOwnerUserId?ownerUserId=${this.authService.currentUserId}`);
   }
 }
