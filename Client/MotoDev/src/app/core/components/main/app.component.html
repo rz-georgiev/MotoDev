@@ -4,4 +4,6 @@
 }
 
 <app-spinner></app-spinner>
-<router-outlet></router-outlet>
+<div [@routeAnimations]="getRouteAnimationData()">
+    <router-outlet></router-outlet>0
+</div>

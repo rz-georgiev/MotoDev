@@ -22,3 +22,7 @@
   .action-icon:last-child {
     margin-right: 0; 
   }
+
+  .mat-mdc-row:hover {
+    background-color: rgba(0, 0, 0, 0.07)
+  }

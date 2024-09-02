@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 import { MainScreenComponent } from './features/main-screen/components/main-screen.component';
 import { ConfirmAccountComponent } from './features/auth/components/confirm-account/confirm-account.component';
 import { ForgottenPasswordConfirmComponent } from './features/auth/components/forgotten-password-confirm/forgotten-password-confirm.component';
-import { UsersComponent } from './features/users/components/users.component';
+import { UsersComponent } from './features/users/components/users/users.component';
 import { ClientsComponent } from './features/clients/components/clients.component';
 import { RepairsComponent } from './features/repairs/components/repairs.component';
 import { StatisticsComponent } from './features/statistics/components/statistics.component';
@@ -21,6 +21,7 @@ import { RoleGuard } from './core/guards/role/role.guard';
 import { NotFoundComponent } from './core/components/not-found/not-found.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
+import { animation } from '@angular/animations';
 
 export const routes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -31,11 +32,11 @@ export const routes: Routes = [
         path: 'mainScreen',
         component: MainScreenComponent,
         canActivate: [RoleGuard],
-        data: { roles: ['Administrator', 'Owner', 'Mechanic'] }
+        data: { roles: ['Administrator', 'Owner', 'Mechanic'], animation: 'mainScreenAnimation' }
     },
     { path: 'confirmAccount/:accountConfirmationHash', component: ConfirmAccountComponent },
     { path: 'confirmAccount', component: ConfirmAccountComponent },
-    { path: 'users', component: UsersComponent },
+    { path: 'users', component: UsersComponent, data: {animation: 'usersAnimation'} },
     { path: 'clients', component: ClientsComponent },
     { path: 'repairs', component: RepairsComponent },
     { path: 'statistics', component: StatisticsComponent },

@@ -7,9 +7,12 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { UserService } from '../services/user.service';
+import { UserService } from '../../services/user.service';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon'
+import { UserEditorComponent as UserEditorComponent } from '../user-editor/user-editor.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationModalComponent } from '../confirmation-modal/confirmation-modal.component';
 
 
 @Component({
@@ -22,7 +25,8 @@ import { MatIconModule } from '@angular/material/icon'
     MatSortModule,
     MatFormFieldModule,
     MatInputModule,
-    MatIconModule],
+    MatIconModule,
+    UserEditorComponent],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css'
 })
@@ -34,10 +38,12 @@ export class UsersComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private dataService: UserService) {}
+  constructor(private userService: UserService,
+    private matDialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
-    this.dataService.getData().subscribe(data => {
+    this.userService.getData().subscribe(data => {
       this.dataSource.data = data.result;
     });
   }
@@ -52,18 +58,41 @@ export class UsersComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  addAction(element: any): void {
-    console.log('Add action for', element);
-    // Implement your add logic here
+  addAction(): void {
+    const dialog = this.matDialog.open(UserEditorComponent, {
+      height: '1000px',
+      width: '1000px',
+    });
+    dialog.afterClosed().subscribe(result => {
+      if (result) {
+        this.dataSource.data.push(result);
+        this.dataSource = this.dataSource;
+      }
+    });
+
   }
-  
+
   editAction(element: any): void {
     console.log('Edit action for', element);
     // Implement your edit logic here
   }
-  
+
   deleteAction(element: any): void {
-    console.log('Delete action for', element);
-    // Implement your delete logic here
+    let dialogRef = this.matDialog.open(ConfirmationModalComponent, {
+      data: { message: "Are you sure you want to deactivate the record?" }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.userService.deactivateRepairUserById(element.id).subscribe(result => {
+          if (result.isOk) {
+            this.dataSource.data = this.dataSource.data.filter(x => x.id !== element.id);
+          }
+        });
+      }
+      else {
+        console.log('adfadf');
+      }
+    });
   }
 }

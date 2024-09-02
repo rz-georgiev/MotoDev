@@ -11,6 +11,7 @@ import { AuthService } from '../../auth/services/auth.service';
 })
 export class UserService {
 
+
   private baseUrl = `https://localhost:5078`; // Example API
 
   constructor(private http: HttpClient,
@@ -18,5 +19,9 @@ export class UserService {
 
   getData(): Observable<any> {
     return this.http.get(`${this.baseUrl}/Users/GetAllForCurrentOwnerUserId?ownerUserId=${this.authService.currentUserId}`);
+  }
+
+  deactivateRepairUserById(id: number): Observable<any> {
+    return this.http.put(`${this.baseUrl}/Users/DeactivateRepairUserById?id=${id}`, null);
   }
 }

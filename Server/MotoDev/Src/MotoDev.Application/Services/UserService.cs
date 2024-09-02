@@ -19,18 +19,18 @@ namespace MotoDev.Application.Services
         {
             var result = new List<UserResponse>();
             var repairShops = await _dbContext.RepairShops.Where(x => x.OwnerUserId == ownerUserId)
-                .Include(x => x.RepairShopUsers)
+                .Include(x => x.RepairShopUsers.Where(s => s.IsActive))
                     .ThenInclude(x => x.User)
                         .ThenInclude(x => x.Role)
                 .ToListAsync();
-            
+
             foreach (var repairShop in repairShops)
             {
                 foreach (var repairShopUser in repairShop.RepairShopUsers)
                 {
                     result.Add(new UserResponse
                     {
-                        Id = repairShopUser.UserId,
+                        Id = repairShopUser.Id,
                         FirstName = repairShopUser.User.FirstName,
                         LastName = repairShopUser.User.LastName,
                         Position = string.Join(", ", repairShopUser.User.Role.Name),
@@ -40,6 +40,30 @@ namespace MotoDev.Application.Services
             }
 
             return new BaseResponse<IEnumerable<UserResponse>> { Result = result };
+        }
+
+        public async Task<BaseResponse> DeactivateRepairUserByIdAsync(int id)
+        {
+            try
+            {
+                var repairUser = _dbContext.RepairShopUsers.SingleOrDefault(x => x.Id == id);
+                repairUser!.IsActive = false;
+                await _dbContext.SaveChangesAsync();
+
+                return new BaseResponse
+                {
+                    IsOk = true,
+                    Message = "Successfully deactivated record"
+                };
+            }
+            catch (Exception)
+            {
+                return new BaseResponse
+                {
+                    IsOk = false,
+                    Message = "An error occurred while trying to deactivate the record"
+                };
+            }
         }
     }
 }

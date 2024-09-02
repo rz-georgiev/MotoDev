@@ -24,5 +24,13 @@ namespace MotoDev.Api.Controllers
             return await
                 _userService.GetAllForCurrentOwnerUserIdAsync(ownerUserId);
         }
+
+        [Authorize(Roles = "Owner")]
+        [HttpPut("DeactivateRepairUserById")]
+        public async Task<BaseResponse> DeactivateRepairUserById(int id)
+        {
+            return await
+                _userService.DeactivateRepairUserByIdAsync(id);
+        }
     }
 }
