@@ -11,3 +11,8 @@
 
 /* html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; } */
+
+.mat-dialog-title-custom {
+    padding-left: 15px !important;
+    padding-top: 15px !important;
+}

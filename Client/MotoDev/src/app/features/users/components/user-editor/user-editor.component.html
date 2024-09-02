@@ -1,18 +1,57 @@
-<h2 mat-dialog-title>Add New Item</h2>
-<div mat-dialog-content>
-  <form [formGroup]="editorForm" class="form-container">
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Name</mat-label>
-      <input matInput formControlName="name" />
-    </mat-form-field>
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Age</mat-label>
-      <input matInput formControlName="age" type="number" />
-    </mat-form-field>
-    <!-- Add more fields as necessary, e.g., email, address, etc. -->
+<h2 mat-dialog-title class="mat-dialog-title-custom">User Editor</h2>
+<mat-dialog-content>
+  <form class="row g-3">
+    <div class="col-md-4">
+      <label for="validationDefault01" class="form-label">First name</label>
+      <input type="text" class="form-control" id="validationDefault01" value="John" required>
+    </div>
+    <div class="col-md-4">
+      <label for="validationDefault02" class="form-label">Last name</label>
+      <input type="text" class="form-control" id="validationDefault02" value="Doe" required>
+    </div>
+    <div class="col-md-4">
+      <label for="validationDefaultUsername" class="form-label">Email</label>
+      <div class="input-group">
+        <input type="text" class="form-control" id="validationDefaultUsername" aria-describedby="inputGroupPrepend2" required>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <label for="validationDefaultUsername" class="form-label">Username</label>
+      <div class="input-group">
+        <input type="text" class="form-control" id="validationDefaultUsername" aria-describedby="inputGroupPrepend2" required>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <label for="validationDefaultUsername" class="form-label">Password</label>
+      <div class="input-group">
+        <input type="password" class="form-control" id="validationDefaultUsername" aria-describedby="inputGroupPrepend2" required>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <label for="validationDefaultUsername" class="form-label">Phone number</label>
+      <div class="input-group">
+        <input type="text" class="form-control" id="validationDefaultUsername" aria-describedby="inputGroupPrepend2" required>
+      </div>
+    </div>
+    
+    <div class="col-md-4">
+      <label for="validationDefault04" class="form-label">Repair Shop</label>
+      <select class="form-select" id="validationDefault04" required>
+        <option selected disabled value="">Select below...</option>
+        <option>...</option>
+      </select>
+    </div>
+    <div class="col-md-4">
+      <label for="validationDefault04" class="form-label">Role</label>
+      <select class="form-select" id="validationDefault04" required>
+        <option selected disabled value="">Select below...</option>
+        <option>...</option>
+      </select>
+    </div>
   </form>
-</div>
-<div mat-dialog-actions>
-  <button mat-button (click)="onCancel()">Cancel</button>
-  <button mat-button color="primary" (click)="onAdd()" [disabled]="editorForm.invalid">Add</button>
-</div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button (click)="onYesClick()">Save</button>
+</mat-dialog-actions>
+

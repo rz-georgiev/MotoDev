@@ -28,31 +28,21 @@ import { MatTableModule } from '@angular/material/table';
     MatDialogActions,
     MatDialogClose,
     MatDialogContent,
-  MatButtonModule],
+    MatButtonModule],
   templateUrl: './user-editor.component.html',
   styleUrl: './user-editor.component.css'
 })
 export class UserEditorComponent {
 
-  editorForm!: FormGroup;
+  public registerForm!: FormGroup;
+  public isSubmitted!: boolean;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private dialogRef: MatDialogRef<UserEditorComponent>
-  ) {
-    this.editorForm = this.formBuilder.group({
-      name: ['', Validators.required],
-      lastName: ['', Validators.required]
-    })
+  constructor(public dialogRef: MatDialogRef<UserEditorComponent>) { }
+
+  onNoClick() {
+    this.dialogRef.close(true);
   }
-
-  onCancel(): void {
-    this.dialogRef.close();
-  }
-
-  onAdd(): void {
-    if (this.editorForm.valid) {
-      this.dialogRef.close(this.editorForm.value);
-    }
+  onYesClick() {
+    this.dialogRef.close(false);
   }
 }

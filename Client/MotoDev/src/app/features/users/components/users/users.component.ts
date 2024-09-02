@@ -12,8 +12,7 @@ import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon'
 import { UserEditorComponent as UserEditorComponent } from '../user-editor/user-editor.component';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationModalComponent } from '../confirmation-modal/confirmation-modal.component';
-
+import { ConfirmationModalComponent } from '../../../../shared/components/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'app-users',
@@ -60,8 +59,7 @@ export class UsersComponent implements OnInit {
 
   addAction(): void {
     const dialog = this.matDialog.open(UserEditorComponent, {
-      height: '1000px',
-      width: '1000px',
+     
     });
     dialog.afterClosed().subscribe(result => {
       if (result) {
