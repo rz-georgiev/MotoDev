@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, INJECTOR, Input } from '@angular/core';
+import { Component, ElementRef, INJECTOR, Input, Renderer2, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogModule, MatDialogRef } from '@angular/material/dialog'
