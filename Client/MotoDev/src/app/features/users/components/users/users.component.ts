@@ -61,8 +61,8 @@ export class UsersComponent implements OnInit {
     const dialog = this.matDialog.open(UserEditorComponent, { });
     dialog.afterClosed().subscribe(result => {
       if (result) {
-        this.dataSource.data.push(result);
-        this.dataSource = this.dataSource;
+        this.dataSource.data.push(result);       
+        this.dataSource.data = [...this.dataSource.data];
       }
     });
 
@@ -85,9 +85,6 @@ export class UsersComponent implements OnInit {
             this.dataSource.data = this.dataSource.data.filter(x => x.id !== element.id);
           }
         });
-      }
-      else {
-        console.log('adfadf');
       }
     });
   }

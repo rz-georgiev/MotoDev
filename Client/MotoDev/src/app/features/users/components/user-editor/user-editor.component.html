@@ -39,23 +39,27 @@
     
     <div class="col-md-4">
       <label for="validationDefault04" class="form-label">Repair Shop</label>
-      <select class="form-select" id="validationDefault04" formControlName="repairShop" required>
+      <select class="form-select" id="validationDefault04" formControlName="repairShopId" required>
         <option selected disabled value="">Select below...</option>
         @for(shop of repairShops; track shop) {
           <option [ngValue]="shop.id">{{shop.name}}</option>
-        }
-        
+        }     
       </select>
     </div>
     <div class="col-md-4">
       <label for="validationDefault04" class="form-label">Role</label>
-      <select class="form-select" id="validationDefault04" formControlName="role" required>
+      <select class="form-select" id="validationDefault04" formControlName="roleId" required>
         <option selected disabled value="">Select below...</option>
         @for(role of roles; track role) {
           <option [ngValue]="role.id">{{role.name}}</option>
         }
       </select>
     </div>
+    @if (errorMessage) {
+      <div class="alert alert-danger" role="alert">
+          {{errorMessage}}
+      </div>
+      }
   </form>
 </mat-dialog-content>
 <mat-dialog-actions>
