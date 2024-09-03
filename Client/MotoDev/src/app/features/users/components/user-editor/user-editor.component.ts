@@ -62,8 +62,8 @@ export class UserEditorComponent {
       username: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(8)]],
       phoneNumber: ['', Validators.nullValidator],
-      repairShopId: [0, Validators.required],
-      roleId: [0, Validators.required],
+      repairShopId: ['', Validators.required],
+      roleId: ['', Validators.required],
     });
 
   }

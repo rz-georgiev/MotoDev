@@ -74,6 +74,18 @@ namespace MotoDev.Application.Services
 
         public async Task<BaseResponse<UserResponse>> CreateAsync(UserRequest request)
         {
+            var doesRoleExist = _dbContext.Roles.Any(x => x.Id == request.RoleId);
+            var doesRepairShopExist = _dbContext.RepairShops.Any(x => x.Id == request.RepairShopId);
+
+            if (!doesRepairShopExist || !doesRepairShopExist)
+            {
+                return new BaseResponse<UserResponse>
+                {
+                    IsOk = false,
+                    Message = "Provided role and/or repair shop do not exist",
+                };
+            }
+
             var userResponse = await _accountService.RegisterAsync(new RegisterAccountRequest
             {
                 Email = request.Email,

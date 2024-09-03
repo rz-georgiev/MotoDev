@@ -36,7 +36,7 @@ namespace MotoDev.Api.Controllers
         [Authorize(Roles = "Owner")]
         [HttpPost("Create")]
         public async Task<BaseResponse<UserResponse>> Create([FromBody]UserRequest request)
-        {
+        {      
             return await
                 _userService.CreateAsync(request);
         }

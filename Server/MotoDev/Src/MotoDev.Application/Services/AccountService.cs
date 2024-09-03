@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using MotoDev.Application.Interfaces;
@@ -17,17 +18,19 @@ namespace MotoDev.Application.Services
 {
     public class AccountService(IConfiguration configuration,
         IEmailService emailService,
+        IHttpContextAccessor accessor,
         MotoDevDbContext dbContext) : IAccountService
     {
         private readonly IConfiguration _configuration = configuration;
         private readonly IEmailService _emailService = emailService;
+        private readonly IHttpContextAccessor _accessor = accessor;
         private readonly MotoDevDbContext _dbContext = dbContext;
 
         public async Task<BaseResponse> LoginAsync(LoginRequest request)
         {
             var username = request.Username;
             var password = request.Password;
-
+            
             var user = await _dbContext.Users.Where(x =>
                      (x.Username == username || x.Email == username)
                      && x.Password == GetHashString(password)
@@ -123,6 +126,7 @@ namespace MotoDev.Application.Services
                 RoleId = (int)RoleOption.Owner,
                 ResetPasswordToken = randomHash,
                 IsActive = false,
+                CreatedByUserId = Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId")!.Value)
             });
 
             await _dbContext.SaveChangesAsync();
