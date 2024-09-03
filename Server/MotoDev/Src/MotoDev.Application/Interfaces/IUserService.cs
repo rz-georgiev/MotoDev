@@ -7,6 +7,8 @@ namespace MotoDev.Application.Interfaces
         Task<BaseResponse<IEnumerable<UserResponse>>> GetAllForCurrentOwnerUserIdAsync(int ownerUserId);
 
         Task<BaseResponse> DeactivateRepairUserByIdAsync(int id);
-      
+
+        Task<BaseResponse<UserResponse>> CreateAsync(UserRequest request);
+
     }
 }

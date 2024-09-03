@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { ExtendedJwtPayload } from '../../auth/models/extendedJwtPayload';
 import { UserResponse } from '../models/userResponse';
 import { AuthService } from '../../auth/services/auth.service';
+import { UserDto } from '../models/userDto';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,10 @@ export class UserService {
 
   deactivateRepairUserById(id: number): Observable<any> {
     return this.http.put(`${this.baseUrl}/Users/DeactivateRepairUserById?id=${id}`, null);
+  }
+
+  createUser(userData: UserDto) : Observable<any> {
+    return this.http.post(`${this.baseUrl}/Users/Create`, userData);
   }
 
 }

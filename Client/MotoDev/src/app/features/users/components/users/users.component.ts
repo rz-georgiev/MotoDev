@@ -58,9 +58,7 @@ export class UsersComponent implements OnInit {
   }
 
   addAction(): void {
-    const dialog = this.matDialog.open(UserEditorComponent, {
-     
-    });
+    const dialog = this.matDialog.open(UserEditorComponent, { });
     dialog.afterClosed().subscribe(result => {
       if (result) {
         this.dataSource.data.push(result);

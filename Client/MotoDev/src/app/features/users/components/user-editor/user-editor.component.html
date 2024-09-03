@@ -1,42 +1,45 @@
 <h2 mat-dialog-title class="mat-dialog-title-custom">User Editor</h2>
 <mat-dialog-content>
-  <form class="row g-3">
+  <form [formGroup]="registerForm" class="row g-3 needs-validation" [ngClass]="{
+    'was-validated': isSubmitted && registerForm.invalid,
+    'novalidate': !isSubmitted
+  }">
     <div class="col-md-4">
       <label for="validationDefault01" class="form-label">First name</label>
-      <input type="text" class="form-control" id="validationDefault01" value="John" required>
+      <input type="text" class="form-control" id="validationDefault01" value="John" formControlName="firstName" required >
     </div>
     <div class="col-md-4">
       <label for="validationDefault02" class="form-label">Last name</label>
-      <input type="text" class="form-control" id="validationDefault02" value="Doe" required>
+      <input type="text" class="form-control" id="validationDefault02" value="Doe"  formControlName="lastName" required>
     </div>
     <div class="col-md-4">
       <label for="validationDefaultUsername" class="form-label">Email</label>
       <div class="input-group">
-        <input type="text" class="form-control" id="validationDefaultUsername" aria-describedby="inputGroupPrepend2" required>
+        <input type="text" class="form-control" id="validationDefaultUsername" aria-describedby="inputGroupPrepend2" formControlName="email" required>
       </div>
     </div>
     <div class="col-md-4">
       <label for="validationDefaultUsername" class="form-label">Username</label>
       <div class="input-group">
-        <input type="text" class="form-control" id="validationDefaultUsername" aria-describedby="inputGroupPrepend2" required>
+        <input type="text" class="form-control" id="validationDefaultUsername" aria-describedby="inputGroupPrepend2"  formControlName="username" required>
       </div>
     </div>
     <div class="col-md-4">
       <label for="validationDefaultUsername" class="form-label">Password</label>
       <div class="input-group">
-        <input type="password" class="form-control" id="validationDefaultUsername" aria-describedby="inputGroupPrepend2" required>
+        <input type="password" class="form-control" id="validationDefaultUsername" aria-describedby="inputGroupPrepend2" formControlName="password" required>
       </div>
     </div>
     <div class="col-md-4">
       <label for="validationDefaultUsername" class="form-label">Phone number</label>
       <div class="input-group">
-        <input type="text" class="form-control" id="validationDefaultUsername" aria-describedby="inputGroupPrepend2" required>
+        <input type="text" class="form-control" id="validationDefaultUsername" aria-describedby="inputGroupPrepend2" formControlName="phoneNumber">
       </div>
     </div>
     
     <div class="col-md-4">
       <label for="validationDefault04" class="form-label">Repair Shop</label>
-      <select class="form-select" id="validationDefault04" required>
+      <select class="form-select" id="validationDefault04" formControlName="repairShop" required>
         <option selected disabled value="">Select below...</option>
         @for(shop of repairShops; track shop) {
           <option [ngValue]="shop.id">{{shop.name}}</option>
@@ -46,7 +49,7 @@
     </div>
     <div class="col-md-4">
       <label for="validationDefault04" class="form-label">Role</label>
-      <select class="form-select" id="validationDefault04" required>
+      <select class="form-select" id="validationDefault04" formControlName="role" required>
         <option selected disabled value="">Select below...</option>
         @for(role of roles; track role) {
           <option [ngValue]="role.id">{{role.name}}</option>
@@ -54,9 +57,9 @@
       </select>
     </div>
   </form>
-</mat-dialog-content>0
+</mat-dialog-content>
 <mat-dialog-actions>
   <button mat-button (click)="onNoClick()">Cancel</button>
-  <button mat-button (click)="onYesClick()">Save</button>
+  <button type="submit" mat-button (click)="onYesClick()">Save</button>
 </mat-dialog-actions>
 

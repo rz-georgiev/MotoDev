@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using MotoDev.Application.Interfaces;
 using MotoDev.Common.Dtos;
+using MotoDev.Domain.Entities;
 using MotoDev.Infrastructure.ExternalServices.Email;
 using MotoDev.Infrastructure.Persistence;
 
@@ -9,10 +10,12 @@ namespace MotoDev.Application.Services
 {
     public class UserService(IConfiguration configuration,
         IEmailService emailService,
+        IAccountService accountService,
         MotoDevDbContext dbContext) : IUserService
     {
         private readonly IConfiguration _configuration = configuration;
         private readonly IEmailService _emailService = emailService;
+        private readonly IAccountService _accountService = accountService;
         private readonly MotoDevDbContext _dbContext = dbContext;
 
         public async Task<BaseResponse<IEnumerable<UserResponse>>> GetAllForCurrentOwnerUserIdAsync(int ownerUserId)
@@ -62,6 +65,59 @@ namespace MotoDev.Application.Services
                 {
                     IsOk = false,
                     Message = "An error occurred while trying to deactivate the record"
+                };
+            }
+        }
+
+        public async Task<BaseResponse<UserResponse>> CreateAsync(UserRequest request)
+        {
+            var userResponse = await _accountService.RegisterAsync(new RegisterAccountRequest
+            {
+                Email = request.Email,
+                Password = request.Password,
+            });
+            if (userResponse.IsOk)
+            {
+                var user = await _dbContext.Users.SingleOrDefaultAsync(x => x.Email == request.Email);
+                user!.IsActive = true;
+                user.FirstName = request.FirstName;
+                user.LastName = request.LastName;
+                user.PhoneNumber = request.PhoneNumber;
+                user.Username = request.Username;
+                user.RoleId = request.RoleId;
+
+                 _dbContext.Users.Update(user);
+                await  _dbContext.SaveChangesAsync();
+                
+                var repairShopUser = new RepairShopUser
+                {
+                    UserId = user.Id,
+                    RepairShopId = request.RepairShopId,
+                };
+
+                await _dbContext.RepairShopUsers.AddAsync(repairShopUser);
+                await _dbContext.SaveChangesAsync();
+
+                return new BaseResponse<UserResponse>
+                {
+                    IsOk = true,
+                    Message = "",
+                    Result = new UserResponse
+                    {
+                        Id = repairShopUser.Id,
+                        FirstName = request.FirstName,
+                        LastName = request.LastName,
+                        Position = (await _dbContext.Roles.SingleOrDefaultAsync(x => x.Id == user.RoleId))!.Name,
+                        RepairShop = (await _dbContext.RepairShops.SingleOrDefaultAsync(x => x.Id == request.RepairShopId))!.Name,
+                    }
+                };
+            }
+            else
+            {
+                return new BaseResponse<UserResponse>
+                {
+                    IsOk = false,
+                    Message = userResponse.Message,
                 };
             }
         }

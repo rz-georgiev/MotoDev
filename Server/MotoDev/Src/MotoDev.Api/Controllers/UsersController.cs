@@ -32,5 +32,13 @@ namespace MotoDev.Api.Controllers
             return await
                 _userService.DeactivateRepairUserByIdAsync(id);
         }
+
+        [Authorize(Roles = "Owner")]
+        [HttpPut("Create")]
+        public async Task<BaseResponse<UserResponse>> Create([FromBody]UserRequest request)
+        {
+            return await
+                _userService.CreateAsync(request);
+        }
     }
 }
