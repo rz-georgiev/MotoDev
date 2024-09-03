@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using MotoDev.Application.Interfaces;
 using MotoDev.Common.Dtos;
@@ -11,12 +12,14 @@ namespace MotoDev.Application.Services
     public class UserService(IConfiguration configuration,
         IEmailService emailService,
         IAccountService accountService,
+        IMapper mapper,
         MotoDevDbContext dbContext) : IUserService
     {
         private readonly IConfiguration _configuration = configuration;
         private readonly IEmailService _emailService = emailService;
         private readonly IAccountService _accountService = accountService;
         private readonly MotoDevDbContext _dbContext = dbContext;
+        private readonly IMapper _mapper = mapper;
 
         public async Task<BaseResponse<IEnumerable<UserResponse>>> GetAllForCurrentOwnerUserIdAsync(int ownerUserId)
         {
@@ -85,7 +88,7 @@ namespace MotoDev.Application.Services
                 user.PhoneNumber = request.PhoneNumber;
                 user.Username = request.Username;
                 user.RoleId = request.RoleId;
-
+               
                  _dbContext.Users.Update(user);
                 await  _dbContext.SaveChangesAsync();
                 
