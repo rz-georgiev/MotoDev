@@ -9,6 +9,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
+import { UserService } from '../../services/user.service';
+import { AuthService } from '../../../auth/services/auth.service';
+import { RoleService } from '../../../roles/services/role.service';
+import { RepairShopService } from '../../../repair-shops/services/repair-shop.service';
 
 @Component({
   selector: 'app-user-editor',
@@ -36,8 +40,26 @@ export class UserEditorComponent {
 
   public registerForm!: FormGroup;
   public isSubmitted!: boolean;
+  public repairShops!: any[];
+  public roles!: any[];
 
-  constructor(public dialogRef: MatDialogRef<UserEditorComponent>) { }
+  constructor(public dialogRef: MatDialogRef<UserEditorComponent>,
+    private userService: UserService,
+    private authService: AuthService,
+    private roleService: RoleService,
+    private repairShopService: RepairShopService
+  ) { }
+
+  ngOnInit() {
+
+    this.repairShopService.getRepairShopsForSpecifiedOwner(this.authService.currentUserId).subscribe(data => {
+      this.repairShops = data.result;
+    });
+
+      this.roleService.getAll().subscribe(data => {
+      this.roles = data.result;
+    });
+  }
 
   onNoClick() {
     this.dialogRef.close(true);

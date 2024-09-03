@@ -105,6 +105,8 @@ builder.Services.AddSingleton<ICloudinaryService, CloudinaryService>();
 builder.Services.AddTransient<IAccountService, AccountService>();
 builder.Services.AddTransient<IEmailService, EmailService>();
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IRepairShopService, RepairShopService>();
+builder.Services.AddTransient<IRoleService, RoleService>();
 
 var app = builder.Build();
 

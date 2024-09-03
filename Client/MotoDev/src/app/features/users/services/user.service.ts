@@ -12,7 +12,7 @@ import { AuthService } from '../../auth/services/auth.service';
 export class UserService {
 
 
-  private baseUrl = `https://localhost:5078`; // Example API
+  private baseUrl = `https://localhost:5078`;
 
   constructor(private http: HttpClient,
     private authService: AuthService) { }
@@ -24,4 +24,5 @@ export class UserService {
   deactivateRepairUserById(id: number): Observable<any> {
     return this.http.put(`${this.baseUrl}/Users/DeactivateRepairUserById?id=${id}`, null);
   }
+
 }
