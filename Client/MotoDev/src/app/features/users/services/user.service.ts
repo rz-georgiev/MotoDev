@@ -6,6 +6,7 @@ import { ExtendedJwtPayload } from '../../auth/models/extendedJwtPayload';
 import { UserResponse } from '../models/userResponse';
 import { AuthService } from '../../auth/services/auth.service';
 import { UserDto } from '../models/userDto';
+import { BaseResponse } from '../../../shared/models/baseResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,11 @@ export class UserService {
   constructor(private http: HttpClient,
     private authService: AuthService) { }
 
-  getData(): Observable<any> {
+  getById(id: number): Observable<BaseResponse<UserDto>> {
+    return this.http.get<BaseResponse<UserDto>>(`${this.baseUrl}/Users/GetById?id=${id}`);
+  }
+
+  getAllForCurrentOwnerUserId(): Observable<any> {
     return this.http.get(`${this.baseUrl}/Users/GetAllForCurrentOwnerUserId?ownerUserId=${this.authService.currentUserId}`);
   }
 
@@ -26,8 +31,8 @@ export class UserService {
     return this.http.put(`${this.baseUrl}/Users/DeactivateRepairUserById?id=${id}`, null);
   }
 
-  createUser(userData: UserDto) : Observable<any> {
-    return this.http.post(`${this.baseUrl}/Users/Create`, userData);
+  createUser(userData: UserDto): Observable<BaseResponse<UserDto>> {
+    return this.http.post<BaseResponse<UserDto>>(`${this.baseUrl}/Users/Edit`, userData);
   }
 
 }

@@ -11,5 +11,6 @@
         public int? CreatedByUserId { get; set; }
 
         public int? LastUpdatedByUserId { get; set; }
+        
     }
 }

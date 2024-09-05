@@ -34,11 +34,19 @@ namespace MotoDev.Api.Controllers
         }
 
         [Authorize(Roles = "Owner")]
-        [HttpPost("Create")]
-        public async Task<BaseResponse<UserResponse>> Create([FromBody]UserRequest request)
+        [HttpPost("Edit")]
+        public async Task<BaseResponse<UserResponse>> Edit([FromBody]UserRequest request)
         {      
             return await
-                _userService.CreateAsync(request);
+                _userService.EditAsync(request);
+        }
+
+        [Authorize(Roles = "Owner")]
+        [HttpGet("GetById")]
+        public async Task<BaseResponse<UserExtendedResponse>> GetById(int id)
+        {
+            return await
+                _userService.GetByIdAsync(id);
         }
     }
 }

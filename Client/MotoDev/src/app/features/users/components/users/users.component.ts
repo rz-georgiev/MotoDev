@@ -42,7 +42,7 @@ export class UsersComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.userService.getData().subscribe(data => {
+    this.userService.getAllForCurrentOwnerUserId().subscribe(data => {
       this.dataSource.data = data.result;
     });
   }
@@ -69,8 +69,14 @@ export class UsersComponent implements OnInit {
   }
 
   editAction(element: any): void {
-    console.log('Edit action for', element);
-    // Implement your edit logic here
+    const dialog = this.matDialog.open(UserEditorComponent, {data: element});
+    dialog.afterClosed().subscribe(result => {
+      if (result) {
+        this.dataSource.data = this.dataSource.data.filter(x => x !== element);
+        this.dataSource.data.push(result);
+        this.dataSource.data = [...this.dataSource.data];
+      }
+    });
   }
 
   deleteAction(element: any): void {

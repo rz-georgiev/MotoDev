@@ -6,6 +6,7 @@ using MotoDev.Application.Interfaces;
 using MotoDev.Common.Constants;
 using MotoDev.Common.Dtos;
 using MotoDev.Common.Enums;
+using MotoDev.Common.Extensions;
 using MotoDev.Domain.Entities;
 using MotoDev.Infrastructure.ExternalServices.Email;
 using MotoDev.Infrastructure.Persistence;
@@ -33,7 +34,7 @@ namespace MotoDev.Application.Services
             
             var user = await _dbContext.Users.Where(x =>
                      (x.Username == username || x.Email == username)
-                     && x.Password == GetHashString(password)
+                     && x.Password == password.GenerateHash()
                      && x.IsActive)
                 .Include(x => x.Role)
                 .FirstOrDefaultAsync();
@@ -78,7 +79,8 @@ namespace MotoDev.Application.Services
         public async Task<BaseResponse> RegisterAsync(RegisterAccountRequest request)
         {
             var doesExist = await _dbContext.Users.AnyAsync(x => x.Username == request.Email
-                    || x.Email == request.Email);
+                    || x.Email == request.Email 
+                    || x.Username == request.Username);
             if (doesExist)
                 return new BaseResponse
                 {
@@ -120,7 +122,7 @@ namespace MotoDev.Application.Services
             var user = await _dbContext.AddAsync(new User
             {
                 Username = request.Email,
-                Password = GetHashString(request.Password),
+                Password = request.Password.GenerateHash(),
                 Email = request.Email,
                 CreatedAt = DateTime.UtcNow,
                 RoleId = (int)RoleOption.Owner,
@@ -248,7 +250,7 @@ namespace MotoDev.Application.Services
                     };
                 }
 
-                user.Password = GetHashString(request.Password);
+                user.Password = request.Password.GenerateHash();
                 user.ResetPasswordToken = null;
                 await _dbContext.SaveChangesAsync();
 
@@ -266,21 +268,6 @@ namespace MotoDev.Application.Services
                     Message = $"An error occurred while changing the password"
                 };
             }
-        }
-
-        private byte[] GetHash(string inputString)
-        {
-            using (var algorithm = SHA256.Create())
-                return algorithm.ComputeHash(Encoding.UTF8.GetBytes(inputString));
-        }
-
-        private string GetHashString(string inputString)
-        {
-            var stringBuilder = new StringBuilder();
-            foreach (byte b in GetHash(inputString))
-                stringBuilder.Append(b.ToString("X2"));
-
-            return stringBuilder.ToString().ToLowerInvariant();
         }
 
         private bool IsValidEmail(string email)

@@ -8,7 +8,9 @@ namespace MotoDev.Application.Interfaces
 
         Task<BaseResponse> DeactivateRepairUserByIdAsync(int id);
 
-        Task<BaseResponse<UserResponse>> CreateAsync(UserRequest request);
+        Task<BaseResponse<UserResponse>> EditAsync(UserRequest request);
+
+        Task<BaseResponse<UserExtendedResponse>> GetByIdAsync(int id);
 
     }
 }

@@ -1,6 +1,7 @@
 using AutoMapper;
 using CloudinaryDotNet;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -17,6 +18,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+builder.Services.AddAutoMapper(typeof(UserProfile));
 builder.Services.AddControllers();
 builder.Services.AddHttpContextAccessor();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -103,14 +105,15 @@ Account account = new Account(
 
 var cloudinary = new Cloudinary(account);
 
-builder.Services.AddAutoMapper(typeof(MappingProfile));
+
 builder.Services.AddSingleton(cloudinary);
 builder.Services.AddSingleton<ICloudinaryService, CloudinaryService>();
 
 builder.Services.AddTransient<IAccountService, AccountService>();
 builder.Services.AddTransient<IEmailService, EmailService>();
 builder.Services.AddTransient<IUserService, UserService>();
-builder.Services.AddTransient<IRepairShopService, RepairShopService>();
+builder.Services.AddTransient<IRepairShopService, RepairShopService>(); 
+builder.Services.AddTransient<IRepairShopUserService, RepairShopUserService>();
 builder.Services.AddTransient<IRoleService, RoleService>();
 
 
