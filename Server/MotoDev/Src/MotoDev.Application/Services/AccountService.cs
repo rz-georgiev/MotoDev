@@ -58,6 +58,8 @@ namespace MotoDev.Application.Services
 
                
                tokenDescriptor.Subject.AddClaim(new Claim(ClaimTypes.Role, user.Role.Name));
+               tokenDescriptor.Subject.AddClaim(new Claim(ClaimTypes.Name, user.FirstName));
+               tokenDescriptor.Subject.AddClaim(new Claim(ClaimTypes.Surname, user.LastName));
 
                 var token = tokenHandler.CreateToken(tokenDescriptor);
                 return new BaseResponse

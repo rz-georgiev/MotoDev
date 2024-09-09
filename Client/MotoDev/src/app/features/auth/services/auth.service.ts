@@ -3,6 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { jwtDecode } from 'jwt-decode';
 import { ExtendedJwtPayload } from '../models/extendedJwtPayload';
+import { CurrentUser } from '../models/currentUser';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ export class AuthService {
   private baseUrl = 'https://localhost:5078/Accounts';
   private isLoggedInSubject = new BehaviorSubject<boolean>(false);
   public isLoggedIn$ = this.isLoggedInSubject.asObservable();
-  public currentUserId!: number;
+  public currentUser!: CurrentUser;
 
   constructor(private httpClient: HttpClient) {}
 
@@ -24,7 +25,14 @@ export class AuthService {
     }
 
     const decoded = this.getDecodedToken(authToken);
-    this.currentUserId = decoded.userId;
+    this.currentUser = {
+      id: decoded.userId,
+      firstName: decoded.unique_name,
+      lastName: decoded.family_name,
+      username: decoded.nameid,
+      role: Array.isArray(decoded.role) ? decoded.role.at(0) : decoded.role
+    };
+
 
     const date = new Date(0);
     date.setUTCSeconds(decoded.exp ?? 0);

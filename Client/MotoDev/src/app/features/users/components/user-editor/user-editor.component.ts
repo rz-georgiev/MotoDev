@@ -104,7 +104,7 @@ export class UserEditorComponent {
       this.registerForm.get('password')?.clearValidators();
     }
 
-    this.repairShopService.getRepairShopsForSpecifiedOwner(this.authService.currentUserId).subscribe(data => {
+    this.repairShopService.getRepairShopsForSpecifiedOwner(this.authService.currentUser.id).subscribe(data => {
       this.repairShops = data.result;
     });
 

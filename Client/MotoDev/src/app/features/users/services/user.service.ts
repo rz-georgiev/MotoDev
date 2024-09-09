@@ -24,7 +24,7 @@ export class UserService {
   }
 
   getAllForCurrentOwnerUserId(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/Users/GetAllForCurrentOwnerUserId?ownerUserId=${this.authService.currentUserId}`);
+    return this.http.get(`${this.baseUrl}/Users/GetAllForCurrentOwnerUserId?ownerUserId=${this.authService.currentUser.id}`);
   }
 
   deactivateRepairUserById(id: number): Observable<any> {
