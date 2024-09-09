@@ -31,7 +31,7 @@ export class UserService {
     return this.http.put(`${this.baseUrl}/Users/DeactivateRepairUserById?id=${id}`, null);
   }
 
-  createUser(userData: UserDto): Observable<BaseResponse<UserDto>> {
+  editUser(userData: UserDto): Observable<BaseResponse<UserDto>> {
     return this.http.post<BaseResponse<UserDto>>(`${this.baseUrl}/Users/Edit`, userData);
   }
 

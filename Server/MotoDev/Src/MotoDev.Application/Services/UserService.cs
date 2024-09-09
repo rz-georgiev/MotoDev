@@ -168,7 +168,7 @@ namespace MotoDev.Application.Services
             user.Email = request.Email;
             user.PhoneNumber = request.PhoneNumber;
             user.Username = request.Username;
-            user.Password = request.Password.GenerateHash();
+            user.Password = string.IsNullOrWhiteSpace(request.Password) ? user.Password :  request.Password.GenerateHash(); // if in edit mode by owner/administrator
             user.RoleId = request.RoleId;
 
             if (request.RepairShopId != repairShopUser.RepairShopId)

@@ -78,10 +78,10 @@ export class UserEditorComponent {
 
   ngOnInit() {
 
-    this.isInEditMode = this.passedData?.id > 0;
+    this.isInEditMode = this.passedData?.repairShopUserId > 0;
 
     if (this.isInEditMode) {
-      this.repairShopUserService.getRepairShopUserById(this.passedData.id).pipe(
+      this.repairShopUserService.getRepairShopUserById(this.passedData.repairShopUserId).pipe(
         switchMap(data => {
           this.repairShopUser = data.result;
           return this.userService.getById(this.repairShopUser.userId);
@@ -123,7 +123,7 @@ export class UserEditorComponent {
     if (this.registerForm.valid) {
       const form = this.registerForm.value;
       const user: UserDto = {
-        repairShopUserId: this.passedData?.id,
+        repairShopUserId: this.passedData?.repairShopUserId,
         firstName: form.firstName,
         lastName: form.lastName,
         email: form.email,
@@ -134,10 +134,10 @@ export class UserEditorComponent {
         roleId: form.roleId,
       };
 
-      this.userService.createUser(user).subscribe(data => {
+      this.userService.editUser(user).subscribe(data => {
         if (data.isOk) {
           this.dialogRef.close({
-            id: this.passedData?.id ?? data.result.repairShopUserId, // for new users and editted users
+            repairShopUserId: this.passedData?.repairShopUserId ?? data.result.repairShopUserId, // for new users and editted users
             firstName: user.firstName,
             lastName: user.lastName,
             repairShop: this.repairShops.find(x => x.id === form.repairShopId)?.name,

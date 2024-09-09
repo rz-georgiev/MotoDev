@@ -86,9 +86,9 @@ export class UsersComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result === true) {
-        this.userService.deactivateRepairUserById(element.id).subscribe(result => {
+        this.userService.deactivateRepairUserById(element.repairShopUserId).subscribe(result => {
           if (result.isOk) {
-            this.dataSource.data = this.dataSource.data.filter(x => x.id !== element.id);
+            this.dataSource.data = this.dataSource.data.filter(x => x.repairShopUserId !== element.repairShopUserId);
           }
         });
       }
