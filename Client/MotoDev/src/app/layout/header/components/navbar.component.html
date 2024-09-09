@@ -69,11 +69,10 @@
           <!-- <app-confirmation-modal [questionMessage]="'Are you sure you want to sign out?'"
             (handleConfirmation)="handleConfirmation($event)">
           </app-confirmation-modal> -->
-          <li>
-            <a data-bs-toggle="modal" data-bs-target="#basicModal" class="dropdown-item d-flex align-items-center"
-              href="#">
+          <li (click)="handleConfirmation()">
+            <a [routerLink]="" class="dropdown-item d-flex align-items-center">
               <i class="bi bi-box-arrow-right"></i>
-              <span>Sign Out</span>
+              <span >Sign Out</span>
             </a>
           </li>
 

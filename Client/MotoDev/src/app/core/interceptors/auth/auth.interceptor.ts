@@ -2,10 +2,12 @@ import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpInterce
 import { inject, Injectable } from '@angular/core';
 import { catchError, finalize, Observable, throwError } from 'rxjs';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../features/auth/services/auth.service';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   const router = inject(Router);
+  const authService = inject(AuthService);
   const authToken = localStorage.getItem('authToken');
   const clonedRequest = req.clone({
     setHeaders: {
@@ -18,8 +20,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
       if (err instanceof HttpErrorResponse) {
         // Handle HTTP errors
         if (err.status === 401) {
-          localStorage.removeItem('authToken');
-          router.navigate(['/login']);
+          authService.signOut();
         } else {
           // Handle other HTTP error codes
           console.error('HTTP error:', err);

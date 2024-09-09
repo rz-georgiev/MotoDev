@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { jwtDecode } from 'jwt-decode';
 import { ExtendedJwtPayload } from '../models/extendedJwtPayload';
 import { CurrentUser } from '../models/currentUser';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,15 @@ export class AuthService {
   public isLoggedIn$ = this.isLoggedInSubject.asObservable();
   public currentUser!: CurrentUser;
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient,
+    private router: Router)
+   {}
+
+  signOut() {
+    localStorage.removeItem('authToken');
+    this.router.navigate(['/login']);
+    this.isLoggedInSubject.next(false);
+  }
 
   isLoggedIn(): boolean {
     const authToken = localStorage.getItem('authToken');

@@ -5,6 +5,8 @@ import { ConfirmAccountComponent } from "../../../features/auth/components/confi
 import { NavbarService } from '../services/navbar.service';
 import { UsersComponent } from '../../../features/users/components/users/users.component';
 import { AuthService } from '../../../features/auth/services/auth.service';
+import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
+import { MatDialog, matDialogAnimations } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-navbar',
@@ -15,13 +17,15 @@ import { AuthService } from '../../../features/auth/services/auth.service';
 })
 export class NavbarComponent {
 
+
   currentUserFullName: string | undefined;
   isSidebarOpened: boolean = true;
   currentUserShowName: string | undefined;
   currentUserRole: string | undefined;
   
   constructor(private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -31,11 +35,12 @@ export class NavbarComponent {
     this.currentUserRole = currentUser.role;
   }
 
-  handleConfirmation(isConfirmed: boolean) {
-    if (isConfirmed) {
-      localStorage.removeItem('authToken');
-      this.router.navigate(['/login']);
-    }
+  handleConfirmation() {
+    this.dialog.open(ConfirmationModalComponent, {data: {message: "Would you like to sign out?"}}).afterClosed().subscribe(result => {
+      if (result) {
+        this.authService.signOut();
+      }     
+    });
   }
   
   toggleSidebar() {
