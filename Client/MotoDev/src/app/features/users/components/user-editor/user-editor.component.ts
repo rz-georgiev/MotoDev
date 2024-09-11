@@ -132,6 +132,7 @@ export class UserEditorComponent {
         phoneNumber: form.phoneNumber,
         repairShopId: form.repairShopId,
         roleId: form.roleId,
+        imageUrl: form.imageUrl,
       };
 
       this.userService.editUser(user).subscribe(data => {

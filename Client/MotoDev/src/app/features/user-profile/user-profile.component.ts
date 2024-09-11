@@ -65,7 +65,8 @@ export class UserProfileComponent {
       password: ['', Validators.nullValidator],
       phoneNumber: ['', Validators.required],
       repairShop: ['', Validators.required],
-      role: ['', Validators.required]
+      role: ['', Validators.required],
+      imageUrl: ['', Validators.nullValidator]
     });
 
   }
@@ -93,7 +94,8 @@ export class UserProfileComponent {
         password: '',
         phoneNumber: userData.phoneNumber,
         repairShop: repairShop.result.map(x => x.name).join(', '),
-        role: role.result.name
+        role: role.result.name,
+        imageUrl: userData.imageUrl
       })
     });
     

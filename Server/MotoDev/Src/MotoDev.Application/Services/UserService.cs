@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using CloudinaryDotNet;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -8,6 +9,7 @@ using MotoDev.Common.Extensions;
 using MotoDev.Domain.Entities;
 using MotoDev.Infrastructure.ExternalServices.Email;
 using MotoDev.Infrastructure.Persistence;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace MotoDev.Application.Services
 {
@@ -16,12 +18,14 @@ namespace MotoDev.Application.Services
         IAccountService accountService,
         IMapper mapper,
         IHttpContextAccessor accessor,
-        MotoDevDbContext dbContext) : IUserService
+        MotoDevDbContext dbContext,
+        ICloudinaryService cloudinaryService) : IUserService
     {
         private readonly IConfiguration _configuration = configuration;
         private readonly IEmailService _emailService = emailService;
         private readonly IAccountService _accountService = accountService;
         private readonly MotoDevDbContext _dbContext = dbContext;
+        private readonly ICloudinaryService _cloudinaryService = cloudinaryService;
         private readonly IMapper _mapper = mapper;
         private readonly IHttpContextAccessor _accessor = accessor;
 
@@ -207,10 +211,20 @@ namespace MotoDev.Application.Services
         public async Task<BaseResponse<UserExtendedResponse>> GetByIdAsync(int id)
         {
             var user = await _dbContext.Users.SingleOrDefaultAsync(x => x.Id == id);
-            return new BaseResponse<UserExtendedResponse>
+            var response = new BaseResponse<UserExtendedResponse>
             {
                 Result = _mapper.Map<UserExtendedResponse>(user)
             };
+
+            if (user.ImageId == null)
+                response.Result.ImageUrl = _configuration["DefaultUserImageUrl"];
+            else
+            {
+                var url = _cloudinaryService.GetImageUrlById(user.ImageId);
+                response.Result.ImageUrl = url;
+            } 
+            
+            return response;
         }
     }
 }

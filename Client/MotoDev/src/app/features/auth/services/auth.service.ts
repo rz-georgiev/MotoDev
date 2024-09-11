@@ -5,6 +5,7 @@ import { jwtDecode } from 'jwt-decode';
 import { ExtendedJwtPayload } from '../models/extendedJwtPayload';
 import { CurrentUser } from '../models/currentUser';
 import { Router } from '@angular/router';
+import { UserService } from '../../users/services/user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +18,7 @@ export class AuthService {
   public currentUser!: CurrentUser;
 
   constructor(private httpClient: HttpClient,
-    private router: Router)
-   {}
+    private router: Router) { }
 
   signOut() {
     localStorage.removeItem('authToken');
@@ -39,26 +39,26 @@ export class AuthService {
       firstName: decoded.unique_name,
       lastName: decoded.family_name,
       username: decoded.nameid,
-      role: Array.isArray(decoded.role) ? decoded.role.at(0) : decoded.role
+      role: Array.isArray(decoded.role) ? decoded.role.at(0) : decoded.role,
+      imageUrl: decoded.imageUrl
     };
-
 
     const date = new Date(0);
     date.setUTCSeconds(decoded.exp ?? 0);
-   
+
     const hasExpired = date.valueOf() <= Date.now().valueOf();
     const result = !!authToken && !hasExpired;
-   
+
     this.isLoggedInSubject.next(result);
     return result;
   }
 
   getUserRoles(): string[] {
     const authToken = localStorage.getItem('authToken');
-    if (!authToken){
+    if (!authToken) {
       return [];
     }
-    
+
     try {
       return this.getDecodedToken(authToken).role;
     }
@@ -71,13 +71,13 @@ export class AuthService {
     const decoded = jwtDecode<ExtendedJwtPayload>(token);
     return decoded;
   }
-  
+
   hasAnyOfTheRoles(roles: string[]): boolean {
     const userRoles = this.getUserRoles();
-    if (!userRoles){
+    if (!userRoles) {
       return false;
     }
-    
+
     return roles.some(role => userRoles.includes(role));
   }
 
@@ -85,19 +85,19 @@ export class AuthService {
     return this.httpClient.post(`${this.baseUrl}/Login`, user);
   }
 
-  register(credentials: any) : Observable<any> {
+  register(credentials: any): Observable<any> {
     return this.httpClient.post(`${this.baseUrl}/Register`, credentials);
   }
 
-  forgotPassword(email: any) : Observable<any> {
+  forgotPassword(email: any): Observable<any> {
     return this.httpClient.post(`${this.baseUrl}/ForgottenPassword`, email);
   }
 
-  resetPassword(resetModel: any) : Observable<any> {
+  resetPassword(resetModel: any): Observable<any> {
     return this.httpClient.post(`${this.baseUrl}/ResetPassword`, resetModel);
   }
 
-  confirmAccount(accountConfirmationHash: any) : Observable<any> {
+  confirmAccount(accountConfirmationHash: any): Observable<any> {
     return this.httpClient.post(`${this.baseUrl}/ConfirmAccount`, accountConfirmationHash);
   }
 

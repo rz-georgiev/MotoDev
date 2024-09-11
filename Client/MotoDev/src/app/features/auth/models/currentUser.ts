@@ -4,4 +4,5 @@ export interface CurrentUser {
     lastName: string;
     username: string;
     role: string | undefined;
+    imageUrl: string;
 }

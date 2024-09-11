@@ -18,6 +18,8 @@
 
         public string? ResetPasswordToken { get; set; }
 
+        public string? ImageId { get; set; }
+
         public bool IsActive { get; set; } = false;
 
         public Role Role { get; set; }

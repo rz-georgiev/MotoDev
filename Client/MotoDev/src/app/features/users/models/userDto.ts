@@ -8,4 +8,5 @@ export interface UserDto {
     phoneNumber: string;
     repairShopId: number;
     roleId: number;
+    imageUrl: string;
 }

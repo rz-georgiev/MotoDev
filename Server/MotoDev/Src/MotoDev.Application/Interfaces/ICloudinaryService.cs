@@ -8,6 +8,8 @@ namespace MotoDev.Application.Interfaces
 
         IAsyncEnumerable<string> UploadImagesAsync(IEnumerable<IFormFile> formFiles);
 
+        string GetImageUrlById(string imageId);
+
         Task<bool> DeleteImageAsync(string url);
     }
 }

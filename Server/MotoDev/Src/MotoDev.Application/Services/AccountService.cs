@@ -20,11 +20,13 @@ namespace MotoDev.Application.Services
     public class AccountService(IConfiguration configuration,
         IEmailService emailService,
         IHttpContextAccessor accessor,
+        ICloudinaryService cloudinaryService,
         MotoDevDbContext dbContext) : IAccountService
     {
         private readonly IConfiguration _configuration = configuration;
         private readonly IEmailService _emailService = emailService;
         private readonly IHttpContextAccessor _accessor = accessor;
+        private readonly ICloudinaryService _cloudinaryService = cloudinaryService;
         private readonly MotoDevDbContext _dbContext = dbContext;
 
         public async Task<BaseResponse> LoginAsync(LoginRequest request)
@@ -55,11 +57,15 @@ namespace MotoDev.Application.Services
                     Audience = _configuration["Jwt:Audience"],
                     SigningCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature)
                 };
+                
+                var imageUrl = user.ImageId != null 
+                    ? _cloudinaryService.GetImageUrlById(user.ImageId) 
+                    : "";
 
-               
                tokenDescriptor.Subject.AddClaim(new Claim(ClaimTypes.Role, user.Role.Name));
                tokenDescriptor.Subject.AddClaim(new Claim(ClaimTypes.Name, user.FirstName));
                tokenDescriptor.Subject.AddClaim(new Claim(ClaimTypes.Surname, user.LastName));
+               tokenDescriptor.Subject.AddClaim(new Claim(CustomClaimTypes.ImageUrl, imageUrl));
 
                 var token = tokenHandler.CreateToken(tokenDescriptor);
                 return new BaseResponse

@@ -59,5 +59,10 @@ namespace MotoDev.Application.Services
                 return false;
             }
         }
+
+        public string GetImageUrlById(string imageId)
+        {
+            return _cloudinary.Api.UrlImgUp.BuildUrl(imageId);
+        }
     }
 }
