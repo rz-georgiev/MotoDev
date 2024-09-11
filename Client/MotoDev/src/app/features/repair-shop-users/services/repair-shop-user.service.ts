@@ -13,6 +13,10 @@ export class RepairShopUserService {
 
   constructor(private http: HttpClient) { }
 
+  getRepairShopsForUserId(userId: number): Observable<BaseResponse<RepairShopUserDto[]>> {
+    return this.http.get<BaseResponse<RepairShopUserDto[]>>(`${this.baseUrl}/RepairShopUsers/GetRepairShopsForUserId?userId=${userId}`);
+  }
+
   getRepairShopUserById(id: number): Observable<BaseResponse<RepairShopUserDto>> {
     return this.http.get<BaseResponse<RepairShopUserDto>>(`${this.baseUrl}/RepairShopUsers/GetById?id=${id}`);
   }

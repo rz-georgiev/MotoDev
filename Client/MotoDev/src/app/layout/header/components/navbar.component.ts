@@ -7,6 +7,7 @@ import { UsersComponent } from '../../../features/users/components/users/users.c
 import { AuthService } from '../../../features/auth/services/auth.service';
 import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
 import { MatDialog, matDialogAnimations } from '@angular/material/dialog';
+import { CurrentUser } from '../../../features/auth/models/currentUser';
 
 @Component({
   selector: 'app-navbar',
@@ -22,6 +23,7 @@ export class NavbarComponent {
   isSidebarOpened: boolean = true;
   currentUserShowName: string | undefined;
   currentUserRole: string | undefined;
+  currentUser!: CurrentUser;
   
   constructor(private router: Router,
     private authService: AuthService,
@@ -29,10 +31,14 @@ export class NavbarComponent {
   ) { }
 
   ngOnInit() {
-    const currentUser = this.authService.currentUser;
-    this.currentUserShowName = `${currentUser.firstName.charAt(0)}. ${currentUser.lastName}`;
-    this.currentUserFullName = `${currentUser.firstName} ${currentUser.lastName}`;
-    this.currentUserRole = currentUser.role;
+    this.currentUser = this.authService.currentUser;
+    this.currentUserShowName = `${this.currentUser.firstName.charAt(0)}. ${this.currentUser.lastName}`;
+    this.currentUserFullName = `${this.currentUser.firstName} ${this.currentUser.lastName}`;
+    this.currentUserRole = this.currentUser.role;
+  }
+
+  customizeProfile() {
+    // this.router.navigate(['/userProfile'], {queryParams: {id: 1}});
   }
 
   handleConfirmation() {

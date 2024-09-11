@@ -22,6 +22,7 @@ import { NotFoundComponent } from './core/components/not-found/not-found.compone
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { animation } from '@angular/animations';
+import { UserProfileComponent } from './features/user-profile/user-profile.component';
 
 export const routes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -44,6 +45,7 @@ export const routes: Routes = [
     { path: 'repairShops', component: RepairShopsComponent },
     { path: 'baseData', component: BaseDataComponent },
     { path: 'about', component: AboutComponent },
+    { path: 'userProfile/:id', component: UserProfileComponent },
     { path: '', component: AuthComponent },
     { path: '**', component: NotFoundComponent }
 ];

@@ -30,6 +30,9 @@ namespace MotoDev.Application.Services
             CreateMap<RepairShopUser, RepairShopUserResponse>();
             CreateMap<RepairShopUserResponse, RepairShopUserResponse>();
 
+            CreateMap<RepairShop, RepairShopResponse>();
+            CreateMap<RepairShopResponse, RepairShop>();
+
 
         }
     }
