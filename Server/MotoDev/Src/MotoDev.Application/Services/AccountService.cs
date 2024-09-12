@@ -7,6 +7,7 @@ using MotoDev.Common.Constants;
 using MotoDev.Common.Dtos;
 using MotoDev.Common.Enums;
 using MotoDev.Common.Extensions;
+using MotoDev.Common.Helpers;
 using MotoDev.Domain.Entities;
 using MotoDev.Infrastructure.ExternalServices.Email;
 using MotoDev.Infrastructure.Persistence;
@@ -43,35 +44,16 @@ namespace MotoDev.Application.Services
 
             if (user != null)
             {
-                var securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]));
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var tokenDescriptor = new SecurityTokenDescriptor
-                {
-                    Subject = new ClaimsIdentity(new Claim[]
-                    {
-                        new(ClaimTypes.NameIdentifier, username),
-                        new(CustomClaimTypes.UserId, user.Id.ToString()),
-                    }),
-                    Expires = DateTime.UtcNow.AddDays(7),
-                    Issuer = _configuration["Jwt:Issuer"],
-                    Audience = _configuration["Jwt:Audience"],
-                    SigningCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature)
-                };
-                
                 var imageUrl = user.ImageId != null 
                     ? _cloudinaryService.GetImageUrlById(user.ImageId) 
                     : "";
 
-               tokenDescriptor.Subject.AddClaim(new Claim(ClaimTypes.Role, user.Role.Name));
-               tokenDescriptor.Subject.AddClaim(new Claim(ClaimTypes.Name, user.FirstName));
-               tokenDescriptor.Subject.AddClaim(new Claim(ClaimTypes.Surname, user.LastName));
-               tokenDescriptor.Subject.AddClaim(new Claim(CustomClaimTypes.ImageUrl, imageUrl));
+                var token = TokenGenerator.GenerateToken(user, imageUrl);
 
-                var token = tokenHandler.CreateToken(tokenDescriptor);
                 return new BaseResponse
                 {
                     IsOk = true,
-                    Message = tokenHandler.WriteToken(token),
+                    Message = token,
                 };
             }
             else

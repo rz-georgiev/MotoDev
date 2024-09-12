@@ -18,11 +18,11 @@ namespace MotoDev.Api.Controllers
         }
 
         
-        [HttpGet("GetRepairShopsForUserId")]
-        public async Task<BaseResponse<IEnumerable<RepairShopUserResponse>>> GetRepairShopsForUserId(int userId)
+        [HttpGet("GetRepairShopsForCurrentUser")]
+        public async Task<BaseResponse<IEnumerable<RepairShopUserResponse>>> GetRepairShopsForCurrentUser()
         {
             return await
-                _repairShopUserService.GetRepairShopsForUserId(userId);
+                _repairShopUserService.GetRepairShopsForCurrentUser();
         }
 
         [HttpGet("GetById")]

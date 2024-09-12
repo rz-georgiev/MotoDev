@@ -1,3 +1,4 @@
+using CloudinaryDotNet.Actions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MotoDev.Application.Interfaces;
@@ -50,7 +51,7 @@ namespace MotoDev.Api.Controllers
         }
 
         [HttpPost("UpdateProfileImage")]
-        public async Task<BaseResponse<string>> UpdateProfileImage(IFormFile file)
+        public async Task<BaseResponse<UserProfileImageUpdateResponse>> UpdateProfileImage(IFormFile file)
         {
             return await
                 _userService.UpdateProfileImage(file);

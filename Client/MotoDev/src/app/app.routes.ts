@@ -45,7 +45,7 @@ export const routes: Routes = [
     { path: 'repairShops', component: RepairShopsComponent },
     { path: 'baseData', component: BaseDataComponent },
     { path: 'about', component: AboutComponent },
-    { path: 'userProfile/:id', component: UserProfileComponent },
+    { path: 'userProfile', component: UserProfileComponent },
     { path: '', component: AuthComponent },
     { path: '**', component: NotFoundComponent }
 ];

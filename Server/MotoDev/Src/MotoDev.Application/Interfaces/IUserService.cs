@@ -13,7 +13,7 @@ namespace MotoDev.Application.Interfaces
 
         Task<BaseResponse<UserExtendedResponse>> GetByIdAsync(int id);
 
-        Task<BaseResponse<string>> UpdateProfileImage(IFormFile file);
+        Task<BaseResponse<UserProfileImageUpdateResponse>> UpdateProfileImage(IFormFile file);
 
     }
 }

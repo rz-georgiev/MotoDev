@@ -45,8 +45,6 @@ import { CustomFileUploaderComponent } from "../../shared/components/custom-file
 })
 export class UserProfileComponent {
 
-  @ViewChild('password') passwordField!: ElementRef;
-
   public userFormGroup!: FormGroup;
   public isSubmitted!: boolean;
   public errorMessage!: string;
@@ -80,7 +78,7 @@ export class UserProfileComponent {
 
     this.userService.getById(userId).pipe(
       switchMap(user => {
-        return this.repairShopUserService.getRepairShopsForUserId(userId).pipe(
+        return this.repairShopUserService.getRepairShopsForCurrentUser().pipe(
           switchMap(repairShopUser => {
             const repairShop = this.repairShopService.getForSpecifiedIds(repairShopUser.result.map(x => x.repairShopId));
             const role = this.roleService.getById(user.result.roleId);
@@ -118,8 +116,11 @@ export class UserProfileComponent {
   }
 
   onFileSelected(formData: FormData) {
-    this.userService.updateProfileImage(formData).subscribe(file => {  
-      this.imageUrl = file.result;
+    this.userService.updateProfileImage(formData).subscribe(data => {  
+      this.imageUrl = data.result.imageUrl;
+      this.authService.currentUser.imageUrl = this.imageUrl;
+      localStorage.removeItem('authToken');
+      localStorage.setItem('authToken', data.result.refreshToken)
     })
   }
 

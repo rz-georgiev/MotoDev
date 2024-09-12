@@ -7,6 +7,7 @@ import { UserResponse } from '../models/userResponse';
 import { AuthService } from '../../auth/services/auth.service';
 import { UserDto } from '../models/userDto';
 import { BaseResponse } from '../../../shared/models/baseResponse';
+import { UserProfileImageUpdateResponse } from '../models/userProfileImageUpdateResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -36,8 +37,8 @@ export class UserService {
     return this.http.post<BaseResponse<UserDto>>(`${this.baseUrl}/Users/Edit`, userData);
   }
 
-  updateProfileImage(formData: FormData): Observable<BaseResponse<string>> {
-    return this.http.post<BaseResponse<string>>(`${this.baseUrl}/Users/UpdateProfileImage`, formData);
+  updateProfileImage(formData: FormData): Observable<BaseResponse<UserProfileImageUpdateResponse>> {
+    return this.http.post<BaseResponse<UserProfileImageUpdateResponse>>(`${this.baseUrl}/Users/UpdateProfileImage`, formData);
   }
   
 

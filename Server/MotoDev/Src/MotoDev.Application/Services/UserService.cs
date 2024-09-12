@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using MotoDev.Application.Interfaces;
 using MotoDev.Common.Dtos;
 using MotoDev.Common.Extensions;
+using MotoDev.Common.Helpers;
 using MotoDev.Domain.Entities;
 using MotoDev.Infrastructure.ExternalServices.Email;
 using MotoDev.Infrastructure.Persistence;
@@ -227,10 +228,12 @@ namespace MotoDev.Application.Services
             return response;
         }
 
-        public async Task<BaseResponse<string>> UpdateProfileImage(IFormFile file)
+        public async Task<BaseResponse<UserProfileImageUpdateResponse>> UpdateProfileImage(IFormFile file)
         {
             var userId = Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId")!.Value);
-            var user = await _dbContext.Users.SingleOrDefaultAsync(x => x.Id == userId);
+            var user = await _dbContext.Users.Where(x => x.Id == userId)
+                .Include(x => x.Role)
+                .SingleOrDefaultAsync();
 
             if (user!.ImageId != null)
                 await _cloudinaryService.DeleteImageAsync(user.ImageId);
@@ -238,13 +241,22 @@ namespace MotoDev.Application.Services
             var newImageId = await _cloudinaryService.UploadImageAsync(file);
             user.ImageId = newImageId;
 
+            var imageUrl = _cloudinaryService.GetImageUrlById(newImageId);
+            var refreshToken = TokenGenerator.GenerateToken(user, imageUrl);
+
+            user.RefreshToken = refreshToken;
+
             _dbContext.Update(user);
             await _dbContext.SaveChangesAsync();
 
-            return new BaseResponse<string>
+            return new BaseResponse<UserProfileImageUpdateResponse>
             {
                 IsOk = true,
-                Result = _cloudinaryService.GetImageUrlById(newImageId)
+                Result = new UserProfileImageUpdateResponse
+                {
+                    ImageUrl = imageUrl,
+                    RefreshToken = refreshToken,
+                }
             };
         }
     }

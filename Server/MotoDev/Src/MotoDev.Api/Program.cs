@@ -8,6 +8,7 @@ using Microsoft.OpenApi.Models;
 using MotoDev.Application.Interfaces;
 using MotoDev.Application.Services;
 using MotoDev.Common.Dtos;
+using MotoDev.Common.Helpers;
 using MotoDev.Domain.Entities;
 using MotoDev.Infrastructure.ExternalServices.Email;
 using MotoDev.Infrastructure.Persistence;
@@ -54,6 +55,8 @@ builder.Services.AddSwaggerGen(c =>
 
 var connectionString = builder.Configuration.GetConnectionString("MotoDev");
 var serverVersion = new MySqlServerVersion(ServerVersion.AutoDetect(connectionString));
+
+TokenGenerator.SetConfiguration(builder.Configuration);
 
 builder.Services.AddDbContext<MotoDevDbContext>(
     dbContextOptions => dbContextOptions
