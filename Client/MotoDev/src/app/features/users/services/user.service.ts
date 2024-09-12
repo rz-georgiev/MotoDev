@@ -14,6 +14,7 @@ import { BaseResponse } from '../../../shared/models/baseResponse';
 export class UserService {
 
 
+
   private baseUrl = `https://localhost:5078`;
 
   constructor(private http: HttpClient,
@@ -34,5 +35,10 @@ export class UserService {
   editUser(userData: UserDto): Observable<BaseResponse<UserDto>> {
     return this.http.post<BaseResponse<UserDto>>(`${this.baseUrl}/Users/Edit`, userData);
   }
+
+  updateProfileImage(formData: FormData): Observable<BaseResponse<string>> {
+    return this.http.post<BaseResponse<string>>(`${this.baseUrl}/Users/UpdateProfileImage`, formData);
+  }
+  
 
 }

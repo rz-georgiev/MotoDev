@@ -17,6 +17,7 @@ import { RoleService } from '../roles/services/role.service';
 import { RepairShopService } from '../repair-shops/services/repair-shop.service';
 import { forkJoin, of, switchMap } from 'rxjs';
 import { RepairShopUserService } from '../repair-shop-users/services/repair-shop-user.service';
+import { CustomFileUploaderComponent } from "../../shared/components/custom-file-uploader/custom-file-uploader.component";
 
 @Component({
   selector: 'app-user-profile',
@@ -36,21 +37,23 @@ import { RepairShopUserService } from '../repair-shop-users/services/repair-shop
     MatDialogActions,
     MatDialogClose,
     MatDialogContent,
-    MatButtonModule
-  ],
+    MatButtonModule,
+    CustomFileUploaderComponent
+],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.css'
 })
 export class UserProfileComponent {
 
   @ViewChild('password') passwordField!: ElementRef;
-  
+
   public userFormGroup!: FormGroup;
   public isSubmitted!: boolean;
   public errorMessage!: string;
   public isPasswordFieldEnabled!: boolean;
+  public imageUrl!: string;
 
-  constructor(private route: ActivatedRoute, 
+  constructor(private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private userService: UserService,
@@ -74,7 +77,7 @@ export class UserProfileComponent {
   ngOnInit() {
     const tokenInfo = this.authService.getDecodedToken(localStorage.getItem('authToken') ?? "");
     const userId = tokenInfo.userId;
-    
+
     this.userService.getById(userId).pipe(
       switchMap(user => {
         return this.repairShopUserService.getRepairShopsForUserId(userId).pipe(
@@ -85,7 +88,7 @@ export class UserProfileComponent {
           })
         )
       })
-    ).subscribe(([user, repairShop, role]) => {  
+    ).subscribe(([user, repairShop, role]) => {
       const userData = user.result;
       this.userFormGroup.patchValue({
         firstName: userData.firstName,
@@ -97,30 +100,14 @@ export class UserProfileComponent {
         role: role.result.name,
         imageUrl: userData.imageUrl
       })
+      this.imageUrl = userData.imageUrl;
     });
-    
-    // this.userService.getById(userId).subscribe(x => {   
-    //   let repairShopName: string = "";
-    //   let roleName: string = "";
-
-    //   this.repairShopService.getById(x.result.repairShopId).subscribe(x => {
-    //     repairShopName = x.result.name;
-    //   });
-
-    //   this.roleService.getById(x.result.roleId).subscribe(x => {
-    //     roleName = x.result.name;
-    //   });
-
-   
-
   }
 
   public onSubmit() {
     this.isSubmitted = true;
-    if (this.userFormGroup.invalid) 
+    if (this.userFormGroup.invalid)
       return;
-
-
   }
 
   public onPasswordFieldCheckedChanged() {
@@ -128,6 +115,12 @@ export class UserProfileComponent {
     if (!this.isPasswordFieldEnabled) {
       this.userFormGroup.get('password')?.reset();
     }
+  }
+
+  onFileSelected(formData: FormData) {
+    this.userService.updateProfileImage(formData).subscribe(file => {  
+      this.imageUrl = file.result;
+    })
   }
 
 }

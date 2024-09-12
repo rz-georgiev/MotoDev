@@ -93,7 +93,7 @@ namespace MotoDev.Application.Services
                     Message = "Provided role and/or repair shop do not exist",
                 };
             }
-            
+
             if (request.RepairShopUserId == null)
             {
                 return await AddAsync(request);
@@ -103,7 +103,7 @@ namespace MotoDev.Application.Services
                 return await ChangeAsync(request);
             }
         }
-        
+
         private async Task<BaseResponse<UserResponse>> AddAsync(UserRequest request)
         {
             var userResponse = await _accountService.RegisterAsync(new RegisterAccountRequest
@@ -172,7 +172,7 @@ namespace MotoDev.Application.Services
             user.Email = request.Email;
             user.PhoneNumber = request.PhoneNumber;
             user.Username = request.Username;
-            user.Password = string.IsNullOrWhiteSpace(request.Password) ? user.Password :  request.Password.GenerateHash(); // if in edit mode by owner/administrator
+            user.Password = string.IsNullOrWhiteSpace(request.Password) ? user.Password : request.Password.GenerateHash(); // if in edit mode by owner/administrator
             user.RoleId = request.RoleId;
 
             if (request.RepairShopId != repairShopUser.RepairShopId)
@@ -222,9 +222,30 @@ namespace MotoDev.Application.Services
             {
                 var url = _cloudinaryService.GetImageUrlById(user.ImageId);
                 response.Result.ImageUrl = url;
-            } 
-            
+            }
+
             return response;
+        }
+
+        public async Task<BaseResponse<string>> UpdateProfileImage(IFormFile file)
+        {
+            var userId = Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId")!.Value);
+            var user = await _dbContext.Users.SingleOrDefaultAsync(x => x.Id == userId);
+
+            if (user!.ImageId != null)
+                await _cloudinaryService.DeleteImageAsync(user.ImageId);
+
+            var newImageId = await _cloudinaryService.UploadImageAsync(file);
+            user.ImageId = newImageId;
+
+            _dbContext.Update(user);
+            await _dbContext.SaveChangesAsync();
+
+            return new BaseResponse<string>
+            {
+                IsOk = true,
+                Result = _cloudinaryService.GetImageUrlById(newImageId)
+            };
         }
     }
 }

@@ -48,5 +48,12 @@ namespace MotoDev.Api.Controllers
             return await
                 _userService.GetByIdAsync(id);
         }
+
+        [HttpPost("UpdateProfileImage")]
+        public async Task<BaseResponse<string>> UpdateProfileImage(IFormFile file)
+        {
+            return await
+                _userService.UpdateProfileImage(file);
+        }
     }
 }

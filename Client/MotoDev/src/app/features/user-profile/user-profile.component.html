@@ -14,88 +14,92 @@
                 'was-validated': isSubmitted && userFormGroup.invalid,
                 'novalidate': !isSubmitted
               }">
-                  <div class="row mb-3">
-                    <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
-                    <div class="col-md-8 col-lg-9">
-                      <img [src]="userFormGroup.get('imageUrl')?.value" alt="Profile" formControlName="imageUrl"  class="rounded-circle" width="200" height="200" >
-                      <div class="pt-2">
-                        <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i
-                            class="bi bi-upload"></i></a>
-                        <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i
-                            class="bi bi-trash"></i></a>
-                      </div>
+                <div class="row mb-3">
+                  <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
+                  <div class="col-md-8 col-lg-9">
+                    <img [src]="imageUrl" alt="Profile" class="rounded-circle" width="200"
+                      height="200">
+                    <div class="pt-2">
+                      <app-custom-file-uploader (onCustomFileSelected)="onFileSelected($event)"></app-custom-file-uploader>
                     </div>
                   </div>
-  
-                  <div class="row mb-3">
-                    <label for="firstName" class="col-md-4 col-lg-3 col-form-label">First Name</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="firstName" type="text" class="form-control" id="firstName" formControlName="firstName" required>
-                    </div>
-                  </div>
-  
-                  <div class="row mb-3">
-                    <label for="lastName" class="col-md-4 col-lg-3 col-form-label">Last Name</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="lastName" type="text" class="form-control" id="lastName" formControlName="lastName" required>
-                    </div>
-                  </div>
-  
-                  <div class="row mb-3">
-                    <label for="username" class="col-md-4 col-lg-3 col-form-label">Username</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="username" type="text" class="form-control" id="username" formControlName="username" required>
-                    </div>
-                  </div>
-  
-                  <div class="row mb-3">
-                    
-                    <label for="password" class="col-md-4 col-lg-3 col-form-label">Password</label>
-                    <div class="col-md-8 col-lg-9">
-                      <div class="form-check form-switch" (change)="onPasswordFieldCheckedChanged()">
-                        <input class="form-check-input" type="checkbox" id="isPasswordFieldEnabled">
-                        <label class="form-check-label" for="isPasswordFieldEnabled">Change password</label>
-                      </div>
-                      <input name="password" type="text" class="form-control" id="password" formControlName="password" [readOnly]="!isPasswordFieldEnabled">
-                    </div>
-                  </div>
-  
-                  <div class="row mb-3">
-                    <label for="phoneNumber" class="col-md-4 col-lg-3 col-form-label">Phone Number</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="phoneNumber" type="text" class="form-control" id="phoneNumber" formControlName="phoneNumber" required>
-                    </div>
-                  </div>
-  
-                  <div class="row mb-3">
-                    <label for="repairShop" class="col-md-4 col-lg-3 col-form-label">Repair Shop</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="repairShop" type="text" class="form-control" id="repairShop" formControlName="repairShop" readonly>
-                    </div>
-                  </div>
-  
-                  <div class="row mb-3">
-                    <label for="role" class="col-md-4 col-lg-3 col-form-label">Role</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="role" type="text" class="form-control" id="role" formControlName="role" readonly>
-                    </div>
-                  </div>
+                </div>
 
-                  @if (errorMessage) {
-                    <div class="alert alert-danger" role="alert">
-                        {{errorMessage}}
-                    </div>
-                    }
-                    <button (click)="onSubmit()" type="submit" mat-button>Save</button>
-                </form><!-- End Profile Edit Form -->
-              </div>
-             
-              <!-- End Browser Default Validation -->
+                <div class="row mb-3">
+                  <label for="firstName" class="col-md-4 col-lg-3 col-form-label">First Name</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="firstName" type="text" class="form-control" id="firstName" formControlName="firstName"
+                      required>
+                  </div>
+                </div>
 
+                <div class="row mb-3">
+                  <label for="lastName" class="col-md-4 col-lg-3 col-form-label">Last Name</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="lastName" type="text" class="form-control" id="lastName" formControlName="lastName"
+                      required>
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label for="username" class="col-md-4 col-lg-3 col-form-label">Username</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="username" type="text" class="form-control" id="username" formControlName="username"
+                      required>
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+
+                  <label for="password" class="col-md-4 col-lg-3 col-form-label">Password</label>
+                  <div class="col-md-8 col-lg-9">
+                    <div class="form-check form-switch" (change)="onPasswordFieldCheckedChanged()">
+                      <input class="form-check-input" type="checkbox" id="isPasswordFieldEnabled">
+                      <label class="form-check-label" for="isPasswordFieldEnabled">Change password</label>
+                    </div>
+                    <input name="password" type="text" class="form-control" id="password" formControlName="password"
+                      [readOnly]="!isPasswordFieldEnabled">
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label for="phoneNumber" class="col-md-4 col-lg-3 col-form-label">Phone Number</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="phoneNumber" type="text" class="form-control" id="phoneNumber"
+                      formControlName="phoneNumber" required>
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label for="repairShop" class="col-md-4 col-lg-3 col-form-label">Repair Shop</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="repairShop" type="text" class="form-control" id="repairShop"
+                      formControlName="repairShop" readonly>
+                  </div>
+                </div>
+
+                <div class="row mb-3">
+                  <label for="role" class="col-md-4 col-lg-3 col-form-label">Role</label>
+                  <div class="col-md-8 col-lg-9">
+                    <input name="role" type="text" class="form-control" id="role" formControlName="role" readonly>
+                  </div>
+                </div>
+
+                @if (errorMessage) {
+                <div class="alert alert-danger" role="alert">
+                  {{errorMessage}}
+                </div>
+                }
+                <button (click)="onSubmit()" type="submit" mat-button>Save</button>
+              </form><!-- End Profile Edit Form -->
             </div>
-          </div>
 
+            <!-- End Browser Default Validation -->
+
+          </div>
         </div>
+
+      </div>
     </section>
   </main><!-- End #main -->
 </body>
