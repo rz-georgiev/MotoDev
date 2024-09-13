@@ -7,7 +7,6 @@ using MotoDev.Common.Constants;
 using MotoDev.Common.Dtos;
 using MotoDev.Common.Enums;
 using MotoDev.Common.Extensions;
-using MotoDev.Common.Helpers;
 using MotoDev.Domain.Entities;
 using MotoDev.Infrastructure.ExternalServices.Email;
 using MotoDev.Infrastructure.Persistence;
@@ -34,7 +33,7 @@ namespace MotoDev.Application.Services
         {
             var username = request.Username;
             var password = request.Password;
-            
+
             var user = await _dbContext.Users.Where(x =>
                      (x.Username == username || x.Email == username)
                      && x.Password == password.GenerateHash()
@@ -44,12 +43,7 @@ namespace MotoDev.Application.Services
 
             if (user != null)
             {
-                var imageUrl = user.ImageId != null 
-                    ? _cloudinaryService.GetImageUrlById(user.ImageId) 
-                    : "";
-
-                var token = TokenGenerator.GenerateToken(user, imageUrl);
-
+                var token = GenerateToken(user);
                 return new BaseResponse
                 {
                     IsOk = true,
@@ -69,7 +63,7 @@ namespace MotoDev.Application.Services
         public async Task<BaseResponse> RegisterAsync(RegisterAccountRequest request)
         {
             var doesExist = await _dbContext.Users.AnyAsync(x => x.Username == request.Email
-                    || x.Email == request.Email 
+                    || x.Email == request.Email
                     || x.Username == request.Username);
             if (doesExist)
                 return new BaseResponse
@@ -258,6 +252,34 @@ namespace MotoDev.Application.Services
                     Message = $"An error occurred while changing the password"
                 };
             }
+        }
+
+        public string GenerateToken(User user)
+        {
+            var securityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_configuration["Jwt:Key"]));
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                {
+                        new(ClaimTypes.NameIdentifier, user.Username),
+                        new(CustomClaimTypes.UserId, user.Id.ToString()),
+                }),
+                Expires = DateTime.UtcNow.AddDays(7),
+                Issuer = _configuration["Jwt:Issuer"],
+                Audience = _configuration["Jwt:Audience"],
+                SigningCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature)
+            };
+
+            var imageUrl = user.ImageId != null ? _cloudinaryService.GetImageUrlById(user.ImageId) : null;
+
+            tokenDescriptor.Subject.AddClaim(new Claim(ClaimTypes.Role, user.Role.Name));
+            tokenDescriptor.Subject.AddClaim(new Claim(ClaimTypes.Name, user.FirstName));
+            tokenDescriptor.Subject.AddClaim(new Claim(ClaimTypes.Surname, user.LastName));
+            tokenDescriptor.Subject.AddClaim(new Claim(CustomClaimTypes.ImageUrl, imageUrl));
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
         }
 
         private bool IsValidEmail(string email)

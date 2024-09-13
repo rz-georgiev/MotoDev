@@ -11,5 +11,7 @@
         public string RepairShop { get; set; }
         
         public string Position { get; set; }
+
+        public string? RefreshToken { get; set; }
     }
 }

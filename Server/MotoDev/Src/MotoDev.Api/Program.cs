@@ -1,15 +1,10 @@
-using AutoMapper;
 using CloudinaryDotNet;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using MotoDev.Application.Interfaces;
 using MotoDev.Application.Services;
-using MotoDev.Common.Dtos;
-using MotoDev.Common.Helpers;
-using MotoDev.Domain.Entities;
 using MotoDev.Infrastructure.ExternalServices.Email;
 using MotoDev.Infrastructure.Persistence;
 using System.Security.Claims;
@@ -55,8 +50,6 @@ builder.Services.AddSwaggerGen(c =>
 
 var connectionString = builder.Configuration.GetConnectionString("MotoDev");
 var serverVersion = new MySqlServerVersion(ServerVersion.AutoDetect(connectionString));
-
-TokenGenerator.SetConfiguration(builder.Configuration);
 
 builder.Services.AddDbContext<MotoDevDbContext>(
     dbContextOptions => dbContextOptions
@@ -108,18 +101,15 @@ Account account = new Account(
 
 var cloudinary = new Cloudinary(account);
 
-
 builder.Services.AddSingleton(cloudinary);
 builder.Services.AddSingleton<ICloudinaryService, CloudinaryService>();
 
 builder.Services.AddTransient<IAccountService, AccountService>();
 builder.Services.AddTransient<IEmailService, EmailService>();
 builder.Services.AddTransient<IUserService, UserService>();
-builder.Services.AddTransient<IRepairShopService, RepairShopService>(); 
+builder.Services.AddTransient<IRepairShopService, RepairShopService>();
 builder.Services.AddTransient<IRepairShopUserService, RepairShopUserService>();
 builder.Services.AddTransient<IRoleService, RoleService>();
-
-
 
 var app = builder.Build();
 

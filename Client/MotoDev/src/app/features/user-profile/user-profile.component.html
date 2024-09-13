@@ -90,6 +90,11 @@
                   {{errorMessage}}
                 </div>
                 }
+                @if (okMessage) {
+                  <div class="alert alert-success" role="alert">
+                    {{okMessage}}
+                  </div>
+                }
                 <button (click)="onSubmit()" type="submit" mat-button>Save</button>
               </form><!-- End Profile Edit Form -->
             </div>

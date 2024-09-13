@@ -8,13 +8,13 @@ import { AuthService } from '../../auth/services/auth.service';
 import { UserDto } from '../models/userDto';
 import { BaseResponse } from '../../../shared/models/baseResponse';
 import { UserProfileImageUpdateResponse } from '../models/userProfileImageUpdateResponse';
+import { UserDtoMinimized } from '../models/userDtoMinimized';
+import { UserExtendedDto } from '../models/UserExtendedDto';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-
-
 
   private baseUrl = `https://localhost:5078`;
 
@@ -35,6 +35,11 @@ export class UserService {
 
   editUser(userData: UserDto): Observable<BaseResponse<UserDto>> {
     return this.http.post<BaseResponse<UserDto>>(`${this.baseUrl}/Users/Edit`, userData);
+  }
+
+  // Used when the user is editing his/her information themselves
+  editUserMinimized(userData: UserDtoMinimized): Observable<BaseResponse<UserExtendedDto>> {
+    return this.http.post<BaseResponse<UserExtendedDto>>(`${this.baseUrl}/Users/EditMinimized`, userData);
   }
 
   updateProfileImage(formData: FormData): Observable<BaseResponse<UserProfileImageUpdateResponse>> {

@@ -42,6 +42,15 @@ namespace MotoDev.Api.Controllers
                 _userService.EditAsync(request);
         }
 
+        [Authorize]
+        [HttpPost("EditMinimized")]
+        public async Task<BaseResponse<UserResponse>> EditMinimized([FromBody] UserMinimizedRequest request)
+        {
+            return await
+                _userService.EditMinimizedAsync(request);
+        }
+
+
         [Authorize(Roles = "Owner")]
         [HttpGet("GetById")]
         public async Task<BaseResponse<UserExtendedResponse>> GetById(int id)

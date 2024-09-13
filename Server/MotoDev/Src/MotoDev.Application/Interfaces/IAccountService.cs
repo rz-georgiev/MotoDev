@@ -1,4 +1,5 @@
 ﻿using MotoDev.Common.Dtos;
+using MotoDev.Domain.Entities;
 
 namespace MotoDev.Application.Interfaces
 {
@@ -13,5 +14,7 @@ namespace MotoDev.Application.Interfaces
         Task<BaseResponse> ForgottenPasswordAsync(ForgottenEmailRequest request);
 
         Task<BaseResponse> ResetPasswordAsync(ResetPasswordRequest request);
+
+        string GenerateToken(User user);
     }
 }

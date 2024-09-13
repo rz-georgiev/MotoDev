@@ -1,16 +1,13 @@
 ﻿using AutoMapper;
-using CloudinaryDotNet;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using MotoDev.Application.Interfaces;
 using MotoDev.Common.Dtos;
 using MotoDev.Common.Extensions;
-using MotoDev.Common.Helpers;
 using MotoDev.Domain.Entities;
 using MotoDev.Infrastructure.ExternalServices.Email;
 using MotoDev.Infrastructure.Persistence;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace MotoDev.Application.Services
 {
@@ -103,6 +100,38 @@ namespace MotoDev.Application.Services
             {
                 return await ChangeAsync(request);
             }
+        }
+
+        public async Task<BaseResponse<UserResponse>> EditMinimizedAsync(UserMinimizedRequest request)
+        {
+            var userId = Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId")!.Value);
+            var user = await _dbContext.Users.Where(x => x.Id == userId)
+                .Include(x => x.Role)
+                .SingleOrDefaultAsync();
+
+            user.FirstName = request.FirstName;
+            user.LastName = request.LastName;
+            user.Username = request.Username;
+            user.PhoneNumber = request.PhoneNumber;
+            if (!string.IsNullOrWhiteSpace(request.Password))
+            {
+                user.Password = request.Password.GenerateHash();
+            }
+
+            var refreshToken = _accountService.GenerateToken(user);
+            user.RefreshToken = refreshToken;
+
+            _dbContext.Update(user);
+            await _dbContext.SaveChangesAsync();
+
+            return new BaseResponse<UserResponse>
+            {
+                IsOk = true,
+                Result = new UserResponse
+                {
+                    RefreshToken = refreshToken
+                }
+            };
         }
 
         private async Task<BaseResponse<UserResponse>> AddAsync(UserRequest request)
@@ -242,7 +271,7 @@ namespace MotoDev.Application.Services
             user.ImageId = newImageId;
 
             var imageUrl = _cloudinaryService.GetImageUrlById(newImageId);
-            var refreshToken = TokenGenerator.GenerateToken(user, imageUrl);
+            var refreshToken = _accountService.GenerateToken(user);
 
             user.RefreshToken = refreshToken;
 

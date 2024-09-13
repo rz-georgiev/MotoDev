@@ -15,7 +15,7 @@ import { AuthService } from '../auth/services/auth.service';
 import { UserService } from '../users/services/user.service';
 import { RoleService } from '../roles/services/role.service';
 import { RepairShopService } from '../repair-shops/services/repair-shop.service';
-import { forkJoin, of, switchMap } from 'rxjs';
+import { first, forkJoin, of, switchMap } from 'rxjs';
 import { RepairShopUserService } from '../repair-shop-users/services/repair-shop-user.service';
 import { CustomFileUploaderComponent } from "../../shared/components/custom-file-uploader/custom-file-uploader.component";
 
@@ -39,7 +39,7 @@ import { CustomFileUploaderComponent } from "../../shared/components/custom-file
     MatDialogContent,
     MatButtonModule,
     CustomFileUploaderComponent
-],
+  ],
   templateUrl: './user-profile.component.html',
   styleUrl: './user-profile.component.css'
 })
@@ -48,6 +48,7 @@ export class UserProfileComponent {
   public userFormGroup!: FormGroup;
   public isSubmitted!: boolean;
   public errorMessage!: string;
+  public okMessage!: string;
   public isPasswordFieldEnabled!: boolean;
   public imageUrl!: string;
 
@@ -104,8 +105,33 @@ export class UserProfileComponent {
 
   public onSubmit() {
     this.isSubmitted = true;
-    if (this.userFormGroup.invalid)
-      return;
+    if (this.userFormGroup.valid) {
+
+      const { firstName,
+        lastName,
+        username,
+        password,
+        phoneNumber
+      } = this.userFormGroup.value;
+
+      this.userService.editUserMinimized({
+        firstName: firstName,
+        lastName: lastName,
+        username: username,
+        password: password,
+        phoneNumber: phoneNumber
+
+      }).subscribe(data => {
+        if (!data.isOk) {
+          this.errorMessage = data.message
+        }
+        else {
+          this.okMessage = "Successfully saved changes"
+          this.authService.refreshToken(data.result.refreshToken);
+          this.authService.updateCurrentUserInfo();
+        }
+      });
+    }
   }
 
   public onPasswordFieldCheckedChanged() {
@@ -116,12 +142,11 @@ export class UserProfileComponent {
   }
 
   onFileSelected(formData: FormData) {
-    this.userService.updateProfileImage(formData).subscribe(data => {  
+    this.userService.updateProfileImage(formData).subscribe(data => {
       this.imageUrl = data.result.imageUrl;
       this.authService.currentUser.imageUrl = this.imageUrl;
-      localStorage.removeItem('authToken');
-      localStorage.setItem('authToken', data.result.refreshToken)
+      this.authService.refreshToken(data.result.refreshToken);
+      this.authService.updateCurrentUserInfo();
     })
   }
-
 }

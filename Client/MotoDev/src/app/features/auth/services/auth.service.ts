@@ -12,6 +12,8 @@ import { UserService } from '../../users/services/user.service';
 })
 export class AuthService {
 
+
+
   private baseUrl = 'https://localhost:5078/Accounts';
   private isLoggedInSubject = new BehaviorSubject<boolean>(false);
   public isLoggedIn$ = this.isLoggedInSubject.asObservable();
@@ -81,6 +83,15 @@ export class AuthService {
     return roles.some(role => userRoles.includes(role));
   }
 
+  updateCurrentUserInfo() {
+    this.isLoggedIn(); // triggering currentUser update, without really needing the bool result
+  }
+  
+  refreshToken(refreshToken: string) {
+    localStorage.removeItem('authToken');
+    localStorage.setItem('authToken', refreshToken)
+  }
+  
   login(user: any): Observable<any> {
     return this.httpClient.post(`${this.baseUrl}/Login`, user);
   }
