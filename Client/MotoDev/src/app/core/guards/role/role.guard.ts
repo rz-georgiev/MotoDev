@@ -18,11 +18,20 @@ export class RoleGuard implements CanActivate {
       return true;
     }
     else {
-      localStorage.removeItem('authToken');
-      this.router.navigate(['/login']);
+      const userRoles = this.authService.getUserRoles();
+      if (userRoles.includes('Client')) {
+        this.router.navigate(['/repairTracker']);
+      }
+      else if (userRoles.includes('Mechanic')) {
+        this.router.navigate(['/repairs']);
+      }
+      else {
+        // this.authService.signOut();
+        this.router.navigate(['/app-not-found']);
+        return true;
+      } 
       return false;
     }
-
   }
 }
 

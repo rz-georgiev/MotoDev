@@ -131,7 +131,7 @@ export class UserEditorComponent {
         lastName: form.lastName,
         email: form.email,
         username: form.username,
-        password: form.password,
+        password: form.password.toString(),
         phoneNumber: form.phoneNumber,
         repairShopId: form.repairShopId,
         roleId: form.roleId,
@@ -156,7 +156,7 @@ export class UserEditorComponent {
   }
 
   onNameChange() {
-    if (this.isClientRoleSelected) {
+    if (this.isClientRoleSelected && !this.isInEditMode) {
       const usernameInput = this.registerForm.get('username');
       const names: {
         firstName: 'firstName',
@@ -178,6 +178,9 @@ export class UserEditorComponent {
     const usernameInput = this.registerForm.get('username');
     const passwordInput = this.registerForm.get('password');
 
+    if (this.isInEditMode) {
+      return;
+    }
     if (this.isClientRoleSelected) {
 
       const names: {
@@ -185,7 +188,7 @@ export class UserEditorComponent {
         lastName: 'lastName'
       } = this.registerForm.value
 
-      const password = Math.floor(10000000 + Math.random() * 99999999);
+      const password = Math.random().toString(36).slice(-8);
       passwordInput?.setValue(password);
       this.onNameChange();
     }

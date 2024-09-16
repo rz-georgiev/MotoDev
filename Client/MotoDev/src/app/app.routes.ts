@@ -34,25 +34,59 @@ export const routes: Routes = [
         path: 'mainScreen',
         component: MainScreenComponent,
         canActivate: [RoleGuard],
-        data: { roles: ['Owner'], animation: 'mainScreenAnimation' }
+        data: { roles: ['Owner'] }
     },
     { path: 'confirmAccount/:accountConfirmationHash', component: ConfirmAccountComponent },
     { path: 'confirmAccount', component: ConfirmAccountComponent },
-    { 
-        path: 'users', 
+    {
+        path: 'users',
         component: UsersComponent,
         canActivate: [RoleGuard],
-        data: { roles: ['Owner'], animation: 'mainScreenAnimation' }
+        data: { roles: ['Owner'] }
     },
-    { path: 'clients', component: ClientsComponent },
-    { path: 'repairs', component: RepairsComponent },
-    { path: 'statistics', component: StatisticsComponent },
-    { path: 'repairTracker', component: RepairTrackerComponent },
-    { path: 'cars', component: CarsComponent },
-    { path: 'repairShops', component: RepairShopsComponent },
-    { path: 'baseData', component: BaseDataComponent },
-    { path: 'about', component: AboutComponent },
-    { path: 'userProfile', component: UserProfileComponent },
+    // { path: 'clients', component: ClientsComponent,  canActivate: [RoleGuard],  data: { roles: ['Owner'] } },
+    {
+        path: 'repairs',
+        component: RepairsComponent,
+        canActivate: [RoleGuard],
+        data: { roles: ['Mechanic'] }
+    },
+    // { path: 'statistics', component: StatisticsComponent },
+    {
+        path: 'repairTracker',
+        component: RepairTrackerComponent,
+        canActivate: [RoleGuard],
+        data: { roles: ['Client'] }
+    },
+    {
+        path: 'cars',
+        component: CarsComponent,
+        canActivate: [RoleGuard],
+        data: { roles: ['Owner'] }
+    },
+    {
+        path: 'repairShops',
+        component: RepairShopsComponent,
+        canActivate: [RoleGuard],
+        data: { roles: ['Owner'] }
+    },
+    {
+        path: 'baseData',
+        component: BaseDataComponent,
+        canActivate: [RoleGuard],
+        data: { roles: ['Owner'] }
+    },
+    {
+        path: 'about',
+        component: AboutComponent,
+        canActivate: [RoleGuard]
+    },
+    {
+        path: 'userProfile',
+        component: UserProfileComponent,
+        canActivate: [RoleGuard],
+        data: { roles: ['Owner', 'Client', 'Mechanic'] }
+    },
     { path: '', component: AuthComponent },
     { path: '**', component: NotFoundComponent }
 ];
