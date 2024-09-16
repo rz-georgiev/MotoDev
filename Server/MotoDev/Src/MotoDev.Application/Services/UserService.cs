@@ -109,6 +109,7 @@ namespace MotoDev.Application.Services
                 .Include(x => x.Role)
                 .SingleOrDefaultAsync();
 
+            
             user.FirstName = request.FirstName;
             user.LastName = request.LastName;
             user.Username = request.Username;

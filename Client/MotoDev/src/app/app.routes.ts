@@ -23,6 +23,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { animation } from '@angular/animations';
 import { UserProfileComponent } from './features/user-profile/user-profile.component';
+import { RepairTrackerComponent } from './repair-tracker/repair-tracker.component';
 
 export const routes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -33,14 +34,20 @@ export const routes: Routes = [
         path: 'mainScreen',
         component: MainScreenComponent,
         canActivate: [RoleGuard],
-        data: { roles: ['Administrator', 'Owner', 'Mechanic'], animation: 'mainScreenAnimation' }
+        data: { roles: ['Owner'], animation: 'mainScreenAnimation' }
     },
     { path: 'confirmAccount/:accountConfirmationHash', component: ConfirmAccountComponent },
     { path: 'confirmAccount', component: ConfirmAccountComponent },
-    { path: 'users', component: UsersComponent, data: {animation: 'usersAnimation'} },
+    { 
+        path: 'users', 
+        component: UsersComponent,
+        canActivate: [RoleGuard],
+        data: { roles: ['Owner'], animation: 'mainScreenAnimation' }
+    },
     { path: 'clients', component: ClientsComponent },
     { path: 'repairs', component: RepairsComponent },
     { path: 'statistics', component: StatisticsComponent },
+    { path: 'repairTracker', component: RepairTrackerComponent },
     { path: 'cars', component: CarsComponent },
     { path: 'repairShops', component: RepairShopsComponent },
     { path: 'baseData', component: BaseDataComponent },

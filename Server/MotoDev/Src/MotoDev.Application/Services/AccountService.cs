@@ -262,8 +262,8 @@ namespace MotoDev.Application.Services
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                        new(ClaimTypes.NameIdentifier, user.Username),
-                        new(CustomClaimTypes.UserId, user.Id.ToString()),
+                    new(ClaimTypes.NameIdentifier, user.Username),
+                    new(CustomClaimTypes.UserId, user.Id.ToString()),
                 }),
                 Expires = DateTime.UtcNow.AddDays(7),
                 Issuer = _configuration["Jwt:Issuer"],
@@ -271,7 +271,7 @@ namespace MotoDev.Application.Services
                 SigningCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature)
             };
 
-            var imageUrl = user.ImageId != null ? _cloudinaryService.GetImageUrlById(user.ImageId) : null;
+            var imageUrl = user.ImageId != null ? _cloudinaryService.GetImageUrlById(user.ImageId) : _configuration["DefaultUserImageUrl"];
 
             tokenDescriptor.Subject.AddClaim(new Claim(ClaimTypes.Role, user.Role.Name));
             tokenDescriptor.Subject.AddClaim(new Claim(ClaimTypes.Name, user.FirstName));

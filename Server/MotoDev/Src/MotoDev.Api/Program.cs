@@ -86,12 +86,15 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("Admin", policy =>
     { policy.RequireClaim(ClaimTypes.Role, "Admin"); });
-
+    
     options.AddPolicy("Owner", policy =>
     { policy.RequireClaim(ClaimTypes.Role, "Owner"); });
 
     options.AddPolicy("Mechanic", policy =>
     { policy.RequireClaim(ClaimTypes.Role, "Mechanic"); });
+
+    options.AddPolicy("Client", policy =>
+    { policy.RequireClaim(ClaimTypes.Role, "Client"); });
 });
 
 Account account = new Account(

@@ -17,7 +17,7 @@ namespace MotoDev.Api.Controllers
         {
             _userService = userService;
         }
-
+        
         [HttpGet("GetAllForCurrentOwnerUserId")]
         [Authorize(Roles = "Owner")]
         public async Task<BaseResponse<IEnumerable<UserResponse>>> GetAllForCurrentOwnerUserIdAsync(int ownerUserId)
@@ -42,7 +42,6 @@ namespace MotoDev.Api.Controllers
                 _userService.EditAsync(request);
         }
 
-        [Authorize]
         [HttpPost("EditMinimized")]
         public async Task<BaseResponse<UserResponse>> EditMinimized([FromBody] UserMinimizedRequest request)
         {
@@ -51,7 +50,6 @@ namespace MotoDev.Api.Controllers
         }
 
 
-        [Authorize(Roles = "Owner")]
         [HttpGet("GetById")]
         public async Task<BaseResponse<UserExtendedResponse>> GetById(int id)
         {

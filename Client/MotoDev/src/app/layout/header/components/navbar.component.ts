@@ -18,7 +18,6 @@ import { CurrentUser } from '../../../features/auth/models/currentUser';
 })
 export class NavbarComponent {
 
-
   currentUserFullName: string | undefined;
   isSidebarOpened: boolean = true;
   currentUserShowName: string | undefined;
@@ -35,10 +34,6 @@ export class NavbarComponent {
     this.currentUserShowName = `${this.currentUser.firstName.charAt(0)}. ${this.currentUser.lastName}`;
     this.currentUserFullName = `${this.currentUser.firstName} ${this.currentUser.lastName}`;
     this.currentUserRole = this.currentUser.role;
-  }
-
-  customizeProfile() {
-    // this.router.navigate(['/userProfile'], {queryParams: {id: 1}});
   }
 
   handleConfirmation() {

@@ -498,3 +498,5 @@ $RECYCLE.BIN/
 /Server/MotoDev/MotoDev.Services/obj/Debug/net8.0/MotoDev.Services.csproj.FileListAbsolute.txt
 /Server/MotoDev/.vs/MotoDev/DesignTimeBuild/.dtbcache.v2
 /Server/MotoDev/.vs/MotoDev/v17/.futdcache.v2
+/Server/MotoDev/Src/MotoDev.Api/appsettings.Production.json
+/Server/MotoDev/Src/MotoDev.Api/appsettings.Development.json
