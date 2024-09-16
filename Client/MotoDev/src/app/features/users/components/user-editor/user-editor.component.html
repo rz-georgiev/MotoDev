@@ -7,11 +7,11 @@
 
     <div class="col-md-4">
       <label for="firstName" class="form-label">First name</label>
-      <input type="text" class="form-control" id="firstName" formControlName="firstName"  required >
+      <input (input)="onNameChange()" type="text" class="form-control" id="firstName" formControlName="firstName"  required >
     </div>
     <div class="col-md-4">
       <label for="lastName" class="form-label">Last name</label>
-      <input type="text" class="form-control" id="lastName"  formControlName="lastName" required>
+      <input (input)="onNameChange()" type="text" class="form-control" id="lastName"  formControlName="lastName" required>
     </div>
     <div class="col-md-4">
       <label for="email" class="form-label">Email</label>
@@ -22,14 +22,14 @@
     <div class="col-md-4">
       <label for="username" class="form-label">Username</label>
       <div class="input-group">
-        <input type="text" class="form-control" id="username" formControlName="username" required>
+        <input [readOnly]="isClientRoleSelected" type="text" class="form-control" id="username" formControlName="username" required>
       </div>
     </div>
     @if (!isInEditMode) {
       <div class="col-md-4">
         <label for="password" class="form-label">Password</label>
         <div class="input-group">
-          <input type="password" class="form-control" id="password"  formControlName="password" required>
+          <input [readOnly]="isClientRoleSelected" [type]="isClientRoleSelected ? 'text' : 'password'" class="form-control" id="password"  formControlName="password" required>
         </div>
       </div>
     }   
@@ -53,7 +53,7 @@
     {
       <div class="col-md-4">
         <label for="roleId" class="form-label">Role</label>
-        <select class="form-select" id="roleId" formControlName="roleId" required>
+        <select (change)="onRoleChanged($event)" class="form-select" id="roleId" formControlName="roleId" required>
           <option selected disabled value="">Select below...</option>
           @for(role of roles; track role) {
             <option [ngValue]="role.id">{{role.name}}</option>

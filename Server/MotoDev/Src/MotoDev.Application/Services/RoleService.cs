@@ -44,7 +44,7 @@ namespace MotoDev.Application.Services
             try
             {
                 var roles = await _dbContext.Roles.Where(x =>
-                x.Id == (int)RoleOption.Administrator ||
+                x.Id == (int)RoleOption.Client ||
                 x.Id == (int)RoleOption.Mechanic)
                     .ToListAsync();
 

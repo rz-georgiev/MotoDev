@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef } from '@angular/material/dialog';
@@ -45,6 +45,7 @@ import { UserService } from '../../services/user.service';
 })
 export class UserEditorComponent {
 
+
   public registerForm!: FormGroup;
   public isSubmitted!: boolean;
   public repairShops!: any[];
@@ -54,6 +55,7 @@ export class UserEditorComponent {
   public errorMessage!: string;
   public userDto!: UserDto;
   public repairShopUser!: RepairShopUserDto;
+  public isClientRoleSelected!: boolean;
 
   constructor(public dialogRef: MatDialogRef<UserEditorComponent>,
     @Inject(MAT_DIALOG_DATA) private passedData: any,
@@ -75,6 +77,7 @@ export class UserEditorComponent {
       roleId: ['', Validators.required],
     });
   }
+
 
   ngOnInit() {
 
@@ -149,6 +152,46 @@ export class UserEditorComponent {
           this.errorMessage = data.message;
         }
       });
+    }
+  }
+
+  onNameChange() {
+    if (this.isClientRoleSelected) {
+      const usernameInput = this.registerForm.get('username');
+      const names: {
+        firstName: 'firstName',
+        lastName: 'lastName'
+      } = this.registerForm.value
+
+      const randomNumber = Math.floor(1000 + Math.random() * 9999);
+      const newUsername = `${names.firstName}.${names.lastName}.${randomNumber}`.toLowerCase();
+      usernameInput?.setValue(newUsername);
+    }
+
+  }
+
+  onRoleChanged(event: Event) {
+    const selectedRole = event.target as HTMLSelectElement;
+    const roleId = Number(selectedRole.value.split(': ').at(1));
+    this.isClientRoleSelected = roleId === RoleOption.Client;
+
+    const usernameInput = this.registerForm.get('username');
+    const passwordInput = this.registerForm.get('password');
+
+    if (this.isClientRoleSelected) {
+
+      const names: {
+        firstName: 'firstName',
+        lastName: 'lastName'
+      } = this.registerForm.value
+
+      const password = Math.floor(10000000 + Math.random() * 99999999);
+      passwordInput?.setValue(password);
+      this.onNameChange();
+    }
+    else {
+      passwordInput?.setValue('');
+      usernameInput?.setValue('')
     }
   }
 }
