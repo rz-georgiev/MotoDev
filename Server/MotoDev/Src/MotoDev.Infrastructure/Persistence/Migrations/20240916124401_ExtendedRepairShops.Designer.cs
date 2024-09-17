@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MotoDev.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using MotoDev.Infrastructure.Persistence;
 namespace MotoDev.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(MotoDevDbContext))]
-    partial class MotoDevDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240916124401_ExtendedRepairShops")]
+    partial class ExtendedRepairShops
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -420,9 +423,6 @@ namespace MotoDev.Infrastructure.Persistence.Migrations
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("longtext");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("tinyint(1)");
 
                     b.Property<DateTime?>("LastUpdatedAt")
                         .HasColumnType("datetime(6)");

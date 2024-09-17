@@ -27,8 +27,8 @@ export class LoginComponent {
   private spinner: SpinnerService) {
 
     this.loginForm = this.formBuilder.group({
-      username: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
+      username: ['', [Validators.required]],
+      password: ['', [Validators.required]]
       // rememberMe: ['', Validators.required]
     });
   }

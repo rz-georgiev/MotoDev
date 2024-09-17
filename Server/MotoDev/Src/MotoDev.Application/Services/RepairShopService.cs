@@ -18,7 +18,7 @@ namespace MotoDev.Application.Services
             {
                 var repairShops = await _dbContext.RepairShops.Where(x => repairShopsIds.Contains(x.Id))
                     .ToListAsync();
-                
+
                 var response = new BaseResponse<IEnumerable<RepairShopResponse>>
                 {
                     IsOk = true,
@@ -71,8 +71,7 @@ namespace MotoDev.Application.Services
             try
             {
                 var repairShops = await _dbContext.RepairShops
-                .Where(x => x.OwnerUserId == ownerUserId).ToListAsync();
-
+                .Where(x => x.OwnerUserId == ownerUserId && x.IsActive == true).ToListAsync();
 
                 var response = new BaseResponse<IEnumerable<RepairShopResponse>>
                 {
@@ -81,6 +80,8 @@ namespace MotoDev.Application.Services
                     {
                         Id = x.Id,
                         Name = x.Name,
+                        Address = x.Address,
+                        VatNumber = x.VatNumber,
                     }).ToList()
                 };
 
@@ -94,6 +95,30 @@ namespace MotoDev.Application.Services
                     Message = "An error occurred while fetching data"
                 };
             }
+        }
+
+        public async Task<BaseResponse<bool>> DeactivateByIdAsync(int id)
+        {
+            var repairShop = await _dbContext.RepairShops.SingleOrDefaultAsync(x => x.Id == id);
+            if (repairShop == null)
+            {
+                return new BaseResponse<bool>
+                {
+                    IsOk = false,
+                    Result = false
+                };
+            }
+
+            repairShop.IsActive = false;
+          
+            _dbContext.Update(repairShop);
+            await _dbContext.SaveChangesAsync();
+
+            return new BaseResponse<bool>
+            {
+                IsOk = true,
+                Result = true
+            };         
         }
     }
 }

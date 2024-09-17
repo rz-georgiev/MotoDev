@@ -79,7 +79,8 @@ export const routes: Routes = [
     {
         path: 'about',
         component: AboutComponent,
-        canActivate: [RoleGuard]
+        canActivate: [RoleGuard],
+        data: { roles: ['Owner', 'Client', 'Mechanic'] }
     },
     {
         path: 'userProfile',

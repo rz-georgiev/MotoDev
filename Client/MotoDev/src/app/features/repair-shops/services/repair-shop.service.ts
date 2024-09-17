@@ -18,8 +18,8 @@ export class RepairShopService {
     return this.http.get<BaseResponse<RepairShopDto>>(`${this.baseUrl}/RepairShops/GetById/${id}`);
   }
 
-  getRepairShopsForSpecifiedOwner(ownerUserId: number): Observable<any> {
-    return this.http.get(`${this.baseUrl}/RepairShops/GetForSpecifiedOwner?ownerUserId=${ownerUserId}`);
+  getRepairShopsForSpecifiedOwner(ownerUserId: number): Observable<BaseResponse<RepairShopDto[]>> {
+    return this.http.get<BaseResponse<RepairShopDto[]>>(`${this.baseUrl}/RepairShops/GetForSpecifiedOwner?ownerUserId=${ownerUserId}`);
   }
 
   getRepairShopUserById(id: number): Observable<BaseResponse<RepairShopUserDto>> {
@@ -32,5 +32,9 @@ export class RepairShopService {
       params = params.append('repairShopsIds', id);
     })
     return this.http.get<BaseResponse<RepairShopDto[]>>(`${this.baseUrl}/RepairShops/GetForSpecifiedIds`, { params });
+  }
+
+  deactivateById(id: number): Observable<BaseResponse<boolean>> {
+    return this.http.get<BaseResponse<boolean>>(`${this.baseUrl}/RepairShops/DeactivateById/${id}`);
   }
 }
