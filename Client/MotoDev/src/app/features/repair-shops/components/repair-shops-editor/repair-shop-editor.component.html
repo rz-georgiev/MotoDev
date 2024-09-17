@@ -1,0 +1,51 @@
+<h2 mat-dialog-title class="mat-dialog-title-custom">User Editor</h2>
+<mat-dialog-content>
+  <form [formGroup]="repairShopForm" class="row-3-needs-validation" [ngClass]="{
+    'was-validated': this.isSubmitted && !this.repairShopForm.invalid,
+    'novalidate': ''
+  }">
+
+
+
+    <div class="col-md-4">
+      <label for="email" class="form-label">Email</label>
+      <div class="input-group">
+        <input type="text" class="form-control" id="email" formControlName="email" required>
+      </div>
+    </div>
+
+    @if (!isInEditMode) {
+      <div class="col-md-4">
+        <label for="password" class="form-label">Password</label>
+        <div class="input-group">
+        </div>
+      </div>
+    }   
+    <div class="col-md-4">
+      <label for="phoneNumber" class="form-label">Phone number</label>
+      <div class="input-group">
+        <input type="text" class="form-control" id="phoneNumber"  formControlName="phoneNumber">
+      </div>
+    </div>
+    
+    <div class="col-md-4">
+      <label for="repairShopId" class="form-label">Repair Shop</label>
+      <select class="form-select" id="repairShopId" formControlName="repairShopId" required>
+        <option selected disabled value="">Select below...</option>
+   
+      </select>
+    </div>
+
+    
+    @if (errorMessage) {
+      <div class="alert alert-danger" role="alert">
+          {{errorMessage}}
+      </div>
+      }
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button type="submit" mat-button (click)="onYesClick()">Save</button>
+</mat-dialog-actions>
+

@@ -14,7 +14,7 @@ import { ClientsComponent } from './features/clients/components/clients.componen
 import { RepairsComponent } from './features/repairs/components/repairs.component';
 import { StatisticsComponent } from './features/statistics/components/statistics.component';
 import { CarsComponent } from './features/cars/components/cars.component';
-import { RepairShopsComponent } from './features/repair-shops/components/repair-shops.component';
+import { RepairShopsComponent } from './features/repair-shops/components/repair-shops/repair-shops.component';
 import { BaseDataComponent } from './features/baseData/components/base-data.component';
 import { AboutComponent } from './features/about/components/about.component';
 import { RoleGuard } from './core/guards/role/role.guard';

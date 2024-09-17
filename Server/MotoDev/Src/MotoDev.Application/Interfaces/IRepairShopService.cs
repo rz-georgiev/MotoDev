@@ -10,6 +10,8 @@ namespace MotoDev.Application.Interfaces
 
         Task<BaseResponse<IEnumerable<RepairShopResponse>>> GetForSpecifiedIds(IEnumerable<int> repairShopsIds);
 
+        Task<BaseResponse<RepairShopResponse>> EditAsync(RepairShopRequest request);
+
         Task<BaseResponse<bool>> DeactivateByIdAsync(int id);
 
     }

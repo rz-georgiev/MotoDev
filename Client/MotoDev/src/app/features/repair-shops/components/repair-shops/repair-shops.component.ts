@@ -6,13 +6,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatTable, MatTableDataSource, MatTableModule } from '@angular/material/table';
-import { UserEditorComponent } from '../../users/components/user-editor/user-editor.component';
-import { RepairShopDto } from '../models/repairShopDto';
-import { BaseResponse } from '../../../shared/models/baseResponse';
-import { RepairShopService } from '../services/repair-shop.service';
-import { AuthService } from '../../auth/services/auth.service';
+import { UserEditorComponent } from '../../../users/components/user-editor/user-editor.component';
+import { RepairShopDto } from '../../models/repairShopDto';
+import { BaseResponse } from '../../../../shared/models/baseResponse';
+import { RepairShopService } from '../../services/repair-shop.service';
+import { AuthService } from '../../../auth/services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationModalComponent } from '../../../shared/components/confirmation-modal/confirmation-modal.component';
+import { ConfirmationModalComponent } from '../../../../shared/components/confirmation-modal/confirmation-modal.component';
 import { config } from 'rxjs';
 
 @Component({

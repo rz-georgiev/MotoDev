@@ -25,6 +25,13 @@ namespace MotoDev.Api.Controllers
                 _repairShopService.GetByIdAsync(id);
         }
 
+        [HttpPost("Edit")]
+        public async Task<BaseResponse<RepairShopResponse>> Edit([FromBody] RepairShopRequest data)
+        {
+            return await
+                _repairShopService.EditAsync(data);
+        }
+
         [Authorize(Roles = "Owner")]
         [HttpGet("GetForSpecifiedOwner")]
         public async Task<BaseResponse<IEnumerable<RepairShopResponse>>> GetForSpecifiedOwner(int ownerUserId)

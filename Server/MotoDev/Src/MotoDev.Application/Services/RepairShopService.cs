@@ -1,16 +1,20 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using MotoDev.Application.Interfaces;
 using MotoDev.Common.Dtos;
+using MotoDev.Domain.Entities;
 using MotoDev.Infrastructure.Persistence;
+using MotoDev.Infrastructure.Persistence.Migrations;
 using System.Collections.Generic;
 
 namespace MotoDev.Application.Services
 {
-    public class RepairShopService(MotoDevDbContext dbContext, IMapper mapper) : IRepairShopService
+    public class RepairShopService(MotoDevDbContext dbContext, IMapper mapper, IHttpContextAccessor accessor) : IRepairShopService
     {
         private readonly MotoDevDbContext _dbContext = dbContext;
         private readonly IMapper _mapper = mapper;
+        private readonly IHttpContextAccessor _accessor = accessor;
 
         public async Task<BaseResponse<IEnumerable<RepairShopResponse>>> GetForSpecifiedIds(IEnumerable<int> repairShopsIds)
         {
@@ -43,15 +47,12 @@ namespace MotoDev.Application.Services
             {
                 var repairShop = await _dbContext.RepairShops.SingleOrDefaultAsync(x =>
                 x.Id == id);
-
+                
+                var result = _mapper.Map<RepairShopResponse>(repairShop);
                 var response = new BaseResponse<RepairShopResponse>
                 {
                     IsOk = true,
-                    Result = new RepairShopResponse
-                    {
-                        Id = repairShop.Id,
-                        Name = repairShop.Name,
-                    }
+                    Result = result
                 };
 
                 return response;
@@ -97,6 +98,40 @@ namespace MotoDev.Application.Services
             }
         }
 
+        public async Task<BaseResponse<RepairShopResponse>> EditAsync(RepairShopRequest request)
+        {
+            var newRepairShop = new RepairShop();
+            if (request.Id > 0)
+            {
+                var repairShop = await _dbContext.RepairShops.SingleOrDefaultAsync(x => x.Id == request.Id);
+                repairShop = _mapper.Map<RepairShop>(request);
+                _dbContext.Update(repairShop);
+            }
+            else
+            {
+                newRepairShop = _mapper.Map<RepairShop>(request);
+ 
+                int userId = Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId")!.Value);
+                newRepairShop.OwnerUserId = userId;
+                newRepairShop.CreatedByUserId = userId;
+               
+                await _dbContext.AddAsync(newRepairShop);       
+            }
+
+            await _dbContext.SaveChangesAsync();
+
+            request.Id = request.Id == 0 
+                ? newRepairShop.Id :
+                request.Id;
+            
+            return new BaseResponse<RepairShopResponse>
+            {
+                IsOk = true,
+                Message = "",
+                Result = _mapper.Map<RepairShopResponse>(request),
+            };
+        }
+
         public async Task<BaseResponse<bool>> DeactivateByIdAsync(int id)
         {
             var repairShop = await _dbContext.RepairShops.SingleOrDefaultAsync(x => x.Id == id);
@@ -120,5 +155,6 @@ namespace MotoDev.Application.Services
                 Result = true
             };         
         }
+       
     }
 }

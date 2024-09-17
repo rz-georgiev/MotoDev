@@ -1,6 +1,6 @@
 ﻿namespace MotoDev.Common.Dtos
 {
-    public class RepairShopResponse
+    public class RepairShopRequest
     {
         public int Id { get; set; }
 
