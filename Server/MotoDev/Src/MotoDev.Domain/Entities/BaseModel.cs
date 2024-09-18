@@ -1,4 +1,6 @@
-﻿namespace MotoDev.Domain.Entities
+﻿using AutoMapper.Configuration.Annotations;
+
+namespace MotoDev.Domain.Entities
 {
     public class BaseModel
     {
@@ -11,6 +13,5 @@
         public int? CreatedByUserId { get; set; }
 
         public int? LastUpdatedByUserId { get; set; }
-        
     }
 }

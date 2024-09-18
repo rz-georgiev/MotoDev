@@ -18,8 +18,8 @@ namespace MotoDev.Api.Controllers
             _repairShopService = repairShopService;
         }
 
-        [HttpGet("GetById")]
-        public async Task<BaseResponse<RepairShopResponse>> GetById(int id)
+        [HttpGet("GetById/{id}")]
+        public async Task<BaseResponse<RepairShopResponse>> GetById([FromRoute] int id)
         {
             return await
                 _repairShopService.GetByIdAsync(id);

@@ -14,6 +14,7 @@ import { AuthService } from '../../../auth/services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationModalComponent } from '../../../../shared/components/confirmation-modal/confirmation-modal.component';
 import { config } from 'rxjs';
+import { RepairShopEditorComponent } from '../repair-shops-editor/repair-shop-editor.component';
 
 @Component({
   selector: 'app-repair-shops',
@@ -61,11 +62,26 @@ export class RepairShopsComponent {
   }
 
   addAction() {
-    throw new Error('Method not implemented.');
+    this.matDialog.open(RepairShopEditorComponent, { })
+    .afterClosed()
+    .subscribe(result => {
+      if (result) {
+        this.dataSource.data.push(result.result);
+        this.dataSource.data = [...this.dataSource.data];
+      }
+    });
   }
 
   editAction(element: any) {
-    throw new Error('Method not implemented.');
+    this.matDialog.open(RepairShopEditorComponent, { data: element })
+    .afterClosed()
+    .subscribe(result => {
+      if (result) {
+        this.dataSource.data = this.dataSource.data.filter(x => x.id != element.id);
+        this.dataSource.data.push(result.result);
+        this.dataSource.data = [...this.dataSource.data];
+      }
+    });
   }
 
   deleteAction(element: any) {

@@ -101,20 +101,29 @@ namespace MotoDev.Application.Services
         public async Task<BaseResponse<RepairShopResponse>> EditAsync(RepairShopRequest request)
         {
             var newRepairShop = new RepairShop();
+            int userId = Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId")!.Value);
+
             if (request.Id > 0)
             {
                 var repairShop = await _dbContext.RepairShops.SingleOrDefaultAsync(x => x.Id == request.Id);
-                repairShop = _mapper.Map<RepairShop>(request);
+                
+                repairShop.Name = request.Name;
+                repairShop.Email = request.Email;
+                repairShop.City = request.City;
+                repairShop.VatNumber = request.VatNumber;
+                repairShop.PhoneNumber = request.PhoneNumber;
+                repairShop.LastUpdatedAt = DateTime.UtcNow;
+                repairShop.LastUpdatedByUserId = userId;
+
                 _dbContext.Update(repairShop);
             }
             else
             {
                 newRepairShop = _mapper.Map<RepairShop>(request);
- 
-                int userId = Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId")!.Value);
                 newRepairShop.OwnerUserId = userId;
                 newRepairShop.CreatedByUserId = userId;
-               
+                newRepairShop.IsActive = true;
+
                 await _dbContext.AddAsync(newRepairShop);       
             }
 

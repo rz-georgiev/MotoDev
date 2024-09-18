@@ -1,42 +1,52 @@
-<h2 mat-dialog-title class="mat-dialog-title-custom">User Editor</h2>
+<h2 mat-dialog-title class="mat-dialog-title-custom">Repair Shop Editor</h2>
 <mat-dialog-content>
-  <form [formGroup]="repairShopForm" class="row-3-needs-validation" [ngClass]="{
-    'was-validated': this.isSubmitted && !this.repairShopForm.invalid,
-    'novalidate': ''
+  <form [formGroup]="repairShopForm" class="row g-3 needs-validation" [ngClass]="{
+    'was-validated': this.isSubmitted && this.repairShopForm.invalid,
+    'novalidate': !this.isSubmitted
   }">
 
-
-
     <div class="col-md-4">
-      <label for="email" class="form-label">Email</label>
+      <label for="email" class="form-label">Name</label>
       <div class="input-group">
-        <input type="text" class="form-control" id="email" formControlName="email" required>
+        <input type="text" class="form-control" id="name" formControlName="name" required>
       </div>
     </div>
 
-    @if (!isInEditMode) {
-      <div class="col-md-4">
-        <label for="password" class="form-label">Password</label>
+    <div class="col-md-4">
+        <label for="email" class="form-label">Address</label>
         <div class="input-group">
+          <input type="text" class="form-control" id="address" formControlName="address" required>
         </div>
-      </div>
-    }   
-    <div class="col-md-4">
-      <label for="phoneNumber" class="form-label">Phone number</label>
-      <div class="input-group">
-        <input type="text" class="form-control" id="phoneNumber"  formControlName="phoneNumber">
-      </div>
-    </div>
-    
-    <div class="col-md-4">
-      <label for="repairShopId" class="form-label">Repair Shop</label>
-      <select class="form-select" id="repairShopId" formControlName="repairShopId" required>
-        <option selected disabled value="">Select below...</option>
-   
-      </select>
     </div>
 
+    <div class="col-md-4">
+        <label for="email" class="form-label">City</label>
+        <div class="input-group">
+          <input type="text" class="form-control" id="city" formControlName="city" required>
+        </div>
+    </div>
     
+    <div class="col-md-4">
+        <label for="email" class="form-label">Email</label>
+        <div class="input-group">
+          <input type="text" class="form-control" id="email" formControlName="email" required>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <label for="email" class="form-label">Phone Number</label>
+        <div class="input-group">
+          <input type="text" class="form-control" id="phoneNumber" formControlName="phoneNumber" required>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <label for="email" class="form-label">Vat Number</label>
+        <div class="input-group">
+          <input type="text" class="form-control" id="vatNumber" formControlName="vatNumber" required>
+        </div>
+    </div>
+
     @if (errorMessage) {
       <div class="alert alert-danger" role="alert">
           {{errorMessage}}

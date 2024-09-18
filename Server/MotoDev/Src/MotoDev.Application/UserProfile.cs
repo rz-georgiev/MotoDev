@@ -33,14 +33,8 @@ namespace MotoDev.Application.Services
             CreateMap<RepairShopRequest, RepairShopResponse>();
             CreateMap<RepairShopResponse, RepairShopRequest>();
 
-            CreateMap<RepairShop, RepairShopRequest>()
-                  .ForMember(x => x.Id, s => s.Ignore());
-            CreateMap<RepairShopRequest, RepairShop>()
-                .ForMember(x => x.Id, s => s.Ignore())
-                .ForMember(x => x.LastUpdatedAt, s => s.Ignore())
-                .ForMember(x => x.LastUpdatedByUserId, s => s.Ignore())
-                .ForMember(x => x.IsActive, s => s.Ignore());
-
+            CreateMap<RepairShop, RepairShopRequest>();
+            CreateMap<RepairShopRequest, RepairShop>();
 
 
         }

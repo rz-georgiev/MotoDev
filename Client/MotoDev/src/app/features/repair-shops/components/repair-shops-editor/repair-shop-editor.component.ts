@@ -11,6 +11,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { UserEditorComponent } from '../../../users/components/user-editor/user-editor.component';
 import { RepairShopService } from '../../services/repair-shop.service';
+import { RepairShopDto } from '../../models/repairShopDto';
 
 @Component({
   selector: 'app-repair-shop-editor',
@@ -58,8 +59,8 @@ export class RepairShopEditorComponent {
       vatNumber: ['', [Validators.required]],
     });
 
-    if (this.passedData > 0) {
-      const detail = this.repairShopService.getById(this.passedData).subscribe(data => {
+    if (this.passedData.id > 0) {
+      const detail = this.repairShopService.getById(this.passedData.id).subscribe(data => {
         this.repairShopForm.patchValue({
           name: data.result.name,
           address: data.result.address,
@@ -82,7 +83,16 @@ export class RepairShopEditorComponent {
   onYesClick() {
     this.isSubmitted = true;
 
-    this.dialogRef.close(true);
+    if (this.repairShopForm.invalid)
+      return;
+    
+    const formValues = this.repairShopForm.value as RepairShopDto
+    if (this.passedData?.id) {
+      formValues.id = this.passedData.id;
+    }
+   
+    this.repairShopService.edit(formValues).subscribe(data => {
+      this.dialogRef.close(data);
+    }); 
   }
-
 }

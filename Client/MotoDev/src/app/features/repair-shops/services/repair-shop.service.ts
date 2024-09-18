@@ -34,6 +34,10 @@ export class RepairShopService {
     return this.http.get<BaseResponse<RepairShopDto[]>>(`${this.baseUrl}/RepairShops/GetForSpecifiedIds`, { params });
   }
 
+  edit(data: RepairShopDto): Observable<BaseResponse<RepairShopDto>> {
+    return this.http.post<BaseResponse<RepairShopDto>>(`${this.baseUrl}/RepairShops/Edit`, data);
+  }
+
   deactivateById(id: number): Observable<BaseResponse<boolean>> {
     return this.http.get<BaseResponse<boolean>>(`${this.baseUrl}/RepairShops/DeactivateById/${id}`);
   }

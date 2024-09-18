@@ -1,4 +1,6 @@
-﻿namespace MotoDev.Common.Dtos
+﻿using AutoMapper.Configuration.Annotations;
+
+namespace MotoDev.Common.Dtos
 {
     public class RepairShopRequest
     {
