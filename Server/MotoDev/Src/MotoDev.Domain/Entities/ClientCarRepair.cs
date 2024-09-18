@@ -2,16 +2,15 @@
 {
     public class ClientCarRepair : BaseModel
     {
-        public int RepairId { get; set; }
-
-        public int RepairTypeId { get; set; }
+        public int ClientCarId { get; set; }
 
         public string Notes { get; set; }
 
-        public decimal Price { get; set; }
+        public int LastKilometers { get; set; }
 
-        public Repair Repair { get; set; }
+        public ClientCar ClientCar { get; set; }
 
-        public RepairType RepairType { get; set; }
+        public IEnumerable<ClientCarRepairDetail> ClientCarRepairsDetails { get; set; }
+        
     }
 }

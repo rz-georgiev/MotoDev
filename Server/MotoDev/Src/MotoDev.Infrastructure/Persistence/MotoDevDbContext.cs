@@ -17,14 +17,14 @@ namespace MotoDev.Infrastructure.Persistence
         public DbSet<Client> Clients { get; set; }
         
         public DbSet<ClientCar> ClientCars { get; set; }
-
+        
         public DbSet<ClientCarRepair> ClientCarRepairs { get; set; }
 
         public DbSet<EngineType> EngineTypes { get; set; }
 
         public DbSet<Model> Models { get; set; }
 
-        public DbSet<Repair> Repairs { get; set; }
+        public DbSet<ClientCarRepairDetail> ClientCarRepairsDetails { get; set; }
 
         public DbSet<RepairShop> RepairShops { get; set; }
 
@@ -39,6 +39,7 @@ namespace MotoDev.Infrastructure.Persistence
         public DbSet<TransmissionType> TransmissionTypes { get; set; }
 
         public DbSet<User> Users { get; set; }
+
 
     }
 }

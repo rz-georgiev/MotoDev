@@ -16,6 +16,6 @@
 
         public Car Car { get; set; }
 
-        public IEnumerable<Repair> Repairs { get; set; }
+        public IEnumerable<ClientCarRepair> ClientCarRepairs { get; set; }
     }
 }

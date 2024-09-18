@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using MotoDev.Application.Interfaces;
 using MotoDev.Common.Dtos;
+using MotoDev.Common.Enums;
 using MotoDev.Common.Extensions;
 using MotoDev.Domain.Entities;
 using MotoDev.Infrastructure.ExternalServices.Email;
@@ -147,6 +148,7 @@ namespace MotoDev.Application.Services
             if (userResponse.IsOk)
             {
                 var user = await _dbContext.Users.SingleOrDefaultAsync(x => x.Email == request.Email);
+                int currentUserId = Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId")!.Value);
 
                 //user = _mapper.Map<UserRequest, User>(request);
                 user.FirstName = request.FirstName;
@@ -163,9 +165,21 @@ namespace MotoDev.Application.Services
                 {
                     UserId = user.Id,
                     RepairShopId = request.RepairShopId,
-                    CreatedByUserId = Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId")!.Value)
+                    CreatedByUserId = currentUserId
                 };
 
+
+                if (request.RoleId == (int)RoleOption.Client)
+                {
+                    var client = new Client
+                    {
+                        UserId = user.Id,
+                        CreatedAt = DateTime.UtcNow,
+                        CreatedByUserId = currentUserId,
+                    };
+                    await _dbContext.Clients.AddAsync(client);
+                }
+                
                 await _dbContext.RepairShopUsers.AddAsync(repairShopUser);
                 await _dbContext.SaveChangesAsync();
 
