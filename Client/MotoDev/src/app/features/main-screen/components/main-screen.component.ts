@@ -14,6 +14,7 @@ import {
   ApexStroke,
   NgApexchartsModule
 } from "ng-apexcharts";
+import { DashboardService } from '../services/dashboard.service';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -34,11 +35,18 @@ export type ChartOptions = {
 
 
 export class MainScreenComponent {
-  
+
   @ViewChild("chart") chart!: ChartComponent;
   public chartOptions!: Partial<ChartOptions>;
+  public revenue!: number;
 
-  constructor(private navbarService: NavbarService) { 
+  constructor(private navbarService: NavbarService,
+    private dashboardService: DashboardService
+  ) {
+
+    this.dashboardService.getDashboardData().subscribe(x => {
+      this.revenue = x.result.revenueThisMonth;
+    });
 
     this.chartOptions = {
       series: [

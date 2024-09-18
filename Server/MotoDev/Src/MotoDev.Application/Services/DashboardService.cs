@@ -29,17 +29,17 @@ namespace MotoDev.Application.Services
                 x.CreatedAt
             });
 
-            var clientCarsRepairsDetails = _dbContext.ClientCarRepairsDetails
+            var clientCarsRepairsDetails = await _dbContext.ClientCarRepairsDetails
                 .Where(x => clientsCarsRepairs
                 .Select(x => x.Id)
                 .Contains(x.ClientCarRepairId))
-                .ToList();
+                .ToListAsync();
             
             var now = DateTime.UtcNow;
             
             var dashboardRecentActivity = new List<DashboardRecentActivity>();
             var a = clientCarsRepairsDetails.OrderByDescending(x => x.CreatedAt);
-
+            
             var response = new DashboardResponse
             {
                 RepairsThisYear = clientsCarsRepairs.Count(x => x.CreatedAt.Year == now.Year),
@@ -58,7 +58,11 @@ namespace MotoDev.Application.Services
                 }
             };
 
-            return null;
+            return new BaseResponse<DashboardResponse>
+            {
+                IsOk = true,
+                Result = response,
+            };
         }
     }
 }

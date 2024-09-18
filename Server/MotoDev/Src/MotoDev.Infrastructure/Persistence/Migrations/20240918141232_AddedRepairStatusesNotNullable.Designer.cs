@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MotoDev.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using MotoDev.Infrastructure.Persistence;
 namespace MotoDev.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(MotoDevDbContext))]
-    partial class MotoDevDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240918141232_AddedRepairStatusesNotNullable")]
+    partial class AddedRepairStatusesNotNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
