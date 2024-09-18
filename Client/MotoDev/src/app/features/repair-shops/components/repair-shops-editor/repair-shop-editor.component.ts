@@ -77,7 +77,7 @@ export class RepairShopEditorComponent {
   }
 
   onNoClick() {
-
+    this.dialogRef.close(null);
   }
 
   onYesClick() {

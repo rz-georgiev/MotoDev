@@ -32,10 +32,7 @@
               "node_modules/datatables.net-dt/css/jquery.dataTables.min.css"
             ],
             "scripts": [
-              "public/assets/vendor/apexcharts/apexcharts.min.js",
               "public/assets/vendor/bootstrap/js/bootstrap.bundle.min.js",
-              "public/assets/vendor/chart.js/chart.umd.js",
-              "public/assets/vendor/echarts/echarts.min.js",
               "public/assets/vendor/tinymce/tinymce.min.js",
               "public/assets/vendor/php-email-form/validate.js",
               "public/assets/js/main.js",
