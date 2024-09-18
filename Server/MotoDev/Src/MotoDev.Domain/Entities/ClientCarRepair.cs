@@ -8,6 +8,10 @@
 
         public int LastKilometers { get; set; }
 
+        public int? RepairStatusId { get; set; }
+
+        public RepairStatus? RepairStatus { get; set; }
+
         public ClientCar ClientCar { get; set; }
 
         public IEnumerable<ClientCarRepairDetail> ClientCarRepairsDetails { get; set; }
