@@ -21,9 +21,11 @@
 
     public class DashboardRecentActivity
     {
-        public int Time { get; set; }
+        public string Time { get; set; }
 
         public string Title { get; set; }
+
+        public int RepairStatusId { get; set; }
     }
 
     public class DashboardReports

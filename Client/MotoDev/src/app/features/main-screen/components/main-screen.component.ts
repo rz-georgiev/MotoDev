@@ -17,6 +17,8 @@ import {
 import { DashboardService } from '../services/dashboard.service';
 import { BaseResponse } from '../../../shared/models/baseResponse';
 import { DashboardResponse } from '../models/dashboardResponse';
+import { RoleOption } from '../../../shared/consts/roleOption';
+import { RepairStatusOption } from '../../../shared/consts/repairStatusOption';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -42,6 +44,7 @@ export class MainScreenComponent {
   public chartOptions!: Partial<ChartOptions>;
   public dashboardResponse!: DashboardResponse;
   Math = Math;
+  RepairStatusOption = RepairStatusOption;
 
   constructor(private navbarService: NavbarService,
     private dashboardService: DashboardService

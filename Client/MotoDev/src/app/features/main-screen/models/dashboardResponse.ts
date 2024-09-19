@@ -12,6 +12,7 @@ export interface DashboardResponse {
 export interface DashboardRecentActivity {
     time: number;
     title: string;
+    repairStatusId: number;
 }
 
 export interface DashboardReports {

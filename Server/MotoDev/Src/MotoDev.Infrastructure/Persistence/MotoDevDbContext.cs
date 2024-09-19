@@ -32,7 +32,7 @@ namespace MotoDev.Infrastructure.Persistence
 
         public DbSet<RepairShopUser> RepairShopUsers { get; set; }
 
-        public DbSet<RepairType> RepairType { get; set; }
+        public DbSet<RepairType> RepairTypes { get; set; }
 
         public DbSet<Role> Roles { get; set; }
         
