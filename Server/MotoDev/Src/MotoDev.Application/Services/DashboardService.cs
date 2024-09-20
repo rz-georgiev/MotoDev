@@ -10,6 +10,7 @@ using MotoDev.Infrastructure.Persistence;
 using MotoDev.Infrastructure.Persistence.Migrations;
 using System;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.Json.Serialization;
 
@@ -25,15 +26,21 @@ namespace MotoDev.Application.Services
         {
             var userId = Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId")!.Value);
 
+            Stopwatch S1 = new Stopwatch();
+            S1.Start();
+
             //var repairShops = _dbContext.RepairShops.Where(x => x.OwnerUserId == userId)
-            //    .Include(x => x.RepairShopUsers)
+            //    .Include(x => x.RepairShopUsers.Where(x => x.User.RoleId == (int)RoleOption.Client))
             //        .ThenInclude(x => x.User)
-            //    .Include(x => x.RepairShopClients)
+            //        .ThenInclude(x => x.UserClient)
             //        .ThenInclude(x => x.Client)
             //        .ThenInclude(x => x.ClientCars)
             //        .ThenInclude(x => x.ClientCarRepairs)
             //        .ThenInclude(x => x.ClientCarRepairsDetails)
-            //        .ThenInclude(x => x.RepairType);
+            //        .ThenInclude(x => x.RepairType)
+            //        .ToList();
+            S1.Stop();
+            Debug.WriteLine("asdasdasd: " + S1.Elapsed);
 
             var repairShopsIds = _dbContext.RepairShops.Where(x => x.OwnerUserId == userId).Select(x => x.Id).ToList();
             var usersIds = _dbContext.RepairShopUsers.Where(x => repairShopsIds.Contains(x.RepairShopId)).Select(x => x.UserId).ToList();
@@ -63,7 +70,14 @@ namespace MotoDev.Application.Services
 
             var repairTypes = await _dbContext.RepairTypes.ToListAsync();
             var now = DateTime.UtcNow;
+
             var dashboardRecentActivity = new List<DashboardRecentActivity>();
+            var dashboardReports = new DashboardReports
+            {
+                Dates = new List<DateTime>(),
+                Repairs = new List<int>(),
+                TotalProfits = new List<decimal>()
+            };
 
             var lastSixRepairs = clientsCarsRepairs.OrderByDescending(x => x.CreatedAt).Take(6).ToList();
             foreach (var clientCarRepair in lastSixRepairs)
@@ -71,13 +85,18 @@ namespace MotoDev.Application.Services
                 var clientCar =  clientsCars.SingleOrDefault(x => x.Id == clientCarRepair.ClientCarId);
                 var repairTypeId = clientCarsRepairsDetails?.LastOrDefault(x => x.ClientCarRepairId == clientCarRepair.Id)?.RepairTypeId;
                 //var repairType = repairTypes.SingleOrDefault(x => x.Id == repairTypeId);
-
+                
                 dashboardRecentActivity.Add(new DashboardRecentActivity
                 {
                     Time = GetTime(clientCarRepair.CreatedAt),
                     Title = $"{clientCar.LicensePlateNumber} -> Status: {((RepairStatusOption)clientCarRepair.RepairStatusId).GetDisplayName()}",
                     RepairStatusId = clientCarRepair.RepairStatusId,
                 });
+
+                dashboardReports.Dates.Add(clientCarRepair.CreatedAt);
+                dashboardReports.Repairs.Add(0);
+                dashboardReports.TotalProfits.Add(0);
+                
             }
 
             var response = new DashboardResponse
@@ -98,14 +117,14 @@ namespace MotoDev.Application.Services
                     
                 }
             };
-
+        
             return new BaseResponse<DashboardResponse>
             {
                 IsOk = true,
                 Result = response,
             };
         }
-
+      
         private string GetTime(DateTime startedDateTime)
         {
             var now = DateTime.UtcNow;

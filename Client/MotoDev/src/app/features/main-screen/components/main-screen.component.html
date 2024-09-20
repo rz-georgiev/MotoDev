@@ -140,7 +140,7 @@
             <div class="col-12">
               <div class="card">
                 <div class="card-body">
-                  <h5 class="card-title">Reports <span>/Today</span></h5>
+                  <h5 class="card-title">Reports <span>| General</span></h5>
 
                   <!-- Line Chart -->
                   <div id="chart">
@@ -164,20 +164,21 @@
           <!-- Recent Activity -->
           <div class="card">
             <div class="card-body">
-              <h5 class="card-title">Recent Activity <span>| Today</span></h5>
+              <h5 class="card-title">Recent Activity <span>| Last records</span></h5>
 
               <div class="activity">
                 @for (item of this.dashboardResponse.dashboardRecentActivity; track item) {
                 <div class="activity-item d-flex">
-                  <div class="activite-label">{{item.time}}</div>
-                  <i [ngClass]="{
-                      'text-danger': item.repairStatusId == RepairStatusOption.ToDo,
-                      'text-warning': item.repairStatusId == RepairStatusOption.InProgress,
-                      'text-info': item.repairStatusId == RepairStatusOption.Done
-                    }" class='bi bi-circle-fill activity-badge align-self-start'></i>
+                 
+                  <div class="activity-label">{{item.time}} -></div>       
                   <div class="activity-content">
-                    {{item.title}}
+                  Car: {{item.title}}
                   </div>
+                  <i [ngClass]="{
+                    'text-danger': item.repairStatusId == RepairStatusOption.ToDo,
+                    'text-warning': item.repairStatusId == RepairStatusOption.InProgress,
+                    'text-info': item.repairStatusId == RepairStatusOption.Done
+                  }" class='bi bi-circle-fill activity-badge align-self-start'></i>
                 </div><!-- End activity item-->
                 }
               </div>

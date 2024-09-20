@@ -22,7 +22,5 @@
 
         public IEnumerable<RepairShopUser> RepairShopUsers { get; set; }
 
-        public IEnumerable<RepairShopClient> RepairShopClients { get; set; }
-
     }
 }

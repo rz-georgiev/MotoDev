@@ -48,9 +48,9 @@ export class MainScreenComponent {
 
   constructor(private navbarService: NavbarService,
     private dashboardService: DashboardService
-  ) {
+  ) { }
 
-
+  ngOnInit() {
     this.dashboardService.getDashboardData().subscribe(x => {
       this.dashboardResponse = x.result;
     });
@@ -94,7 +94,6 @@ export class MainScreenComponent {
         }
       }
     };
-
   }
 
 

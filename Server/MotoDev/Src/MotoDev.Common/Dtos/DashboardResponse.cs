@@ -30,10 +30,10 @@
 
     public class DashboardReports
     {
-        public IEnumerable<int> Repairs { get; set; }
+        public IList<int> Repairs { get; set; }
 
-        public IEnumerable<int> TotalProfits { get; set; }
+        public IList<decimal> TotalProfits { get; set; }
 
-        public IEnumerable<DateTime> Dates { get; set; }
+        public IList<DateTime> Dates { get; set; }
     }
 }

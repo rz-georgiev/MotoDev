@@ -28,8 +28,6 @@ namespace MotoDev.Infrastructure.Persistence
 
         public DbSet<RepairShop> RepairShops { get; set; }
 
-        public DbSet<RepairShopClient> RepairShopClients { get; set; }
-
         public DbSet<RepairShopUser> RepairShopUsers { get; set; }
 
         public DbSet<RepairType> RepairTypes { get; set; }
