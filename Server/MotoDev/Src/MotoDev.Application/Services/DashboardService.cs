@@ -25,23 +25,6 @@ namespace MotoDev.Application.Services
         public async Task<BaseResponse<DashboardResponse>> GetDashboardData()
         {
             var userId = Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId")!.Value);
-
-            Stopwatch S1 = new Stopwatch();
-            S1.Start();
-
-            //var repairShops = _dbContext.RepairShops.Where(x => x.OwnerUserId == userId)
-            //    .Include(x => x.RepairShopUsers.Where(x => x.User.RoleId == (int)RoleOption.Client))
-            //        .ThenInclude(x => x.User)
-            //        .ThenInclude(x => x.UserClient)
-            //        .ThenInclude(x => x.Client)
-            //        .ThenInclude(x => x.ClientCars)
-            //        .ThenInclude(x => x.ClientCarRepairs)
-            //        .ThenInclude(x => x.ClientCarRepairsDetails)
-            //        .ThenInclude(x => x.RepairType)
-            //        .ToList();
-            S1.Stop();
-            Debug.WriteLine("asdasdasd: " + S1.Elapsed);
-
             var repairShopsIds = _dbContext.RepairShops.Where(x => x.OwnerUserId == userId).Select(x => x.Id).ToList();
             var usersIds = _dbContext.RepairShopUsers.Where(x => repairShopsIds.Contains(x.RepairShopId)).Select(x => x.UserId).ToList();
 
@@ -92,13 +75,21 @@ namespace MotoDev.Application.Services
                     Title = $"{clientCar.LicensePlateNumber} -> Status: {((RepairStatusOption)clientCarRepair.RepairStatusId).GetDisplayName()}",
                     RepairStatusId = clientCarRepair.RepairStatusId,
                 });
-
-                dashboardReports.Dates.Add(clientCarRepair.CreatedAt);
-                dashboardReports.Repairs.Add(0);
-                dashboardReports.TotalProfits.Add(0);
-                
             }
 
+            for (var index = 0; index < 12; index++)
+            {
+                var previousMonth = now.AddMonths(-index);
+                var monthStart = new DateTime(previousMonth.Year, previousMonth.Month, 1);
+                var monthEnd = monthStart.AddMonths(1).AddDays(-1);
+                var monthRepairs = clientCarsRepairsDetails.Where(x => x.CreatedAt >= monthStart && x.CreatedAt <= monthEnd);
+
+                dashboardReports.Dates.Add(monthStart);
+                dashboardReports.Repairs.Add(monthRepairs.Count());
+                dashboardReports.TotalProfits.Add(monthRepairs.Sum(x => x.Price));
+            }
+
+         
             var response = new DashboardResponse
             {
                 RepairsThisYear = clientCarsRepairsDetails.Count(x => x.CreatedAt.Year == now.Year),
@@ -112,10 +103,7 @@ namespace MotoDev.Application.Services
                 CustomersTotal = clients.Count(),
                 CustomersIncreaseThisYear = GetCustomersIncrease(clients),
                 DashboardRecentActivity = dashboardRecentActivity,
-                DashboardReports = new DashboardReports
-                {
-                    
-                }
+                DashboardReports = dashboardReports,
             };
         
             return new BaseResponse<DashboardResponse>
