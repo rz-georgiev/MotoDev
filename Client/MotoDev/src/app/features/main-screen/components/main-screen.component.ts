@@ -9,6 +9,7 @@ import {
   ApexAxisChartSeries,
   ApexChart,
   ApexXAxis,
+  ApexYAxis,
   ApexDataLabels,
   ApexTooltip,
   ApexStroke,
@@ -19,11 +20,14 @@ import { BaseResponse } from '../../../shared/models/baseResponse';
 import { DashboardResponse } from '../models/dashboardResponse';
 import { RoleOption } from '../../../shared/consts/roleOption';
 import { RepairStatusOption } from '../../../shared/consts/repairStatusOption';
+import { fromEventPattern } from 'rxjs';
+import { ValueChangeEvent } from '@angular/forms';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
   xaxis: ApexXAxis;
+  yaxis: ApexYAxis;
   stroke: ApexStroke;
   tooltip: ApexTooltip;
   dataLabels: ApexDataLabels;
@@ -51,6 +55,7 @@ export class MainScreenComponent {
   ) { }
 
   ngOnInit() {
+    
     this.dashboardService.getDashboardData().subscribe(x => {
       this.dashboardResponse = x.result;
 
@@ -62,7 +67,7 @@ export class MainScreenComponent {
           },
           {
             name: "Total Profit",
-            data: this.dashboardResponse.dashboardReports.totalProfits
+            data: this.dashboardResponse.dashboardReports.totalProfits,
           }
         ],
         chart: {
@@ -82,9 +87,21 @@ export class MainScreenComponent {
           },
           categories: this.dashboardResponse.dashboardReports.dates
         },
+        yaxis: {
+          labels: {
+            formatter: function (value) {
+              return value.toFixed(2)
+            }
+          }
+        },
         tooltip: {
           x: {
             format: "yy/MM"
+          },
+          y: {
+            formatter: function (value) {
+              return value.toFixed(2);
+            }
           }
         }
       };
