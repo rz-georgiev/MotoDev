@@ -12,7 +12,6 @@ export class RoleGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): MaybeAsync<GuardResult> {
-
     const roles = route.data['roles'];
     if (this.authService.isLoggedIn() && this.authService.hasAnyOfTheRoles(roles)) {
       return true;
@@ -23,7 +22,7 @@ export class RoleGuard implements CanActivate {
         this.router.navigate(['/repairTracker']);
       }
       else if (userRoles.includes('Mechanic')) {
-        this.router.navigate(['/repairs']);
+        this.router.navigate(['/mechanicRepairs']);
       }
       else {
         // this.authService.signOut();

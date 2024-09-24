@@ -2,9 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RepairTrackerService } from '../services/repair-tracker.service';
 import { ClientCarStatusResponse } from '../models/clientCarStatusResponse';
-import { BaseResponse } from '../../shared/models/baseResponse';
-import { RepairStatusOption } from '../../shared/consts/repairStatusOption';
-import { UtcToLocalPipe } from '../../core/pipes/utc-to-local.pipe';
+import { RepairStatusOption } from '../../../shared/consts/repairStatusOption';
+import { UtcToLocalPipe } from '../../../core/pipes/utc-to-local.pipe';
 
 @Component({
   selector: 'app-repair-tracker',

@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { BaseResponse } from '../../shared/models/baseResponse';
 import { ClientCarStatusResponse } from '../models/clientCarStatusResponse';
+import { BaseResponse } from '../../../shared/models/baseResponse';
 
 @Injectable({
   providedIn: 'root'

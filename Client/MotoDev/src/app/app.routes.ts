@@ -11,7 +11,6 @@ import { ConfirmAccountComponent } from './features/auth/components/confirm-acco
 import { ForgottenPasswordConfirmComponent } from './features/auth/components/forgotten-password-confirm/forgotten-password-confirm.component';
 import { UsersComponent } from './features/users/components/users/users.component';
 import { ClientsComponent } from './features/clients/components/clients.component';
-import { RepairsComponent } from './features/repairs/components/repairs.component';
 import { StatisticsComponent } from './features/statistics/components/statistics.component';
 import { CarsComponent } from './features/cars/components/cars.component';
 import { RepairShopsComponent } from './features/repair-shops/components/repair-shops/repair-shops.component';
@@ -23,7 +22,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { animation } from '@angular/animations';
 import { UserProfileComponent } from './features/user-profile/user-profile.component';
-import { RepairTrackerComponent } from './repair-tracker/components/repair-tracker.component';
+import { RepairTrackerComponent } from './features/repair-tracker/components/repair-tracker.component';
+import { MechanicRepairsComponent } from './features/mechanic-repairs/mechanic-repairs.component';
 
 export const routes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -46,8 +46,8 @@ export const routes: Routes = [
     },
     // { path: 'clients', component: ClientsComponent,  canActivate: [RoleGuard],  data: { roles: ['Owner'] } },
     {
-        path: 'repairs',
-        component: RepairsComponent,
+        path: 'mechanicRepairs',
+        component: MechanicRepairsComponent,
         canActivate: [RoleGuard],
         data: { roles: ['Mechanic'] }
     },

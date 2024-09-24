@@ -33,7 +33,7 @@
     </li> -->
 
     <li *ngIf="this.authService.hasAnyOfTheRoles(['Mechanic'])" (click)="toggleTab('Repairs')" class="nav-item">
-      <a class="nav-link " [class.collapsed]="openedTabName !== 'Repairs'" [routerLink]="['/repairs']">
+      <a class="nav-link " [class.collapsed]="openedTabName !== 'Repairs'" [routerLink]="['/mechanicRepairs']">
         <i class="bi bi-person"></i>
         <span>Repairs</span>
       </a>
