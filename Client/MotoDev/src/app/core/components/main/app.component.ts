@@ -25,7 +25,8 @@ export class AppComponent {
 
     constructor(private authService: AuthService,
         private contexts: ChildrenOutletContexts
-    ) { }
+    ) {
+     }
 
     ngOnInit() {
         this.isLoggedIn = this.authService.isLoggedIn();

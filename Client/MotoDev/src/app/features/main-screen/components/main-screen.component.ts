@@ -55,7 +55,7 @@ export class MainScreenComponent {
   ) { }
 
   ngOnInit() {
-    
+
     this.dashboardService.getDashboardData().subscribe(x => {
       this.dashboardResponse = x.result;
 
@@ -106,9 +106,5 @@ export class MainScreenComponent {
         }
       };
     });
-
- 
   }
-
-
 }

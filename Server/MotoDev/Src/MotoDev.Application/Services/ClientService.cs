@@ -18,28 +18,6 @@ namespace MotoDev.Application.Services
         {
             var userId = Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId")!.Value);
 
-            //        var clientData = await _dbContext.Clients
-            //.Where(x => x.UserId == userId)
-            //.Select(client => new
-            //{
-            //    Client = client,
-            //    Cars = client.ClientCars.Select(car => new
-            //    {
-            //        Car = car.Car,
-            //        Model = car.Car.Model,
-            //        Brand = car.Car.Model.Brand,
-            //        Repairs = car.ClientCarRepairs.Select(repair => new
-            //        {
-            //            RepairDetails = repair.ClientCarRepairsDetails.Select(details => new
-            //            {
-            //                RepairStatus = details.RepairStatus,
-            //                RepairTypes = details.RepairType
-            //            })
-            //        })
-            //    })
-            //})
-            //.ToListAsync();
-
             var clientData = await _dbContext.Clients.Where(x => x.UserId == userId)
                 .Include(x => x.ClientCars)
                     .ThenInclude(x => x.Car)

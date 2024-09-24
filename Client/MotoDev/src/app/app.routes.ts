@@ -88,7 +88,13 @@ export const routes: Routes = [
         canActivate: [RoleGuard],
         data: { roles: ['Owner', 'Client', 'Mechanic'] }
     },
-    { path: '', component: AuthComponent },
+    {
+        path: '',
+        component: AuthComponent,
+        canActivate: [RoleGuard],
+        pathMatch: 'full',
+        data: { roles: ['Owner'] }
+    },
     { path: '**', component: NotFoundComponent }
 ];
 
