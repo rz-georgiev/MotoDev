@@ -15,6 +15,4 @@ export class RepairTrackerService {
   getMyCarsStatusesAsync(): Observable<BaseResponse<ClientCarStatusResponse[]>> {
     return this.http.get<BaseResponse<ClientCarStatusResponse[]>>(`${this.baseUrl}/Clients/GetMyCarsStatuses`);
   }
-
-
 }

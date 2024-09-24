@@ -65,7 +65,8 @@ namespace MotoDev.Application.Services
                 {
                     result.Add(new ClientCarStatusResponse
                     {
-                        VehicleName = $"{clientCar.LicensePlateNumber} -> {clientCar.Car.Brand.Name} {clientCar.Car.Model.Name} " +
+                        LicensePlateNumber = clientCar.LicensePlateNumber,
+                        VehicleName = $"{clientCar.Car.Brand.Name} {clientCar.Car.Model.Name} " +
                         $"/ {clientCar.Car.Year}" +
                         $" / {clientCar.Car.CarType.Name}",
                         Details = []

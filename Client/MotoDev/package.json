@@ -26,6 +26,7 @@
     "datatables.net-dt": "^1.11.3",
     "jquery": "^3.6.0",
     "jwt-decode": "^4.0.0",
+    "moment-timezone": "^0.5.45",
     "ng-apexcharts": "^1.12.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",

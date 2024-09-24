@@ -1,46 +1,39 @@
 <body>
-    <main id="main" class="main">
-        <section class="section">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card">
-                        <div class="card-body">
+  <main id="main" class="main">
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
 
-                            <h3>Repair Tracker</h3>
-                            <p>You can see you cars repairs below and their current statuses</p>
-                          <!-- Right side columns -->
-        <div class="col-lg-4">
+              <h3>Repair Tracker</h3>
+              <p>You can see you cars repairs below and their current statuses</p>
+              <!-- Right side columns -->
 
-            <!-- Recent Activity -->
-            <div class="card">
-              <div class="card-body">
-                <h5 class="card-title">Recent Activity <span>| Last records</span></h5>
-  
-                <div class="activity">
-                  @for (item of []; track item) {
-                  <div class="activity-item d-flex">
-                   
-                    <div class="activity-label">{{item}} -></div>       
-                    <div class="activity-content">
-                    Car: {{item}}
-                    </div>
-                    <i [ngClass]="{
-                      'text-danger': 1 == 1,
-                      'text-warning':  1 == 1,
-                      'text-info':  1 == 1
-                    }" class='bi bi-circle-fill activity-badge align-self-start'></i>
-                  </div><!-- End activity item-->
-                  }
+              @for (item of response; track item) {
+               <div class="card"></div>
+                <div class="card-body">
+                  <h5 class="card-title">{{item.licensePlateNumber}} <span>| {{item.vehicleName}}</span></h5>
+                  <div class="activity">
+                    @for (detail of item.details; track detail) {
+                      <div class="badgeItem">
+                        <span [ngClass]="{
+                          'bg-danger': detail.statusId === RepairStatusOption.ToDo,
+                          'bg-warning': detail.statusId === RepairStatusOption.InProgress,
+                          'bg-info': detail.statusId === RepairStatusOption.Done
+                        }" class="badge rounded-pill text-dark"> {{detail.repairName}} - {{detail.statusName}} </span>
+                        <p *ngIf="detail.repairStartDateTime">Started on: {{detail.repairStartDateTime | utcToLocal }}</p>
+                        <p *ngIf="detail.repairEndDateTime">Ended on: {{detail.repairEndDateTime | utcToLocal }}</p>
+                        <p *ngIf="detail.statusId === RepairStatusOption.ToDo">Not started yet</p>
+                      </div>
+                    }
+                  </div>
                 </div>
-              </div>
-            </div><!-- End Recent Activity -->
-          </div><!-- End Right side columns -->
-
-                        </div>
-                    </div>
-
-                </div>
+              }
             </div>
-        </section>
-    </main>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 </body>

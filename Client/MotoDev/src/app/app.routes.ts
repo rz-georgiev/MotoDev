@@ -96,7 +96,8 @@ export const routes: Routes = [
     imports: [RouterModule.forRoot(routes),
         ReactiveFormsModule,
         BrowserModule,
-        CommonModule],
+        CommonModule,
+    ],
     exports: [RouterModule],
 })
 

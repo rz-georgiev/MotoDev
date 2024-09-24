@@ -12,7 +12,7 @@ namespace MotoDev.Domain.Entities
 
         public decimal Price { get; set; }
 
-        public DateTime RepairStartDateTime { get; set; }
+        public DateTime? RepairStartDateTime { get; set; }
 
         public DateTime? RepairEndDateTime { get; set; }
 
