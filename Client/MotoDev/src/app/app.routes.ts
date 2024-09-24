@@ -23,7 +23,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { animation } from '@angular/animations';
 import { UserProfileComponent } from './features/user-profile/user-profile.component';
-import { RepairTrackerComponent } from './repair-tracker/repair-tracker.component';
+import { RepairTrackerComponent } from './repair-tracker/components/repair-tracker.component';
 
 export const routes: Routes = [
     { path: 'login', component: LoginComponent },
