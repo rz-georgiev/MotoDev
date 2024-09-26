@@ -24,6 +24,7 @@ import { animation } from '@angular/animations';
 import { UserProfileComponent } from './features/user-profile/user-profile.component';
 import { RepairTrackerComponent } from './features/repair-tracker/components/repair-tracker.component';
 import { MechanicRepairsComponent } from './features/mechanic-repairs/mechanic-repairs.component';
+import { RepairOrdersComponent } from './features/repair-orders/repair-orders.component';
 
 export const routes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -41,6 +42,12 @@ export const routes: Routes = [
     {
         path: 'users',
         component: UsersComponent,
+        canActivate: [RoleGuard],
+        data: { roles: ['Owner'] }
+    },
+    {
+        path: 'repairOrders',
+        component: RepairOrdersComponent,
         canActivate: [RoleGuard],
         data: { roles: ['Owner'] }
     },

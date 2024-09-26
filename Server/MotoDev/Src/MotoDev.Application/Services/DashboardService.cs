@@ -28,9 +28,27 @@ namespace MotoDev.Application.Services
             var repairShopsIds = _dbContext.RepairShops.Where(x => x.OwnerUserId == userId).Select(x => x.Id).ToList();
             var usersIds = _dbContext.RepairShopUsers.Where(x => repairShopsIds.Contains(x.RepairShopId)).Select(x => x.UserId).ToList();
 
+            //var user = _dbContext.Users.Where(x => x.Id == userId);
+
+            //var data = _dbContext.RepairShops.Where(x => x.OwnerUserId == userId)
+            //    .Select(repairShop => new
+            //    {
+            //        RepairShopUsers = repairShop.RepairShopUsers
+            //            .Where(x => x.User.RoleId == (int)RoleOption.Client)
+            //            .Select(repairShopUser => new
+            //            {
+            //                User = repairShopUser.User
+            //            })
+            //    });
+
+
+
+
+            //var usersIds = _dbContext.RepairShopUsers.Where(x => repairShopsIds.Contains(x.RepairShopId)).Select(x => x.UserId).ToList();
+
             var clientsUsersIds = _dbContext.Users.Where(x => usersIds.Contains(x.Id) && x.RoleId == (int)RoleOption.Client).Select(x => x.Id).ToList();
             var clients = _dbContext.Clients.Where(x => clientsUsersIds.Contains(x.UserId)).ToList();
-           
+
             var clientsCars = _dbContext.ClientCars.Where(x => clients.Select(x => x.Id).Contains(x.ClientId))
                 .Select(x => new
                 {
@@ -65,10 +83,10 @@ namespace MotoDev.Application.Services
             var lastSixRepairs = clientsCarsRepairs.OrderByDescending(x => x.CreatedAt).Take(6).ToList();
             foreach (var clientCarRepair in lastSixRepairs)
             {
-                var clientCar =  clientsCars.SingleOrDefault(x => x.Id == clientCarRepair.ClientCarId);
+                var clientCar = clientsCars.SingleOrDefault(x => x.Id == clientCarRepair.ClientCarId);
                 var repairTypeId = clientCarsRepairsDetails?.LastOrDefault(x => x.ClientCarRepairId == clientCarRepair.Id)?.RepairTypeId;
                 //var repairType = repairTypes.SingleOrDefault(x => x.Id == repairTypeId);
-                
+
                 dashboardRecentActivity.Add(new DashboardRecentActivity
                 {
                     Time = GetTime(clientCarRepair.CreatedAt),
@@ -89,23 +107,23 @@ namespace MotoDev.Application.Services
                 dashboardReports.TotalProfits.Add(monthRepairs.Sum(x => x.Price));
             }
 
-         
+
             var response = new DashboardResponse
             {
                 RepairsThisYear = clientCarsRepairsDetails.Count(x => x.CreatedAt.Year == now.Year),
                 RepairsIncreaseThisYear = GetRepairsIncrease(clientCarsRepairsDetails),
-                
+
                 RevenueThisMonth = Convert.ToInt32(clientCarsRepairsDetails
                     .Where(x => x.CreatedAt.Year == now.Year && x.CreatedAt.Month == now.Month)
                     .Sum(x => x.Price)),
-               
+
                 RevenueIncreaseThisMonth = GetRevenueIncrease(clientCarsRepairsDetails),
                 CustomersTotal = clients.Count(),
                 CustomersIncreaseThisYear = GetCustomersIncrease(clients),
                 DashboardRecentActivity = dashboardRecentActivity,
                 DashboardReports = dashboardReports,
             };
-        
+
             return new BaseResponse<DashboardResponse>
             {
                 IsOk = true,

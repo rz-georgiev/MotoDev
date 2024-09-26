@@ -1,3 +1,14 @@
-#vehicleCard {
+/* #randomCard {
     height: 250px;
+}
+
+ img {
+    height: 100%;
+ }
+
+ .col-md-4 {
+    height: 250px;
+ } */
+ #randomCard {
+    height: 50%;
 }

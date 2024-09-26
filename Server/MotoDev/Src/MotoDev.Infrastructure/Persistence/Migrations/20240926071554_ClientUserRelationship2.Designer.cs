@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MotoDev.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using MotoDev.Infrastructure.Persistence;
 namespace MotoDev.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(MotoDevDbContext))]
-    partial class MotoDevDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240926071554_ClientUserRelationship2")]
+    partial class ClientUserRelationship2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -195,7 +198,8 @@ namespace MotoDev.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Clients");
                 });
@@ -653,8 +657,6 @@ namespace MotoDev.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ClientId");
-
                     b.HasIndex("RoleId");
 
                     b.ToTable("Users");
@@ -725,8 +727,8 @@ namespace MotoDev.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("MotoDev.Domain.Entities.Client", b =>
                 {
                     b.HasOne("MotoDev.Domain.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
+                        .WithOne("Client")
+                        .HasForeignKey("MotoDev.Domain.Entities.Client", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -841,15 +843,9 @@ namespace MotoDev.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("MotoDev.Domain.Entities.User", b =>
                 {
-                    b.HasOne("MotoDev.Domain.Entities.Client", "Client")
-                        .WithMany()
-                        .HasForeignKey("ClientId");
-
                     b.HasOne("MotoDev.Domain.Entities.Role", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId");
-
-                    b.Navigation("Client");
 
                     b.Navigation("Role");
                 });
@@ -877,6 +873,11 @@ namespace MotoDev.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("MotoDev.Domain.Entities.RepairShop", b =>
                 {
                     b.Navigation("RepairShopUsers");
+                });
+
+            modelBuilder.Entity("MotoDev.Domain.Entities.User", b =>
+                {
+                    b.Navigation("Client");
                 });
 #pragma warning restore 612, 618
         }
