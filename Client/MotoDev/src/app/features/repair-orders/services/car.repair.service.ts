@@ -9,6 +9,7 @@ import { UserExtendedDto } from '../../users/models/UserExtendedDto';
 import { UserProfileImageUpdateResponse } from '../../users/models/userProfileImageUpdateResponse';
 import { ClientResponse } from '../models/clientResponse';
 import { ClientCarResponse } from '../models/clientCarResponse';
+import { CarRepairRequest } from '../models/carRepairRequest';
 
 @Injectable({
   providedIn: 'root'
@@ -23,19 +24,13 @@ export class CarRepairService {
     return this.http.get<BaseResponse<CarRepairResponse[]>>(`${this.baseUrl}/CarRepairs/GetAllCarsRepairs`);
   }
 
-  getClients(): Observable<BaseResponse<ClientResponse[]>> {
-    return this.http.get<BaseResponse<ClientResponse[]>>(`${this.baseUrl}/Clients/GetAllClients`);
-  }
-
-  getClientCars(clientId: number): Observable<BaseResponse<ClientCarResponse[]>> {
-    return this.http.get<BaseResponse<ClientCarResponse[]>>(`${this.baseUrl}/ClientCars/GetClientCars?clientId=${clientId}`);
-  }
-
-
   getById(id: number): Observable<BaseResponse<UserDto>> {
     return this.http.get<BaseResponse<UserDto>>(`${this.baseUrl}/Users/GetById?id=${id}`);
   }
 
+  editCarRepair(carRepairData: CarRepairRequest): Observable<BaseResponse<CarRepairResponse>> {
+    return this.http.post<BaseResponse<CarRepairResponse>>(`${this.baseUrl}/CarRepairs/Edit`, carRepairData);
+  }
 
   deactivateRepairUserById(id: number): Observable<any> {
     return this.http.put(`${this.baseUrl}/Users/DeactivateRepairUserById?id=${id}`, null);

@@ -10,6 +10,7 @@ using MotoDev.Common.Extensions;
 using MotoDev.Domain.Entities;
 using MotoDev.Infrastructure.ExternalServices.Email;
 using MotoDev.Infrastructure.Persistence;
+using MotoDev.Infrastructure.Persistence.Migrations;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -21,7 +22,7 @@ namespace MotoDev.Application.Services
         IEmailService emailService,
         IHttpContextAccessor accessor,
         ICloudinaryService cloudinaryService,
-        MotoDevDbContext dbContext)  : ICarRepairService
+        MotoDevDbContext dbContext) : ICarRepairService
     {
         private readonly IConfiguration _configuration = configuration;
         private readonly IEmailService _emailService = emailService;
@@ -46,7 +47,7 @@ namespace MotoDev.Application.Services
                 .ThenInclude(x => x.RepairStatus)
                 .Include(x => x.ClientCars)
                 .ThenInclude(x => x.Car).ToListAsync();
-            
+
             foreach (var repairShop in repairShops)
             {
                 foreach (var repairShopUser in repairShop.RepairShopUsers)
@@ -64,10 +65,10 @@ namespace MotoDev.Application.Services
                                 CarRepairId = clientCarRepair.Id,
                                 Status = clientCarRepair.RepairStatus.Name,
                                 StatusId = clientCarRepair.RepairStatusId,
-                                RepairDateTime = clientCarRepair.CreatedAt,                             
+                                RepairDateTime = clientCarRepair.CreatedAt,
                             });
-                        }         
-                    }               
+                        }
+                    }
                 }
             }
 
@@ -78,15 +79,64 @@ namespace MotoDev.Application.Services
             };
         }
 
+        public async Task<BaseResponse<CarRepairResponse>> EditAsync(CarRepairRequest request)
+        {
+
+            var currentClientCarRepair = new ClientCarRepair();
+            int userId = Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId")!.Value);
+
+            if (request.CarRepairId > 0)
+            {
+                currentClientCarRepair = await _dbContext.ClientCarRepairs.SingleOrDefaultAsync(x => x.Id == request.CarRepairId);
+                currentClientCarRepair.ClientCarId = request.ClientCarId;
+                currentClientCarRepair.LastUpdatedAt = DateTime.UtcNow;
+                currentClientCarRepair.LastUpdatedByUserId = userId;
+
+                _dbContext.Update(currentClientCarRepair);
+            }
+            else
+            {
+                currentClientCarRepair.ClientCarId = request.ClientCarId;
+                currentClientCarRepair.RepairStatusId = (int)RepairStatusOption.ToDo;
+                currentClientCarRepair.CreatedAt = DateTime.UtcNow;
+                currentClientCarRepair.CreatedByUserId = userId;
+
+                await _dbContext.AddAsync(currentClientCarRepair);
+            }
+
+            await _dbContext.SaveChangesAsync();
+
+            var clientCar = await
+                _dbContext.ClientCars.SingleOrDefaultAsync(x => x.Id == currentClientCarRepair.ClientCarId);
+
+            var client = await _dbContext.Clients.SingleOrDefaultAsync(x => x.Id == clientCar.ClientId);
+            var user = await _dbContext.Users.SingleOrDefaultAsync(x => x.Id == client.UserId);
+            var repairStatus = _dbContext.RepairStatuses.SingleOrDefault(x => x.Id == currentClientCarRepair.RepairStatusId);
+
+            return new BaseResponse<CarRepairResponse>
+            {
+                IsOk = true,
+                Message = "",
+                Result = new CarRepairResponse
+                {
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    LicensePlateNumber = clientCar.LicensePlateNumber,
+                    CarRepairId = currentClientCarRepair.Id,
+                    Status = repairStatus.Name,
+                    StatusId = repairStatus.Id,
+                    RepairDateTime = currentClientCarRepair.CreatedAt,
+                }
+            };
+        }
+
         public async Task<BaseResponse<IEnumerable<CarRepairEditResponse>>> GetByIdAsync(int carRepairId)
         {
             var carRepair = await _dbContext.ClientCarRepairs.SingleOrDefaultAsync(x => x.Id == carRepairId);
             var clientCar = await _dbContext.ClientCars.SingleOrDefaultAsync(x => x.Id == carRepair.ClientCarId);
-           
 
             var response = new CarRepairEditResponse
             {
-                
             };
 
             return null;

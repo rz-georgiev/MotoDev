@@ -20,5 +20,12 @@ namespace MotoDev.Api.Controllers
             return await _carRepairService.GetAllCarsRepairsAsync();
         }
 
+        [HttpPost("Edit")]
+        public async Task<BaseResponse<CarRepairResponse>> Edit([FromBody] CarRepairRequest request)
+        {
+            return await _carRepairService.EditAsync(request);
+        }
+
+
     }
 }

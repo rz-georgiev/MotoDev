@@ -22,6 +22,10 @@ import { CarRepairService } from '../../services/car.repair.service';
 import { ClientResponse } from '../../models/clientResponse';
 import { SelectFilterComponent } from "../../../../shared/components/select-filter/select-filter.component";
 import { ClientCarResponse } from '../../models/clientCarResponse';
+import { ClientService } from '../../../clients/services/client.service';
+import { ClientCarService } from '../../../client-cars/services/client-car.service';
+import { CarRepairRequest } from '../../models/carRepairRequest';
+import { UtcToLocalPipe } from '../../../../core/pipes/utc-to-local.pipe';
 
 @Component({
   selector: 'app-user-editor',
@@ -42,7 +46,7 @@ import { ClientCarResponse } from '../../models/clientCarResponse';
     MatDialogContent,
     MatButtonModule,
     SelectFilterComponent
-],
+  ],
   templateUrl: './repair-orders-editor.component.html',
   styleUrl: './repair-orders-editor.component.css'
 })
@@ -55,7 +59,6 @@ export class RepairOrdersEditorComponent {
   public isInEditMode: boolean = false;
   public errorMessage!: string;
 
-
   constructor(public dialogRef: MatDialogRef<RepairOrdersEditorComponent>,
     @Inject(MAT_DIALOG_DATA) private passedData: any,
     private repairShopService: RepairShopService,
@@ -63,6 +66,8 @@ export class RepairOrdersEditorComponent {
     private authService: AuthService,
     private roleService: RoleService,
     private carRepairService: CarRepairService,
+    private clientService: ClientService,
+    private clientCarService: ClientCarService,
     private formBuilder: FormBuilder
   ) {
     this.repairOrderForm = this.formBuilder.group({
@@ -74,7 +79,7 @@ export class RepairOrdersEditorComponent {
   ngOnInit() {
 
     this.isInEditMode = this.passedData?.carRepairId > 0;
-    this.carRepairService.getClients().subscribe(x => {
+    this.clientService.getClients().subscribe(x => {
       this.clients = x.result;
     });
 
@@ -100,54 +105,46 @@ export class RepairOrdersEditorComponent {
     //     });
     //   });
 
-   
+
+  }
+
+
+  onYesClick() {
+    this.isSubmitted = true;
+    if (this.repairOrderForm.valid) {
+
+      const carRepair: CarRepairRequest = {
+        carRepairId: this.passedData?.id,
+        clientCarId: this.repairOrderForm.get('clientCarId')?.value as number
+      };
+
+      this.carRepairService.editCarRepair(carRepair).subscribe(data => {
+        if (data.isOk) {
+          this.dialogRef.close({
+            carRepairId: data.result.carRepairId,
+            firstName: data.result.firstName,
+            lastName: data.result.lastName,
+            licensePlateNumber: data.result.licensePlateNumber,
+            statusId: data.result.statusId,
+            status: data.result.status,
+            repairDateTime: data.result.repairDateTime
+          });
+        }
+        else {
+          this.errorMessage = data.message;
+        }
+      });
+    }
   }
 
   onNoClick() {
     this.dialogRef.close(false);
   }
 
-  onYesClick() {
-    this.isSubmitted = true;
-    if (this.repairOrderForm.valid) {
-      const form = this.repairOrderForm.value;
-      const user: UserDto = {
-        repairShopUserId: this.passedData?.repairShopUserId,
-        firstName: form.firstName,
-        lastName: form.lastName,
-        email: form.email,
-        username: form.username,
-        password: form.password.toString(),
-        phoneNumber: form.phoneNumber,
-        repairShopId: form.repairShopId,
-        roleId: form.roleId,
-        imageUrl: form.imageUrl,
-      };
-
-      // this.userService.editUser(user).subscribe(data => {
-      //   if (data.isOk) {
-      //     this.dialogRef.close({
-      //       repairShopUserId: this.passedData?.repairShopUserId ?? data.result.repairShopUserId, // for new users and editted users
-      //       firstName: user.firstName,
-      //       lastName: user.lastName,
-      //       repairShop: this.repairShops.find(x => x.id === form.repairShopId)?.name,
-      //       position: this.roles.find(x => x.id === form.roleId)?.name ?? 'Owner' // owners cannot edit their position
-      //     });
-      //   }
-      //   else {
-      //     this.errorMessage = data.message;
-      //   }
-      // });
-    }
-  }
-
   onClientChange() {
     const clientId = this.repairOrderForm.get('clientId')?.value as number;
-    const a = this.carRepairService.getClientCars(clientId).subscribe(x => {
+    this.clientCarService.getClientCars(clientId).subscribe(x => {
       this.clientCars = x.result;
     });
   }
-
-
-
 }

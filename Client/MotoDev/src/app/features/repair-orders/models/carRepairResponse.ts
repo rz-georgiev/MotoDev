@@ -5,4 +5,5 @@ export interface CarRepairResponse {
     licensePlateNumber: string;
     statusId: number;
     status: string;
+    repairDateTime: Date;
 }
