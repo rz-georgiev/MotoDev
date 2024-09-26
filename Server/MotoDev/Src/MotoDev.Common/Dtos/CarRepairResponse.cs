@@ -14,5 +14,7 @@
 
         public string Status { get; set; }
 
+        public DateTime RepairDateTime { get; set; }
+
     }
 }

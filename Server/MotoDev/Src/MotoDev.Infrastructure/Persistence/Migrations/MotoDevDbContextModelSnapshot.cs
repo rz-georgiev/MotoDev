@@ -600,9 +600,6 @@ namespace MotoDev.Infrastructure.Persistence.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("ClientId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
@@ -652,8 +649,6 @@ namespace MotoDev.Infrastructure.Persistence.Migrations
                         .HasColumnType("longtext");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ClientId");
 
                     b.HasIndex("RoleId");
 
@@ -841,15 +836,9 @@ namespace MotoDev.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("MotoDev.Domain.Entities.User", b =>
                 {
-                    b.HasOne("MotoDev.Domain.Entities.Client", "Client")
-                        .WithMany()
-                        .HasForeignKey("ClientId");
-
                     b.HasOne("MotoDev.Domain.Entities.Role", "Role")
                         .WithMany()
                         .HasForeignKey("RoleId");
-
-                    b.Navigation("Client");
 
                     b.Navigation("Role");
                 });

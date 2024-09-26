@@ -25,14 +25,53 @@
       </a>
     </li>
 
+    <li class="nav-heading">Clients</li>
+      <li class="nav-item">
+        <a class="nav-link" [ngClass]="{
+          'collapsed': openedTabName !== 'ClientsCars' && openedTabName !== 'RepairOrders' && openedTabName !== 'RepairOrdersDetails'
+        }" data-bs-target="#forms-nav2" data-bs-toggle="collapse" href="#">
+          <i class="bi bi-journal-text"></i><span>Clients Data</span><i class="bi bi-chevron-down ms-auto"></i>
+        </a>
+        <ul id="forms-nav2" class="nav-content collapse " data-bs-parent="#sidebar-nav">
+          <!-- <li (click)="toggleTab('Cars')">
+            <a class="nav-link" [class.collapsed]="openedTabName !== 'Cars'" [routerLink]="['/cars']">
+              <i class="bi bi-circle"></i><span>Cars</span>
+            </a>
+          </li> -->
+          <li *ngIf="this.authService.hasAnyOfTheRoles(['Owner'])" (click)="toggleTab('ClientsCars')" class="nav-item">
+            <a class="nav-link" [class.collapsed]="openedTabName !== 'ClientsCars'" 
+           [routerLink]="['/clientsCars']">
+              <i class="bi bi-person"></i>
+              <span>Clients Cars</span>
+            </a>
+          </li>
 
-    <li *ngIf="this.authService.hasAnyOfTheRoles(['Owner'])" (click)="toggleTab('RepairOrders')" class="nav-item">
-      <a class="nav-link" [class.collapsed]="openedTabName !== 'RepairOrders'" 
-     [routerLink]="['/repairOrders']">
-        <i class="bi bi-person"></i>
-        <span>Repair Orders</span>
-      </a>
-    </li>
+          <li *ngIf="this.authService.hasAnyOfTheRoles(['Owner'])" (click)="toggleTab('RepairOrders')" class="nav-item">
+            <a class="nav-link" [class.collapsed]="openedTabName !== 'RepairOrders'" 
+           [routerLink]="['/repairOrders']">
+              <i class="bi bi-person"></i>
+              <span>Repair Orders</span>
+            </a>
+          </li>
+
+          <li *ngIf="this.authService.hasAnyOfTheRoles(['Owner'])" (click)="toggleTab('RepairOrdersDetails')" class="nav-item">
+            <a class="nav-link" [class.collapsed]="openedTabName !== 'RepairOrdersDetails'" 
+           [routerLink]="['/repairOrdersDetails']">
+              <i class="bi bi-person"></i>
+              <span>Orders Details</span>
+            </a>
+          </li>
+          <!-- <li (click)="toggleTab('BaseData')">
+            <a class="nav-link" [class.collapsed]="openedTabName !== 'BaseData'"  [routerLink]="['/baseData']">
+              <i class="bi bi-circle"></i><span>Base data /readonly/</span>
+            </a>
+          </li> -->
+        </ul>
+      </li><!-- End Forms Nav -->
+
+    
+
+
 
     <!-- <li (click)="toggleTab('Clients')" class="nav-item">
       <a class="nav-link" [class.collapsed]="openedTabName !== 'Clients'" 
@@ -82,11 +121,11 @@
               <i class="bi bi-circle"></i><span>Repair Shops</span>
             </a>
           </li>
-          <li (click)="toggleTab('BaseData')">
+          <!-- <li (click)="toggleTab('BaseData')">
             <a class="nav-link" [class.collapsed]="openedTabName !== 'BaseData'"  [routerLink]="['/baseData']">
               <i class="bi bi-circle"></i><span>Base data /readonly/</span>
             </a>
-          </li>
+          </li> -->
         </ul>
       </li><!-- End Forms Nav -->
     }

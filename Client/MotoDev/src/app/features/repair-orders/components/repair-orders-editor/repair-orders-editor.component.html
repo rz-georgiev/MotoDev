@@ -1,0 +1,40 @@
+<h2 mat-dialog-title class="mat-dialog-title-custom">Repair Order Editor</h2>
+<mat-dialog-content>
+  <form [formGroup]="repairOrderForm" class="row g-3 needs-validation" [ngClass]="{
+    'was-validated': isSubmitted && repairOrderForm.invalid,
+    'novalidate': !isSubmitted
+  }">
+
+<div class="col-lg-12">
+  <label for="repairShopId" class="form-label">Client</label>
+  <select (input)="onClientChange()" class="form-select" id="repairShopId" formControlName="repairShopId" required>
+    <option selected disabled value="">Select below...</option>
+    @for(shop of repairShops; track shop) {
+      <option [ngValue]="shop.id">{{shop.name}}</option>
+    }     
+  </select>
+</div>
+
+<div class="col-lg-12">
+  <label for="repairShopId" class="form-label">Client Car</label>
+  <select class="form-select" id="repairShopId" formControlName="repairShopId" required>
+    <option selected disabled value="">Select below...</option>
+    @for(shop of repairShops; track shop) {
+      <option [ngValue]="shop.id">{{shop.name}}</option>
+    }     
+  </select>
+</div>
+
+    
+    @if (errorMessage) {
+      <div class="alert alert-danger" role="alert">
+          {{errorMessage}}
+      </div>
+      }
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button type="submit" mat-button (click)="onYesClick()">Save</button>
+</mat-dialog-actions>
+

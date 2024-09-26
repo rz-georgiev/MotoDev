@@ -21,7 +21,7 @@ namespace MotoDev.Application.Services
         IEmailService emailService,
         IHttpContextAccessor accessor,
         ICloudinaryService cloudinaryService,
-        MotoDevDbContext dbContext) : ICarRepairService
+        MotoDevDbContext dbContext)  : ICarRepairService
     {
         private readonly IConfiguration _configuration = configuration;
         private readonly IEmailService _emailService = emailService;
@@ -29,21 +29,65 @@ namespace MotoDev.Application.Services
         private readonly ICloudinaryService _cloudinaryService = cloudinaryService;
         private readonly MotoDevDbContext _dbContext = dbContext;
 
-        public async Task<BaseResponse<IEnumerable<CarRepairResponse>>> GetAllCarRepairsAsync()
+        public async Task<BaseResponse<IEnumerable<CarRepairResponse>>> GetAllCarsRepairsAsync()
         {
             var userId = Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId")!.Value);
 
-            var a = _dbContext.RepairShops.Where(x => x.OwnerUserId == userId)
-                .Select(repairShop => new
-                {
-                    RepairShop = repairShop,
-                    RepairShopUsers = repairShop.RepairShopUsers.Select(repairShopUser => new
-                    {
+            var result = new List<CarRepairResponse>();
 
-                    })
-                }).ToList();
+            var repairShops = await _dbContext.RepairShops.Where(x => x.OwnerUserId == userId)
+                .Include(x => x.RepairShopUsers.Where(x => x.User.RoleId == (int)RoleOption.Client))
+                .ThenInclude(x => x.User).ToListAsync();
 
+            var usersIds = repairShops.SelectMany(x => x.RepairShopUsers.Select(x => x.UserId));
+            var clients = await _dbContext.Clients.Where(x => usersIds.Contains(x.UserId))
+                .Include(x => x.ClientCars)
+                .ThenInclude(x => x.ClientCarRepairs)
+                .ThenInclude(x => x.RepairStatus)
+                .Include(x => x.ClientCars)
+                .ThenInclude(x => x.Car).ToListAsync();
             
+            foreach (var repairShop in repairShops)
+            {
+                foreach (var repairShopUser in repairShop.RepairShopUsers)
+                {
+                    var currentClient = clients.SingleOrDefault(x => x.UserId == repairShopUser.UserId);
+                    foreach (var clientCar in currentClient.ClientCars)
+                    {
+                        foreach (var clientCarRepair in clientCar.ClientCarRepairs)
+                        {
+                            result.Add(new CarRepairResponse
+                            {
+                                FirstName = repairShopUser.User.FirstName,
+                                LastName = repairShopUser.User.LastName,
+                                LicensePlateNumber = clientCar.LicensePlateNumber,
+                                CarRepairId = clientCarRepair.Id,
+                                Status = clientCarRepair.RepairStatus.Name,
+                                StatusId = clientCarRepair.RepairStatusId,
+                                RepairDateTime = clientCarRepair.CreatedAt,                             
+                            });
+                        }         
+                    }               
+                }
+            }
+
+            return new BaseResponse<IEnumerable<CarRepairResponse>>
+            {
+                IsOk = true,
+                Result = result
+            };
+        }
+
+        public async Task<BaseResponse<IEnumerable<CarRepairEditResponse>>> GetByIdAsync(int carRepairId)
+        {
+            var carRepair = await _dbContext.ClientCarRepairs.SingleOrDefaultAsync(x => x.Id == carRepairId);
+            var clientCar = await _dbContext.ClientCars.SingleOrDefaultAsync(x => x.Id == carRepair.ClientCarId);
+           
+
+            var response = new CarRepairEditResponse
+            {
+                
+            };
 
             return null;
         }

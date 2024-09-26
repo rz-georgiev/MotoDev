@@ -7,23 +7,6 @@ namespace MotoDev.Infrastructure.Persistence
     public class MotoDevDbContext(DbContextOptions<MotoDevDbContext> options) : DbContext(options)
     {
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<Client>()
-                .HasOne(s => s.User)
-                .WithMany()
-                .HasForeignKey(e => e.UserId)
-                .IsRequired(true);
-
-             modelBuilder.Entity<User>()
-                .HasOne(s => s.Client)
-                .WithMany()
-                .HasForeignKey(e => e.ClientId)
-                .IsRequired(false);
-        }
-
         public DbSet<Brand> Brands { get; set; }
 
         public DbSet<BrandModel> BrandModels { get; set; }

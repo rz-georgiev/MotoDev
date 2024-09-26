@@ -22,12 +22,8 @@
 
         public string? ImageId { get; set; }
 
-        public int? ClientId { get; set; }
-
         public bool IsActive { get; set; } = false;
 
-        public Client? Client { get; set; }
-        
         public Role Role { get; set; }
                 
     }

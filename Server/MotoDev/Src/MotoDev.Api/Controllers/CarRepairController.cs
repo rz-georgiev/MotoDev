@@ -14,10 +14,10 @@ namespace MotoDev.Api.Controllers
         private readonly IHttpContextAccessor _accessor = accessor;
         private readonly ICarRepairService _carRepairService = carRepairService;
         
-        [HttpGet("GetAllCarRepairs")]
-        public async Task<BaseResponse<IEnumerable<CarRepairResponse>>> GetAllCarRepairs()
+        [HttpGet("GetAllCarsRepairs")]
+        public async Task<BaseResponse<IEnumerable<CarRepairResponse>>> GetAllCarsRepairs()
         {
-            return await _carRepairService.GetAllCarRepairsAsync();
+            return await _carRepairService.GetAllCarsRepairsAsync();
         }
 
     }
