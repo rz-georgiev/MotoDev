@@ -20,5 +20,11 @@ namespace MotoDev.Api.Controllers
             return await _clientService.GetMyCarsStatusesAsync();
         }
 
+        [HttpGet("GetAllClients")]
+        public async Task<BaseResponse<IEnumerable<ClientResponse>>> GetAllClients()
+        {
+            return await _clientService.GetAllClientsAsync();
+        }
+
     }
 }

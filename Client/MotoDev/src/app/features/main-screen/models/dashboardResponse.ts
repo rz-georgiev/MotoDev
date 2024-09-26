@@ -8,7 +8,6 @@ export interface DashboardResponse {
     dashboardRecentActivity: DashboardRecentActivity[];
     dashboardReports: DashboardReports;
 }
-
 export interface DashboardRecentActivity {
     time: number;
     title: string;

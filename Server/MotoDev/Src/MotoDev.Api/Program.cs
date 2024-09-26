@@ -119,6 +119,7 @@ builder.Services.AddTransient<IRoleService, RoleService>();
 builder.Services.AddTransient<IDashboardService, DashboardService>();
 builder.Services.AddTransient<IClientService, ClientService>();
 builder.Services.AddTransient<ICarRepairService, CarRepairService>();
+builder.Services.AddTransient<IClientCarService, ClientCarService>();
 
 var app = builder.Build();
 

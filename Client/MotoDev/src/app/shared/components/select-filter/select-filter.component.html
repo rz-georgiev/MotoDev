@@ -1,0 +1,6 @@
+<div>
+    <input type="text" [(ngModel)]="filterText" placeholder="Filter options..." class="form-control" />
+    <select class="form-select" [(ngModel)]="selectedValue">
+      <option *ngFor="let item of filteredItems" [value]="item[valueKey]">{{ item[labelKey] }}</option>
+    </select>
+  </div>

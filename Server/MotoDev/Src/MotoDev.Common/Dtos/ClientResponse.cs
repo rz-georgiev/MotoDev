@@ -2,8 +2,8 @@
 {
     public class ClientResponse
     {
-        public int CarId { get; set; }
+        public int ClientId { get; set; }
 
-        public int FullTitle { get; set; }
+        public string FullName { get; set; }
     }
 }

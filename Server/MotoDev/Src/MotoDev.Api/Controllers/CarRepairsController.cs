@@ -8,7 +8,7 @@ namespace MotoDev.Api.Controllers
     [ApiController]
     [Route("[controller]")]
     [Authorize]
-    public class CarRepairController(IHttpContextAccessor accessor,
+    public class CarRepairsController(IHttpContextAccessor accessor,
         ICarRepairService carRepairService) : ControllerBase
     {
         private readonly IHttpContextAccessor _accessor = accessor;

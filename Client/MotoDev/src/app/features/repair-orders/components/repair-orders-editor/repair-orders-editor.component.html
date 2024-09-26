@@ -6,21 +6,22 @@
   }">
 
 <div class="col-lg-12">
-  <label for="repairShopId" class="form-label">Client</label>
-  <select (input)="onClientChange()" class="form-select" id="repairShopId" formControlName="repairShopId" required>
+  <label for="clientId" class="form-label">Client</label>
+  <!-- <app-select-filter (input)="onClientChange()" [items]="clients" [labelKey]="'clientId'" [valueKey]="'fullName'"></app-select-filter> -->
+  <select (change)="onClientChange()" class="form-select" id="clientId" formControlName="clientId" required>
     <option selected disabled value="">Select below...</option>
-    @for(shop of repairShops; track shop) {
-      <option [ngValue]="shop.id">{{shop.name}}</option>
+    @for(client of clients; track client) {
+      <option [ngValue]="client.clientId">{{client.fullName}}</option>
     }     
   </select>
 </div>
 
 <div class="col-lg-12">
-  <label for="repairShopId" class="form-label">Client Car</label>
-  <select class="form-select" id="repairShopId" formControlName="repairShopId" required>
+  <label for="clientCarId" class="form-label">Client Car</label>
+  <select class="form-select" id="clientCarId" formControlName="clientCarId" required>
     <option selected disabled value="">Select below...</option>
-    @for(shop of repairShops; track shop) {
-      <option [ngValue]="shop.id">{{shop.name}}</option>
+    @for(clientCar of clientCars; track clientCar) {
+      <option [ngValue]="clientCar.clientCarId">{{clientCar.carName}}</option>
     }     
   </select>
 </div>

@@ -12,7 +12,7 @@ import { UserEditorComponent } from '../../../users/components/user-editor/user-
 import { UserService } from '../../../users/services/user.service';
 import { CarRepairService } from '../../services/car.repair.service';
 import { UtcToLocalPipe } from "../../../../core/pipes/utc-to-local.pipe";
-import { RepairOrderEditorComponent } from '../repair-orders-editor/repair-orders-editor.component';
+import { RepairOrdersEditorComponent } from '../repair-orders-editor/repair-orders-editor.component';
 
 @Component({
   selector: 'app-repair-orders',
@@ -59,7 +59,7 @@ export class RepairOrdersComponent {
   }
 
   addAction(): void {
-    const dialog = this.matDialog.open(RepairOrderEditorComponent, { });
+    const dialog = this.matDialog.open(RepairOrdersEditorComponent, { });
     dialog.afterClosed().subscribe(result => {
       if (result) {
         this.dataSource.data.push(result);       
@@ -69,7 +69,7 @@ export class RepairOrdersComponent {
   }
 
   editAction(element: any): void {
-    const dialog = this.matDialog.open(RepairOrderEditorComponent, {data: element});
+    const dialog = this.matDialog.open(RepairOrdersEditorComponent, {data: element});
     dialog.afterClosed().subscribe(result => {
       if (result) {
         this.dataSource.data = this.dataSource.data.filter(x => x !== element);

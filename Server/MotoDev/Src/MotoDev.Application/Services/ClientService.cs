@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using MotoDev.Application.Interfaces;
 using MotoDev.Common.Dtos;
+using MotoDev.Common.Enums;
 using MotoDev.Infrastructure.Persistence;
 
 namespace MotoDev.Application.Services
@@ -13,6 +14,32 @@ namespace MotoDev.Application.Services
         private readonly IHttpContextAccessor _accessor = accessor;
 
         private readonly MotoDevDbContext _dbContext = dbContext;
+
+        public async Task<BaseResponse<IEnumerable<ClientResponse>>> GetAllClientsAsync()
+        {
+            var userId = Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId")!.Value);
+            var repairShops = _dbContext.RepairShops.Where(x => x.OwnerUserId == userId);
+
+            var repairShopUsers = _dbContext.RepairShopUsers.Where(x => repairShops.Select(x => x.Id).Contains(x.RepairShopId)).ToList();
+            var users = await _dbContext.Users.Where(x => repairShopUsers.Select(x => x.UserId).Contains(x.Id) && x.RoleId == (int)RoleOption.Client)
+                .ToListAsync();
+
+            var clients = await _dbContext.Clients.Where(x => users.Select(x => x.Id).Contains(x.UserId))
+                .ToListAsync(); 
+
+            var result = clients.Select(client => new ClientResponse
+            {
+                ClientId = client.Id,
+                FullName = $"{users.SingleOrDefault(x => x.Id == client.UserId)!.FirstName}" +
+                $" {users.SingleOrDefault(x => x.Id == client.UserId)!.LastName}"
+            });
+
+            return new BaseResponse<IEnumerable<ClientResponse>>
+            {
+                IsOk = true,
+                Result = result
+            };
+        }
 
         public async Task<BaseResponse<IEnumerable<ClientCarStatusResponse>>> GetMyCarsStatusesAsync()
         {

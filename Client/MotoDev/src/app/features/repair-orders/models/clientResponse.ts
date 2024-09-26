@@ -1,8 +1,4 @@
-export interface CarRepairResponse {
-    carRepairId: number;
-    firstName: string;
-    lastName: string;
-    licensePlateNumber: string;
-    statusId: number;
-    status: string;
+export interface ClientResponse {
+    clientId: number;
+    fullName: string;
 }

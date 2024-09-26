@@ -19,6 +19,9 @@ import { RoleService } from '../../../roles/services/role.service';
 import { UserDto } from '../../../users/models/userDto';
 import { UserService } from '../../../users/services/user.service';
 import { CarRepairService } from '../../services/car.repair.service';
+import { ClientResponse } from '../../models/clientResponse';
+import { SelectFilterComponent } from "../../../../shared/components/select-filter/select-filter.component";
+import { ClientCarResponse } from '../../models/clientCarResponse';
 
 @Component({
   selector: 'app-user-editor',
@@ -37,20 +40,23 @@ import { CarRepairService } from '../../services/car.repair.service';
     MatDialogActions,
     MatDialogClose,
     MatDialogContent,
-    MatButtonModule
-  ],
+    MatButtonModule,
+    SelectFilterComponent
+],
   templateUrl: './repair-orders-editor.component.html',
   styleUrl: './repair-orders-editor.component.css'
 })
-export class RepairOrderEditorComponent {
+export class RepairOrdersEditorComponent {
 
   public repairOrderForm!: FormGroup;
+  public clients!: ClientResponse[];
+  public clientCars!: ClientCarResponse[];
   public isSubmitted!: boolean;
   public isInEditMode: boolean = false;
   public errorMessage!: string;
 
 
-  constructor(public dialogRef: MatDialogRef<RepairOrderEditorComponent>,
+  constructor(public dialogRef: MatDialogRef<RepairOrdersEditorComponent>,
     @Inject(MAT_DIALOG_DATA) private passedData: any,
     private repairShopService: RepairShopService,
     private userService: UserService,
@@ -60,54 +66,41 @@ export class RepairOrderEditorComponent {
     private formBuilder: FormBuilder
   ) {
     this.repairOrderForm = this.formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      email: ['', Validators.required],
-      username: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(8)]],
-      phoneNumber: ['', Validators.nullValidator],
-      repairShopId: ['', Validators.required],
-      roleId: ['', Validators.required],
+      clientId: ['', Validators.required],
+      clientCarId: ['', Validators.required]
     });
   }
 
-
   ngOnInit() {
 
-    this.isInEditMode = this.passedData?.carRepairdId > 0;
-
-    if (this.isInEditMode) {
-      this.carRepairService.getRepairShopUserById(this.passedData.repairShopUserId).pipe(
-        switchMap(data => {
-          this.repairShopUser = data.result;
-          return this.userService.getById(this.repairShopUser.userId);
-        })
-      ).subscribe(data => {
-        this.userDto = data.result;
-        this.isModifiedUserOwner = this.userDto.roleId == RoleOption.Owner;
-
-        this.repairOrderForm.patchValue({
-          firstName: this.userDto.firstName,
-          lastName: this.userDto.lastName,
-          email: this.userDto.email,
-          username: this.userDto.username,
-          phoneNumber: this.userDto.phoneNumber,
-          repairShopId: this.repairShopUser.repairShopId,
-          roleId: this.userDto.roleId
-        });
-      });
-
-      this.repairOrderForm.get('password')?.clearValidators();
-    }
-
-    this.repairShopService.getRepairShopsForSpecifiedOwner(this.authService.currentUser.id).subscribe(data => {
-      this.repairShops = data.result;
+    this.isInEditMode = this.passedData?.carRepairId > 0;
+    this.carRepairService.getClients().subscribe(x => {
+      this.clients = x.result;
     });
 
-    this.roleService.getAll().subscribe(data => {
-      this.roles = data.result;
-    });
+    // this.carRepairService.getById(passedData?.carRepairId)
+    // if (this.isInEditMode) {
+    //   this.carRepairService.getRepairShopUserById(this.passedData.repairShopUserId).pipe(
+    //     switchMap(data => {
+    //       this.repairShopUser = data.result;
+    //       return this.userService.getById(this.repairShopUser.userId);
+    //     })
+    //   ).subscribe(data => {
+    //     this.userDto = data.result;
+    //     this.isModifiedUserOwner = this.userDto.roleId == RoleOption.Owner;
 
+    //     this.repairOrderForm.patchValue({
+    //       firstName: this.userDto.firstName,
+    //       lastName: this.userDto.lastName,
+    //       email: this.userDto.email,
+    //       username: this.userDto.username,
+    //       phoneNumber: this.userDto.phoneNumber,
+    //       repairShopId: this.repairShopUser.repairShopId,
+    //       roleId: this.userDto.roleId
+    //     });
+    //   });
+
+   
   }
 
   onNoClick() {
@@ -131,68 +124,30 @@ export class RepairOrderEditorComponent {
         imageUrl: form.imageUrl,
       };
 
-      this.userService.editUser(user).subscribe(data => {
-        if (data.isOk) {
-          this.dialogRef.close({
-            repairShopUserId: this.passedData?.repairShopUserId ?? data.result.repairShopUserId, // for new users and editted users
-            firstName: user.firstName,
-            lastName: user.lastName,
-            repairShop: this.repairShops.find(x => x.id === form.repairShopId)?.name,
-            position: this.roles.find(x => x.id === form.roleId)?.name ?? 'Owner' // owners cannot edit their position
-          });
-        }
-        else {
-          this.errorMessage = data.message;
-        }
-      });
+      // this.userService.editUser(user).subscribe(data => {
+      //   if (data.isOk) {
+      //     this.dialogRef.close({
+      //       repairShopUserId: this.passedData?.repairShopUserId ?? data.result.repairShopUserId, // for new users and editted users
+      //       firstName: user.firstName,
+      //       lastName: user.lastName,
+      //       repairShop: this.repairShops.find(x => x.id === form.repairShopId)?.name,
+      //       position: this.roles.find(x => x.id === form.roleId)?.name ?? 'Owner' // owners cannot edit their position
+      //     });
+      //   }
+      //   else {
+      //     this.errorMessage = data.message;
+      //   }
+      // });
     }
   }
 
   onClientChange() {
-    throw new Error('Method not implemented.');
+    const clientId = this.repairOrderForm.get('clientId')?.value as number;
+    const a = this.carRepairService.getClientCars(clientId).subscribe(x => {
+      this.clientCars = x.result;
+    });
   }
 
 
-  onNameChange() {
-    if (this.isClientRoleSelected && !this.isInEditMode) {
-      const usernameInput = this.repairOrderForm.get('username');
-      const names: {
-        firstName: 'firstName',
-        lastName: 'lastName'
-      } = this.repairOrderForm.value
 
-      const randomNumber = Math.floor(1000 + Math.random() * 9999);
-      const newUsername = `${names.firstName}.${names.lastName}.${randomNumber}`.toLowerCase();
-      usernameInput?.setValue(newUsername);
-    }
-
-  }
-
-  onRoleChanged(event: Event) {
-    const selectedRole = event.target as HTMLSelectElement;
-    const roleId = Number(selectedRole.value.split(': ').at(1));
-    this.isClientRoleSelected = roleId === RoleOption.Client;
-
-    const usernameInput = this.repairOrderForm.get('username');
-    const passwordInput = this.repairOrderForm.get('password');
-
-    if (this.isInEditMode) {
-      return;
-    }
-    if (this.isClientRoleSelected) {
-
-      const names: {
-        firstName: 'firstName',
-        lastName: 'lastName'
-      } = this.repairOrderForm.value
-
-      const password = Math.random().toString(36).slice(-8);
-      passwordInput?.setValue(password);
-      this.onNameChange();
-    }
-    else {
-      passwordInput?.setValue('');
-      usernameInput?.setValue('')
-    }
-  }
 }

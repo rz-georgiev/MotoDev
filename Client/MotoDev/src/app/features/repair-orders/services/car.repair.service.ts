@@ -7,6 +7,8 @@ import { UserDto } from '../../users/models/userDto';
 import { UserDtoMinimized } from '../../users/models/userDtoMinimized';
 import { UserExtendedDto } from '../../users/models/UserExtendedDto';
 import { UserProfileImageUpdateResponse } from '../../users/models/userProfileImageUpdateResponse';
+import { ClientResponse } from '../models/clientResponse';
+import { ClientCarResponse } from '../models/clientCarResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -14,12 +16,21 @@ import { UserProfileImageUpdateResponse } from '../../users/models/userProfileIm
 export class CarRepairService {
 
   private baseUrl = `https://localhost:5078`;
-  
+
   constructor(private http: HttpClient) { }
 
   getAllCarsRepairs(): Observable<BaseResponse<CarRepairResponse[]>> {
-    return this.http.get<BaseResponse<CarRepairResponse[]>>(`${this.baseUrl}/CarRepair/GetAllCarsRepairs`);
+    return this.http.get<BaseResponse<CarRepairResponse[]>>(`${this.baseUrl}/CarRepairs/GetAllCarsRepairs`);
   }
+
+  getClients(): Observable<BaseResponse<ClientResponse[]>> {
+    return this.http.get<BaseResponse<ClientResponse[]>>(`${this.baseUrl}/Clients/GetAllClients`);
+  }
+
+  getClientCars(clientId: number): Observable<BaseResponse<ClientCarResponse[]>> {
+    return this.http.get<BaseResponse<ClientCarResponse[]>>(`${this.baseUrl}/ClientCars/GetClientCars?clientId=${clientId}`);
+  }
+
 
   getById(id: number): Observable<BaseResponse<UserDto>> {
     return this.http.get<BaseResponse<UserDto>>(`${this.baseUrl}/Users/GetById?id=${id}`);
