@@ -10,6 +10,7 @@ import { UserProfileImageUpdateResponse } from '../../users/models/userProfileIm
 import { ClientResponse } from '../models/clientResponse';
 import { ClientCarResponse } from '../models/clientCarResponse';
 import { CarRepairRequest } from '../models/carRepairRequest';
+import { ClientCarEditResponse } from '../models/clientCarEditResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -24,8 +25,8 @@ export class CarRepairService {
     return this.http.get<BaseResponse<CarRepairResponse[]>>(`${this.baseUrl}/CarRepairs/GetAllCarsRepairs`);
   }
 
-  getById(id: number): Observable<BaseResponse<UserDto>> {
-    return this.http.get<BaseResponse<UserDto>>(`${this.baseUrl}/Users/GetById?id=${id}`);
+  getById(id: number): Observable<BaseResponse<ClientCarEditResponse>> {
+    return this.http.get<BaseResponse<ClientCarEditResponse>>(`${this.baseUrl}/CarRepairs/GetById?carRepairId=${id}`);
   }
 
   editCarRepair(carRepairData: CarRepairRequest): Observable<BaseResponse<CarRepairResponse>> {

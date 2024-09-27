@@ -61,10 +61,6 @@ export class RepairOrdersEditorComponent {
 
   constructor(public dialogRef: MatDialogRef<RepairOrdersEditorComponent>,
     @Inject(MAT_DIALOG_DATA) private passedData: any,
-    private repairShopService: RepairShopService,
-    private userService: UserService,
-    private authService: AuthService,
-    private roleService: RoleService,
     private carRepairService: CarRepairService,
     private clientService: ClientService,
     private clientCarService: ClientCarService,
@@ -79,33 +75,24 @@ export class RepairOrdersEditorComponent {
   ngOnInit() {
 
     this.isInEditMode = this.passedData?.carRepairId > 0;
+
     this.clientService.getClients().subscribe(x => {
       this.clients = x.result;
     });
 
-    // this.carRepairService.getById(passedData?.carRepairId)
-    // if (this.isInEditMode) {
-    //   this.carRepairService.getRepairShopUserById(this.passedData.repairShopUserId).pipe(
-    //     switchMap(data => {
-    //       this.repairShopUser = data.result;
-    //       return this.userService.getById(this.repairShopUser.userId);
-    //     })
-    //   ).subscribe(data => {
-    //     this.userDto = data.result;
-    //     this.isModifiedUserOwner = this.userDto.roleId == RoleOption.Owner;
+    if (this.passedData?.carRepairId > 0) {
+      this.carRepairService.getById(this.passedData.carRepairId).subscribe(x => {
+        this.repairOrderForm.patchValue({
+          clientId: x.result.clientId
+        });
 
-    //     this.repairOrderForm.patchValue({
-    //       firstName: this.userDto.firstName,
-    //       lastName: this.userDto.lastName,
-    //       email: this.userDto.email,
-    //       username: this.userDto.username,
-    //       phoneNumber: this.userDto.phoneNumber,
-    //       repairShopId: this.repairShopUser.repairShopId,
-    //       roleId: this.userDto.roleId
-    //     });
-    //   });
+        this.onClientChange();
 
-
+        this.repairOrderForm.patchValue({
+          clientCarId: x.result.clientCarId
+        });
+      });
+    }
   }
 
 
@@ -114,7 +101,7 @@ export class RepairOrdersEditorComponent {
     if (this.repairOrderForm.valid) {
 
       const carRepair: CarRepairRequest = {
-        carRepairId: this.passedData?.id,
+        carRepairId: this.passedData?.carRepairId,
         clientCarId: this.repairOrderForm.get('clientCarId')?.value as number
       };
 

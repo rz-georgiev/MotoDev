@@ -8,6 +8,6 @@ namespace MotoDev.Application.Interfaces
 
         Task<BaseResponse<CarRepairResponse>> EditAsync(CarRepairRequest request);
 
-        Task<BaseResponse<IEnumerable<CarRepairEditResponse>>> GetByIdAsync(int carRepairId);
+        Task<BaseResponse<CarRepairEditResponse>> GetByIdAsync(int carRepairId);
     }
 }

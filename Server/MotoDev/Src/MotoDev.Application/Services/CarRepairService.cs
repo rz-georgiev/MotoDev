@@ -130,16 +130,21 @@ namespace MotoDev.Application.Services
             };
         }
 
-        public async Task<BaseResponse<IEnumerable<CarRepairEditResponse>>> GetByIdAsync(int carRepairId)
+        public async Task<BaseResponse<CarRepairEditResponse>> GetByIdAsync(int carRepairId)
         {
             var carRepair = await _dbContext.ClientCarRepairs.SingleOrDefaultAsync(x => x.Id == carRepairId);
             var clientCar = await _dbContext.ClientCars.SingleOrDefaultAsync(x => x.Id == carRepair.ClientCarId);
 
-            var response = new CarRepairEditResponse
+            return new BaseResponse<CarRepairEditResponse>
             {
+                IsOk = true,
+                Result = new CarRepairEditResponse
+                {
+                    CarRepairId = carRepair.Id,
+                    ClientCarId = clientCar.Id,
+                    ClientId = clientCar.ClientId
+                }
             };
-
-            return null;
         }
     }
 }

@@ -9,6 +9,8 @@ export class UtcToLocalPipe implements PipeTransform {
   transform(value: string): string {
     if (!value) return '';
 
+    value = value.split('.')[0];
+
     const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     return moment.utc(`${value}Z`).tz(timeZone).format('DD.MM.yyyy HH:mm');
   }

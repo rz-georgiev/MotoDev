@@ -20,6 +20,13 @@ namespace MotoDev.Api.Controllers
             return await _carRepairService.GetAllCarsRepairsAsync();
         }
 
+
+        [HttpGet("GetById")]
+        public async Task<BaseResponse<CarRepairEditResponse>> GetById(int carRepairId)
+        {
+            return await _carRepairService.GetByIdAsync(carRepairId);
+        }
+
         [HttpPost("Edit")]
         public async Task<BaseResponse<CarRepairResponse>> Edit([FromBody] CarRepairRequest request)
         {
