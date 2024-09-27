@@ -4,6 +4,6 @@
     {
         public int CarId { get; set; }
 
-        public int FullTitle { get; set; }
+        public string CarName { get; set; }
     }
 }

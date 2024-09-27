@@ -120,6 +120,7 @@ builder.Services.AddTransient<IDashboardService, DashboardService>();
 builder.Services.AddTransient<IClientService, ClientService>();
 builder.Services.AddTransient<ICarRepairService, CarRepairService>();
 builder.Services.AddTransient<IClientCarService, ClientCarService>();
+builder.Services.AddTransient<ICarService, CarService>();
 
 var app = builder.Build();
 

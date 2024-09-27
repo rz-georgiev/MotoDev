@@ -82,13 +82,16 @@ namespace MotoDev.Application.Services
         public async Task<BaseResponse<CarRepairResponse>> EditAsync(CarRepairRequest request)
         {
 
-            var currentClientCarRepair = new ClientCarRepair();
+            var currentClientCarRepair = request.CarRepairId > 0 
+                ? await _dbContext.ClientCarRepairs.SingleOrDefaultAsync(x => x.Id == request.CarRepairId) 
+                : new ClientCarRepair();
+
             int userId = Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId")!.Value);
+
+            currentClientCarRepair.ClientCarId = request.ClientCarId;
 
             if (request.CarRepairId > 0)
             {
-                currentClientCarRepair = await _dbContext.ClientCarRepairs.SingleOrDefaultAsync(x => x.Id == request.CarRepairId);
-                currentClientCarRepair.ClientCarId = request.ClientCarId;
                 currentClientCarRepair.LastUpdatedAt = DateTime.UtcNow;
                 currentClientCarRepair.LastUpdatedByUserId = userId;
 
@@ -96,7 +99,6 @@ namespace MotoDev.Application.Services
             }
             else
             {
-                currentClientCarRepair.ClientCarId = request.ClientCarId;
                 currentClientCarRepair.RepairStatusId = (int)RepairStatusOption.ToDo;
                 currentClientCarRepair.CreatedAt = DateTime.UtcNow;
                 currentClientCarRepair.CreatedByUserId = userId;
