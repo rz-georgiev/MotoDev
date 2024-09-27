@@ -12,7 +12,7 @@ import { UserEditorComponent } from '../../../users/components/user-editor/user-
 import { UserService } from '../../../users/services/user.service';
 import { CarRepairService } from '../../services/car.repair.service';
 import { UtcToLocalPipe } from "../../../../core/pipes/utc-to-local.pipe";
-import { RepairOrdersEditorComponent } from '../repair-orders-editor/repair-orders-editor.component';
+import { RepairOrdersEditorComponent } from '../client-car-repairs-editor/repair-orders-editor.component';
 
 @Component({
   selector: 'app-repair-orders',
@@ -86,9 +86,9 @@ export class RepairOrdersComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result === true) {
-        this.carRepairService.deactivateRepairUserById(element.repairShopUserId).subscribe(result => {
+        this.carRepairService.deactivateByCarRepairIdAsync(element.carRepairId).subscribe(result => {
           if (result.isOk) {
-            this.dataSource.data = this.dataSource.data.filter(x => x.repairShopUserId !== element.repairShopUserId);
+            this.dataSource.data = this.dataSource.data.filter(x => x.carRepairId !== element.carRepairId);
           }
         });
       }

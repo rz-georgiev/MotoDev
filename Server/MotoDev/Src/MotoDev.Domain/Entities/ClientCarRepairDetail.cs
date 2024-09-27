@@ -8,7 +8,7 @@ namespace MotoDev.Domain.Entities
 
         public int RepairTypeId { get; set; }
 
-        public string Notes { get; set; }
+        public string? Notes { get; set; }
 
         public decimal Price { get; set; }
 
@@ -17,6 +17,8 @@ namespace MotoDev.Domain.Entities
         public DateTime? RepairEndDateTime { get; set; }
 
         public int RepairStatusId { get; set; }
+
+        public bool IsActive { get; set; }
 
         public RepairStatus RepairStatus { get; set; }
 

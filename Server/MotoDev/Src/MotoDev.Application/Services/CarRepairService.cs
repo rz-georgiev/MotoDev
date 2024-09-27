@@ -43,7 +43,7 @@ namespace MotoDev.Application.Services
             var usersIds = repairShops.SelectMany(x => x.RepairShopUsers.Select(x => x.UserId));
             var clients = await _dbContext.Clients.Where(x => usersIds.Contains(x.UserId))
                 .Include(x => x.ClientCars)
-                .ThenInclude(x => x.ClientCarRepairs)
+                .ThenInclude(x => x.ClientCarRepairs.Where(x => x.IsActive == true))
                 .ThenInclude(x => x.RepairStatus)
                 .Include(x => x.ClientCars)
                 .ThenInclude(x => x.Car).ToListAsync();
@@ -78,7 +78,7 @@ namespace MotoDev.Application.Services
                 Result = result
             };
         }
-
+        
         public async Task<BaseResponse<CarRepairResponse>> EditAsync(CarRepairRequest request)
         {
 
@@ -144,6 +144,21 @@ namespace MotoDev.Application.Services
                     ClientCarId = clientCar.Id,
                     ClientId = clientCar.ClientId
                 }
+            };
+        }
+
+        public async Task<BaseResponse<bool>> DeactivateByCarRepairIdAsync(int carRepairId)
+        {
+            var carRepair = await _dbContext.ClientCarRepairs.SingleOrDefaultAsync(x => x.Id == carRepairId);
+            carRepair.IsActive = false;
+         
+            _dbContext.Update(carRepair);
+            await _dbContext.SaveChangesAsync();
+            
+            return new BaseResponse<bool>
+            {
+                IsOk = true,
+                Result = true,
             };
         }
     }

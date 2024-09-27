@@ -6,11 +6,13 @@
 
         public int CarId { get; set; }
 
-        public string VinNumber { get; set; }
+        public string? VinNumber { get; set; }
 
         public string LicensePlateNumber { get; set; }
 
-        public string OtherModifications { get; set; }
+        public string? OtherModifications { get; set; }
+
+        public bool IsActive { get; set; }
 
         public Client Client { get; set; }
 

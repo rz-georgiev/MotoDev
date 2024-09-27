@@ -33,21 +33,7 @@ export class CarRepairService {
     return this.http.post<BaseResponse<CarRepairResponse>>(`${this.baseUrl}/CarRepairs/Edit`, carRepairData);
   }
 
-  deactivateRepairUserById(id: number): Observable<any> {
-    return this.http.put(`${this.baseUrl}/Users/DeactivateRepairUserById?id=${id}`, null);
+  deactivateByCarRepairIdAsync(carRepairId: number): Observable<BaseResponse<boolean>> {
+    return this.http.put<BaseResponse<boolean>>(`${this.baseUrl}/CarRepairs/DeactivateByCarRepairId?carRepairId=${carRepairId}`, null);
   }
-
-  editUser(userData: UserDto): Observable<BaseResponse<UserDto>> {
-    return this.http.post<BaseResponse<UserDto>>(`${this.baseUrl}/Users/Edit`, userData);
-  }
-
-  // Used when the user is editing his/her information themselves
-  editUserMinimized(userData: UserDtoMinimized): Observable<BaseResponse<UserExtendedDto>> {
-    return this.http.post<BaseResponse<UserExtendedDto>>(`${this.baseUrl}/Users/EditMinimized`, userData);
-  }
-
-  updateProfileImage(formData: FormData): Observable<BaseResponse<UserProfileImageUpdateResponse>> {
-    return this.http.post<BaseResponse<UserProfileImageUpdateResponse>>(`${this.baseUrl}/Users/UpdateProfileImage`, formData);
-  }
-
 }

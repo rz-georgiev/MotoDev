@@ -24,7 +24,7 @@ import { animation } from '@angular/animations';
 import { UserProfileComponent } from './features/user-profile/user-profile.component';
 import { RepairTrackerComponent } from './features/repair-tracker/components/repair-tracker.component';
 import { MechanicRepairsComponent } from './features/mechanic-repairs/mechanic-repairs.component';
-import { RepairOrdersComponent } from './features/repair-orders/components/repair-oders/repair-orders.component';
+import { RepairOrdersComponent } from './features/client-car-repairs/components/client-car-repairs/repair-orders.component';
 
 export const routes: Routes = [
     { path: 'login', component: LoginComponent },

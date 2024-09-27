@@ -10,6 +10,8 @@
 
         public int RepairStatusId { get; set; }
         
+        public bool IsActive { get; set; }
+
         public RepairStatus RepairStatus { get; set; }
 
         public ClientCar ClientCar { get; set; }
