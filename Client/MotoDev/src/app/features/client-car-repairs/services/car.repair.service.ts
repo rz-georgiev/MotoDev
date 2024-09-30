@@ -11,6 +11,7 @@ import { ClientResponse } from '../models/clientResponse';
 import { ClientCarResponse } from '../models/clientCarResponse';
 import { CarRepairRequest } from '../models/carRepairRequest';
 import { ClientCarEditResponse } from '../models/clientCarEditResponse';
+import { CarRepairSelectResponse } from '../models/carRepairSelectResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -35,5 +36,9 @@ export class CarRepairService {
 
   deactivateByCarRepairIdAsync(carRepairId: number): Observable<BaseResponse<boolean>> {
     return this.http.put<BaseResponse<boolean>>(`${this.baseUrl}/CarRepairs/DeactivateByCarRepairId?carRepairId=${carRepairId}`, null);
+  }
+
+  getClientsRepairs(): Observable<BaseResponse<CarRepairSelectResponse[]>> {
+    return this.http.get<BaseResponse<CarRepairSelectResponse[]>>(`${this.baseUrl}/CarRepairs/GetClientsRepairs`);
   }
 }

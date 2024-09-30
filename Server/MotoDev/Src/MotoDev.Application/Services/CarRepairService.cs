@@ -163,5 +163,22 @@ namespace MotoDev.Application.Services
                 Result = true,
             };
         }
+
+        public async Task<BaseResponse<IEnumerable<CarRepairSelectResponse>>> GetClientsRepairsAsync()
+        {
+            var data = await GetAllCarsRepairsAsync();
+            var result = data.Result.Select(x => new CarRepairSelectResponse
+            {
+                ClientCarRepairId = x.CarRepairId,
+                RepairName = $"#{x.CarRepairId} / {x.FirstName} {x.LastName} / {x.LicensePlateNumber}"
+            })
+            .OrderBy(x => x.ClientCarRepairId);
+
+            return new BaseResponse<IEnumerable<CarRepairSelectResponse>>
+            {
+                IsOk =  true,
+                Result = result,
+            };
+        }
     }
 }

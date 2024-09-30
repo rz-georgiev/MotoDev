@@ -1,1 +1,57 @@
-<p>client-car-repair-detail-editor works!</p>
+<h2 mat-dialog-title class="mat-dialog-title-custom">Repair Order Detail Editor</h2>
+<mat-dialog-content>
+  <form [formGroup]="repairOrderForm" class="row g-3 needs-validation" [ngClass]="{
+    'was-validated': isSubmitted && repairOrderForm.invalid,
+    'novalidate': !isSubmitted
+  }">
+
+<div class="col-lg-12">
+  <label for="clientCarRepairId" class="form-label">Repair</label>
+  <select class="form-select" id="clientCarRepairId" formControlName="clientCarRepairId" required>
+    <option selected disabled value="">Select below...</option>
+    @for(carRepair of carsRepairs; track carRepair) {
+      <option [ngValue]="carRepair.clientCarRepairId">{{carRepair.repairName}}</option>
+    }     
+  </select>
+</div>
+
+<div class="col-lg-12">
+  <label for="repairTypeId" class="form-label">Repair Type</label>
+  <select   class="form-select" id="repairTypeId" formControlName="repairTypeId" required>
+    <option selected disabled value="">Select below...</option>
+    @for(repairType of repairTypes; track repairType) {
+      <option [ngValue]="repairType.id">{{repairType.name}}</option>
+    }     
+  </select>
+</div>
+
+<div class="col-lg-12">
+    <label for="price" class="form-label">Price</label>
+    <div class="input-group">
+      <input type="text" class="form-control" id="price" formControlName="price" required>
+    </div>
+</div>
+
+<div class="col-lg-12">
+    <label for="statusId" class="form-label">Status</label>
+    <select  class="form-select" id="statusId" formControlName="statusId" required>
+      <option selected disabled value="">Select below...</option>
+      @for(repairStatus of repairStatuses; track repairStatus) {
+        <option [ngValue]="repairStatus.id">{{repairStatus.name}}</option>
+      }     
+    </select>
+  </div>
+
+    
+    @if (errorMessage) {
+      <div class="alert alert-danger" role="alert">
+          {{errorMessage}}
+      </div>
+      }
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button type="submit" mat-button (click)="onYesClick()">Save</button>
+</mat-dialog-actions>
+

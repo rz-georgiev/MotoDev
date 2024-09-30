@@ -38,5 +38,11 @@ namespace MotoDev.Api.Controllers
         {
             return await _carRepairService.EditAsync(request);
         }
+
+        [HttpGet("GetClientsRepairs")]
+        public async Task<BaseResponse<IEnumerable<CarRepairSelectResponse>>> GetClientsRepairs()
+        {
+            return await _carRepairService.GetClientsRepairsAsync();
+        }
     }
 }

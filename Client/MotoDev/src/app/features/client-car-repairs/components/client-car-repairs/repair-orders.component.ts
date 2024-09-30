@@ -32,7 +32,7 @@ import { RepairOrdersEditorComponent } from '../client-car-repairs-editor/repair
   styleUrl: './repair-orders.component.css'
 })
 export class RepairOrdersComponent {
-  displayedColumns: string[] = ['firstName', 'lastName', 'licensePlateNumber', 'status', 'repairDateTime', 'actions'];
+  displayedColumns: string[] = ['carRepairId', 'firstName', 'lastName', 'licensePlateNumber', 'status', 'repairDateTime', 'actions'];
   dataSource = new MatTableDataSource<any>();
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
