@@ -30,7 +30,7 @@ namespace MotoDev.Application.Services
         private readonly ICloudinaryService _cloudinaryService = cloudinaryService;
         private readonly MotoDevDbContext _dbContext = dbContext;
 
-        public async Task<BaseResponse<IEnumerable<CarResponse>>> GetAllCarsAsync()
+        public async Task<BaseResponse<IEnumerable<CarResponse>>> GetAllAsync()
         {
             var cars = await _dbContext.Cars
                 .Include(x => x.Brand)

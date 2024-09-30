@@ -25,6 +25,8 @@ import { UserProfileComponent } from './features/user-profile/user-profile.compo
 import { RepairTrackerComponent } from './features/repair-tracker/components/repair-tracker.component';
 import { MechanicRepairsComponent } from './features/mechanic-repairs/mechanic-repairs.component';
 import { RepairOrdersComponent } from './features/client-car-repairs/components/client-car-repairs/repair-orders.component';
+import { ClientCarComponent } from './features/client-cars/components/client-car/client-car.component';
+import { ClientCarRepairDetailComponent } from './features/client-car-repair-detail/components/client-car-repair-detail/client-car-repair-detail.component';
 
 export const routes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -68,6 +70,18 @@ export const routes: Routes = [
     {
         path: 'cars',
         component: CarsComponent,
+        canActivate: [RoleGuard],
+        data: { roles: ['Owner'] }
+    },
+    {
+        path: 'clientsCars',
+        component: ClientCarComponent,
+        canActivate: [RoleGuard],
+        data: { roles: ['Owner'] }
+    },
+    {
+        path: 'repairOrdersDetails',
+        component: ClientCarRepairDetailComponent,
         canActivate: [RoleGuard],
         data: { roles: ['Owner'] }
     },

@@ -30,7 +30,8 @@ namespace MotoDev.Application.Services
                 .Include(x => x.ClientCars.Where(x => x.IsActive))
                 .ThenInclude(x => x.Car)
                 .ThenInclude(x => x.Model)
-                .ThenInclude(x => x.Brand).ToListAsync();
+                .ThenInclude(x => x.Brand)
+                .Include(x => x.User).ToListAsync();
 
             var clientsCars = clients.SelectMany(x => x.ClientCars);
             var result = clientsCars.Select(x => new ClientCarListingReponse
@@ -50,7 +51,18 @@ namespace MotoDev.Application.Services
 
         public async Task<BaseResponse<ClientCarEditDto>> GetByIdAsync(int clientCarId)
         {
-            throw new NotImplementedException();
+            var clientCar = await _dbContext.ClientCars.SingleOrDefaultAsync(x => x.Id == clientCarId);
+            return new BaseResponse<ClientCarEditDto>
+            {
+                IsOk = true,
+                Result = new ClientCarEditDto
+                {
+                    ClientCarId = clientCar.Id,
+                    CarId = clientCar.CarId,
+                    ClientId = clientCar.ClientId,
+                    LicensePlateNumber = clientCar.LicensePlateNumber
+                }
+            };
         }
 
         public async Task<BaseResponse<ClientCarListingReponse>> EditAsync(ClientCarEditDto request)
@@ -76,10 +88,11 @@ namespace MotoDev.Application.Services
             {
                 currentClientCar.CreatedAt = DateTime.UtcNow;
                 currentClientCar.CreatedByUserId = userId;
+                currentClientCar.IsActive = true;
 
                 await _dbContext.AddAsync(currentClientCar);
             }
-
+            
             await _dbContext.SaveChangesAsync();
 
 

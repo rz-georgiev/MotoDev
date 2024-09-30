@@ -1,0 +1,47 @@
+<h2 mat-dialog-title class="mat-dialog-title-custom">Client Car Editor</h2>
+<mat-dialog-content>
+  <form [formGroup]="repairOrderForm" class="row g-3 needs-validation" [ngClass]="{
+    'was-validated': isSubmitted && repairOrderForm.invalid,
+    'novalidate': !isSubmitted
+  }">
+
+<div class="col-lg-12">
+  <label for="clientId" class="form-label">Client</label>
+  <select class="form-select" id="clientId" formControlName="clientId" required>
+    <option selected disabled value="">Select below...</option>
+    @for(client of clients; track client) {
+      <option [ngValue]="client.clientId">{{client.fullName}}</option>
+    }     
+  </select>
+</div>
+
+<div class="col-lg-12">
+  <label for="carId" class="form-label">Car</label>
+  <select class="form-select" id="carId" formControlName="carId" required>
+    <option selected disabled value="">Select below...</option>
+    @for(car of cars; track car) {
+      <option [ngValue]="car.carId">{{car.carName}}</option>
+    }     
+  </select>
+</div>
+
+<div class="col-lg-12">
+    <label for="licensePlateNumber" class="form-label">License Plate Number</label>
+    <div class="input-group">
+      <input type="text" class="form-control" id="licensePlateNumber" formControlName="licensePlateNumber" required>
+    </div>
+</div>
+
+    
+    @if (errorMessage) {
+      <div class="alert alert-danger" role="alert">
+          {{errorMessage}}
+      </div>
+      }
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button type="submit" mat-button (click)="onYesClick()">Save</button>
+</mat-dialog-actions>
+

@@ -15,10 +15,10 @@ namespace MotoDev.Api.Controllers
         private readonly IHttpContextAccessor _accessor = accessor;
         private readonly ICarService _carService = carService;
         
-        [HttpGet("GetAllCars")]
-        public async Task<BaseResponse<IEnumerable<CarResponse>>> GetAllCars()
+        [HttpGet("GetAll")]
+        public async Task<BaseResponse<IEnumerable<CarResponse>>> GetAll()
         {
-            return await _carService.GetAllCarsAsync();
+            return await _carService.GetAllAsync();
         }
     }
 }

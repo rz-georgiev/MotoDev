@@ -21,12 +21,6 @@ namespace MotoDev.Api.Controllers
             return await _clientCarService.GetAllClientCarsAsync();
         }
 
-        [HttpPut("DeactivateByClientCarId")]
-        public async Task<BaseResponse<bool>> DeactivateByClientCarId(int clientCarId)
-        {
-            return await _clientCarService.DeactivateByCarRepairIdAsync(clientCarId);
-        }
-
         [HttpGet("GetById")]
         public async Task<BaseResponse<ClientCarEditDto>> GetById(int clientCarId)
         {
@@ -37,6 +31,12 @@ namespace MotoDev.Api.Controllers
         public async Task<BaseResponse<ClientCarListingReponse>> Edit([FromBody] ClientCarEditDto request)
         {
             return await _clientCarService.EditAsync(request);
+        }
+
+        [HttpPut("DeactivateByClientCarId")]
+        public async Task<BaseResponse<bool>> DeactivateByClientCarId(int clientCarId)
+        {
+            return await _clientCarService.DeactivateByCarRepairIdAsync(clientCarId);
         }
 
         [HttpGet("GetClientCars")]
