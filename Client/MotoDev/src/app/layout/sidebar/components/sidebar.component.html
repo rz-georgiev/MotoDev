@@ -25,8 +25,8 @@
       </a>
     </li>
 
-    <li class="nav-heading">Clients</li>
-      <li class="nav-item">
+    <li *ngIf="this.authService.hasAnyOfTheRoles(['Owner'])" class="nav-heading">Clients</li>
+      <li *ngIf="this.authService.hasAnyOfTheRoles(['Owner'])" class="nav-item">
         <a class="nav-link" [ngClass]="{
           'collapsed': openedTabName !== 'ClientsCars' && openedTabName !== 'RepairOrders' && openedTabName !== 'RepairOrdersDetails'
         }" data-bs-target="#forms-nav2" data-bs-toggle="collapse" href="#">

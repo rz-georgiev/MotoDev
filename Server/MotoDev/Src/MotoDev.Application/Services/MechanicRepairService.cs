@@ -27,14 +27,18 @@ namespace MotoDev.Application.Services
                     $"{repair.ClientCar.Car.Model.Name} " +
                     $"{repair.ClientCar.Car.Year} / " +
                     $"{repair.ClientCar.LicensePlateNumber}",
-                    Details = repair.ClientCarRepairsDetails.Select(detail => new MechanicRepairResponseDetail
+                    Details = repair.ClientCarRepairsDetails
+                        .Where(x => x.IsActive)
+                        .Select(detail => new MechanicRepairResponseDetail
                     {
                         RepairDetailId = detail.Id,
                         Notes = detail.Notes,
                         RepairName = detail.RepairType.Name,
                         StatusId = detail.RepairStatusId,
-                    })
-                }).ToListAsync();
+                    })   
+                })
+                .Where(x => x.Details.Any())
+                .ToListAsync();
 
             return new BaseResponse<IEnumerable<MechanicRepairResponse>>
             {
