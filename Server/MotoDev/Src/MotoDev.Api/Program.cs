@@ -124,6 +124,7 @@ builder.Services.AddTransient<IClientCarService, ClientCarService>();
 builder.Services.AddTransient<ICarService, CarService>();
 builder.Services.AddTransient<IRepairStatusService, RepairStatusService>();
 builder.Services.AddTransient<IRepairTypeService, RepairTypeService>();
+builder.Services.AddTransient<IMechanicRepairService, MechanicRepairService>();
 
 var app = builder.Build();
 

@@ -1,0 +1,65 @@
+<body>
+  <main id="main" class="main">
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+
+              <h3>Current repairs</h3>
+              <p>You can see the cars you are working on below</p>
+
+              <div class="accordion" id="accordionExample">
+
+                @for (repairOrder of data; track repairOrder; let index = $index;) {
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                      data-bs-target="'#collapse'{index}" aria-expanded="true" aria-controls="'#collapse'+index">
+                      {{repairOrder.orderName}}
+                    </button>
+                  </h2>
+                  <div id="'#collapse'+index" class="accordion-collapse collapse hide" aria-labelledby="headingOne"
+                    data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+
+                      @for (detail of repairOrder.details; track detail) {
+                        <div class="card mb-3 repairItem">
+                          <div class="row g-0 repairItem">
+                            <div class="col-md-4 repairItem">
+                              <img src="assets/img/card.jpg" class="img-fluid rounded-start" alt="...">
+                            </div>
+                            <div class="col-md-8 repairItem">
+                              <div class="card-body">
+                                <h5 class="card-title">{{detail.repairName}}</h5>
+                                <p class="card-text">{{detail.notes}}</p>
+                                <button type="button" class="btn repairItem" [ngClass]="{
+                                  'btn-outline-danger': detail.statusId !== RepairStatusOption.ToDo,
+                                  'btn-danger':  detail.statusId === RepairStatusOption.ToDo
+                                }">ToDo</button>
+                                <button type="button" class="btn repairItem"  [ngClass]="{
+                                  'btn-outline-warning': detail.statusId !== RepairStatusOption.ToDo,
+                                  'btn-warning':  detail.statusId === RepairStatusOption.ToDo
+                                }">In Progress</button>
+                                <button type="button" class="btn repairItem"  [ngClass]="{
+                                  'btn-outline-success': detail.statusId !== RepairStatusOption.ToDo,
+                                  'btn-success':  detail.statusId === RepairStatusOption.ToDo
+                                }">Done</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div><!-- End Card with an image on left -->
+                      }
+                    </div>
+                  </div>
+                </div>
+                }
+              </div><!-- End Default Accordion Example -->
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>

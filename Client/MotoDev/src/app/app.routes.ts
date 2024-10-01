@@ -23,7 +23,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { animation } from '@angular/animations';
 import { UserProfileComponent } from './features/user-profile/user-profile.component';
 import { RepairTrackerComponent } from './features/repair-tracker/components/repair-tracker.component';
-import { MechanicRepairsComponent } from './features/mechanic-repairs/mechanic-repairs.component';
+import { MechanicRepairsComponent } from './features/mechanic-repairs/components/mechanic-repairs/mechanic-repairs.component';
 import { RepairOrdersComponent } from './features/client-car-repairs/components/client-car-repairs/repair-orders.component';
 import { ClientCarComponent } from './features/client-cars/components/client-car/client-car.component';
 import { ClientCarRepairDetailComponent } from './features/client-car-repair-detail/components/client-car-repair-detail/client-car-repair-detail.component';

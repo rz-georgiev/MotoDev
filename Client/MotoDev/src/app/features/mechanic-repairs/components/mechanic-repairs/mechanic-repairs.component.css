@@ -1,0 +1,50 @@
+ /* #randomCard {
+    height: 250px;
+}
+
+ .card .mb-3 {
+   max-height: 200px;
+ }
+
+ .row .g-0 {
+   max-height: 200px;
+ }
+
+ .col-md-4 {
+   max-height: 200px;
+ }
+ 
+ #img {
+   max-height: 200px;
+ }
+
+ #asdas {
+      max-height: 200px;
+
+ } */
+
+ .accordion-button:not(.collapsed) {
+  background-color: #ffffff;
+}
+
+button.repairItem {
+  margin-left: 20px;
+  margin-top: 20px;
+  width: 200px;
+}
+
+.card.mb-3.repairItem {
+  max-height: 1000px;
+}
+
+img.repairItem {
+  opacity: 50%;
+}
+
+.row.g-0.repairItem {
+  max-height: 1000px;
+}
+
+.col-md-4.repairItem {
+  max-width: 250px;
+}

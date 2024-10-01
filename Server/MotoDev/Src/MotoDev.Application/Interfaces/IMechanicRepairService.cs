@@ -1,7 +1,9 @@
-﻿namespace MotoDev.Application.Interfaces
+﻿using MotoDev.Common.Dtos;
+
+namespace MotoDev.Application.Interfaces
 {
     public interface IMechanicRepairService
     {
-        int GetLastTenRepairsAsync();
+        Task<BaseResponse<IEnumerable<MechanicRepairResponse>>> GetLastTenOrdersAsync();
     }
 }

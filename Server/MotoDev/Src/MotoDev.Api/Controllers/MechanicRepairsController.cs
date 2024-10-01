@@ -12,12 +12,13 @@ namespace MotoDev.Api.Controllers
         IMechanicRepairService mechnanicRepairService) : ControllerBase
     {
         private readonly IHttpContextAccessor _accessor = accessor;
-        private readonly IMechanicRepairService _mechanicRepairServiec = mechnanicRepairService;
+        private readonly IMechanicRepairService _mechanicRepairService = mechnanicRepairService;
         
-        [HttpGet("GetLastTenRepairs")]
-        public async Task<BaseResponse<IEnumerable<ClientCarStatusResponse>>> GetLastTenRepairs()
+        [HttpGet("GetLastTenOrders")]
+        public async Task<BaseResponse<IEnumerable<MechanicRepairResponse>>> GetLastTenOrders()
         {
-            return null;
+            return await 
+                _mechanicRepairService.GetLastTenOrdersAsync();
         }
 
     }
