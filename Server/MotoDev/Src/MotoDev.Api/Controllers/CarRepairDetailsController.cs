@@ -33,11 +33,11 @@ namespace MotoDev.Api.Controllers
         }
 
 
-        //[HttpPut("DeactivateByDetailId")]
-        //public async Task<BaseResponse<bool>> DeactivateByCarRepairId(int detailId)
-        //{
-        //    return await _carRepairDetailService.DeactivateByCarRepairIdAsync(detailId);
-        //}
+        [HttpPut("DeactivateByDetailId")]
+        public async Task<BaseResponse<bool>> DeactivateByDetailId(int detailId)
+        {
+            return await _carRepairDetailService.DeactivateByDetailIdAsync(detailId);
+        }
 
     }
 }

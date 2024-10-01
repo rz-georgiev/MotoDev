@@ -102,6 +102,7 @@ namespace MotoDev.Application.Services
                 currentClientCarRepair.RepairStatusId = (int)RepairStatusOption.ToDo;
                 currentClientCarRepair.CreatedAt = DateTime.UtcNow;
                 currentClientCarRepair.CreatedByUserId = userId;
+                currentClientCarRepair.IsActive = true;
 
                 await _dbContext.AddAsync(currentClientCarRepair);
             }

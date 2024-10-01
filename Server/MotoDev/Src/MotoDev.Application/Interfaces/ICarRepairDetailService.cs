@@ -6,7 +6,7 @@ namespace MotoDev.Application.Interfaces
     {
         Task<BaseResponse<IEnumerable<CarRepairDetailListingResponse>>> GetAllAsync();
 
-        Task<BaseResponse<bool>> DeactivateByDetailId(int detailId);       
+        Task<BaseResponse<bool>> DeactivateByDetailIdAsync(int detailId);       
 
         Task<BaseResponse<CarRepairDetailListingResponse>> EditAsync(CarRepairDetailEditDto request);
 

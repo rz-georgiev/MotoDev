@@ -92,14 +92,14 @@ export class ClientCarRepairDetailComponent {
       data: { message: "Are you sure you want to deactivate the record?" }
     });
 
-    // dialogRef.afterClosed().subscribe(result => {
-    //   if (result === true) {
-    //     this.clientCarService.deactivateByClientCarId(element.clientCarId).subscribe(result => {
-    //       if (result.isOk) {
-    //         this.dataSource.data = this.dataSource.data.filter(x => x.clientCarId !== element.clientCarId);
-    //       }
-    //     });
-    //   }
-    // });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.carRepairDetailService.deactivateByCientCarRepairDetailId(element.clientCarRepairDetailId).subscribe(result => {
+          if (result.isOk) {
+            this.dataSource.data = this.dataSource.data.filter(x => x.clientCarRepairDetailId !== element.clientCarRepairDetailId);
+          }
+        });
+      }
+    });
   }
 }

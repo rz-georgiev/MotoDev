@@ -33,7 +33,7 @@ namespace MotoDev.Application.Services
         public async Task<BaseResponse<IEnumerable<CarRepairDetailListingResponse>>> GetAllAsync()
         {
             var userId = Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId")!.Value);
-            
+
             var repairShops = _dbContext.RepairShops.Where(x => x.OwnerUserId == userId)
                 .Include(x => x.RepairShopUsers.Where(x => x.User.RoleId == (int)RoleOption.Client))
                 .ThenInclude(x => x.User);
@@ -71,67 +71,71 @@ namespace MotoDev.Application.Services
                 Status = x.RepairStatus.Name
             });
 
-
             return new BaseResponse<IEnumerable<CarRepairDetailListingResponse>>
             {
-                IsOk = true, 
+                IsOk = true,
                 Result = result
             };
         }
 
         public async Task<BaseResponse<CarRepairDetailListingResponse>> EditAsync(CarRepairDetailEditDto request)
         {
+            var repairDetail = request.ClientCarRepairDetailId > 0
+                ? await _dbContext.ClientCarRepairsDetails.SingleOrDefaultAsync(x => x.Id == request.ClientCarRepairDetailId)
+                : new ClientCarRepairDetail();
 
-            //var currentClientCarRepair = request.CarRepairId > 0
-            //    ? await _dbContext.ClientCarRepairs.SingleOrDefaultAsync(x => x.Id == request.CarRepairId)
-            //    : new ClientCarRepair();
+            int userId = Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId")!.Value);
 
-            //int userId = Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId")!.Value);
+            repairDetail.ClientCarRepairId = request.ClientCarRepairId;
+            repairDetail.RepairTypeId = request.RepairTypeId;
+            repairDetail.RepairStatusId = request.RepairStatusId;
+            repairDetail.Price = request.Price;
 
-            //currentClientCarRepair.ClientCarId = request.ClientCarId;
+            if (request.ClientCarRepairDetailId > 0)
+            {
+                repairDetail.LastUpdatedAt = DateTime.UtcNow;
+                repairDetail.LastUpdatedByUserId = userId;
 
-            //if (request.CarRepairId > 0)
-            //{
-            //    currentClientCarRepair.LastUpdatedAt = DateTime.UtcNow;
-            //    currentClientCarRepair.LastUpdatedByUserId = userId;
+                _dbContext.Update(repairDetail);
+            }
+            else
+            {
+                repairDetail.RepairStatusId = (int)RepairStatusOption.ToDo;
+                repairDetail.CreatedAt = DateTime.UtcNow;
+                repairDetail.CreatedByUserId = userId;
+                repairDetail.IsActive = true;
 
-            //    _dbContext.Update(currentClientCarRepair);
-            //}
-            //else
-            //{
-            //    currentClientCarRepair.RepairStatusId = (int)RepairStatusOption.ToDo;
-            //    currentClientCarRepair.CreatedAt = DateTime.UtcNow;
-            //    currentClientCarRepair.CreatedByUserId = userId;
+                await _dbContext.AddAsync(repairDetail);
+            }
 
-            //    await _dbContext.AddAsync(currentClientCarRepair);
-            //}
+            await _dbContext.SaveChangesAsync();
 
-            //await _dbContext.SaveChangesAsync();
 
-            //var clientCar = await
-            //    _dbContext.ClientCars.SingleOrDefaultAsync(x => x.Id == currentClientCarRepair.ClientCarId);
+            var repair = await
+                _dbContext.ClientCarRepairs.SingleOrDefaultAsync(x => x.Id == repairDetail.ClientCarRepairId);
 
-            //var client = await _dbContext.Clients.SingleOrDefaultAsync(x => x.Id == clientCar.ClientId);
-            //var user = await _dbContext.Users.SingleOrDefaultAsync(x => x.Id == client.UserId);
-            //var repairStatus = _dbContext.RepairStatuses.SingleOrDefault(x => x.Id == currentClientCarRepair.RepairStatusId);
+            var clientCar = await
+                _dbContext.ClientCars.SingleOrDefaultAsync(x => x.Id == repair.ClientCarId);
 
-            //return new BaseResponse<CarRepairResponse>
-            //{
-            //    IsOk = true,
-            //    Message = "",
-            //    Result = new CarRepairResponse
-            //    {
-            //        FirstName = user.FirstName,
-            //        LastName = user.LastName,
-            //        LicensePlateNumber = clientCar.LicensePlateNumber,
-            //        CarRepairId = currentClientCarRepair.Id,
-            //        Status = repairStatus.Name,
-            //        StatusId = repairStatus.Id,
-            //        RepairDateTime = currentClientCarRepair.CreatedAt,
-            //    }
-            //};
+            var client = await _dbContext.Clients.SingleOrDefaultAsync(x => x.Id == clientCar.ClientId);
+            var user = await _dbContext.Users.SingleOrDefaultAsync(x => x.Id == client.UserId);
+            var repairStatus = _dbContext.RepairStatuses.SingleOrDefault(x => x.Id == repairDetail.RepairStatusId);
+            var repairType = _dbContext.RepairTypes.SingleOrDefault(x => x.Id == repairDetail.RepairTypeId);
 
-            return null;
+            return new BaseResponse<CarRepairDetailListingResponse>
+            {
+                IsOk = true,
+                Message = "",
+                Result = new CarRepairDetailListingResponse
+                {
+                    ClientCarRepairDetailId = repairDetail.Id,
+                    ClientName = $"{user.FirstName} {user.LastName}",
+                    LicensePlateNumber = clientCar.LicensePlateNumber,
+                    Price = repairDetail.Price,
+                    RepairTypeName = repairType.Name,
+                    Status = repairStatus.Name
+                }
+            };
         }
 
         public async Task<BaseResponse<CarRepairDetailEditDto>> GetByIdAsync(int detailId)
@@ -152,11 +156,11 @@ namespace MotoDev.Application.Services
             };
         }
 
-        public async Task<BaseResponse<bool>> DeactivateByDetailId(int detailId)
+        public async Task<BaseResponse<bool>> DeactivateByDetailIdAsync(int detailId)
         {
             var detail = await _dbContext.ClientCarRepairsDetails.SingleOrDefaultAsync(x => x.Id == detailId);
             detail.IsActive = false;
-            
+
             _dbContext.Update(detail);
             await _dbContext.SaveChangesAsync();
 

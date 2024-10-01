@@ -24,6 +24,8 @@ import { RepairTypeService } from '../../../repairTypes/services/repair-type.ser
 import { RepairStatusService } from '../../../repairStatuses/services/repair-status.service';
 import { CarRepairSelectResponse } from '../../../client-car-repairs/models/carRepairSelectResponse';
 import { CarRepairDetailService } from '../../services/car-repair-detail.service';
+import { CarRepairDetailEditDto } from '../../models/carRepairDetailEditDto';
+import { RepairStatusOption } from '../../../../shared/consts/repairStatusOption';
 
 @Component({
   selector: 'app-client-car-repair-detail-editor',
@@ -58,7 +60,7 @@ export class ClientCarRepairDetailEditorComponent {
   public errorMessage!: string;
 
   constructor(public dialogRef: MatDialogRef<RepairOrdersEditorComponent>,
-    @Inject(MAT_DIALOG_DATA) private passedData: any,
+    @Inject(MAT_DIALOG_DATA) public passedData: any,
     private clientCarService: ClientCarService,
     private repairTypeService: RepairTypeService,
     private repairStatusService: RepairStatusService,
@@ -90,36 +92,46 @@ export class ClientCarRepairDetailEditorComponent {
 
 
     if (this.passedData?.clientCarRepairDetailId > 0) {
+
       this.carRepairDetailService.getById(this.passedData.clientCarRepairDetailId).subscribe(x => {
         this.repairOrderForm.patchValue({
           clientCarRepairId: x.result.clientCarRepairId,
           repairTypeId: x.result.repairTypeId,
           statusId: x.result.repairStatusId,
           price: x.result.price.toFixed(2),
-        }); 
+        });
       });
+      this.repairOrderForm.get('statusId')?.setValidators(Validators.required);
+    }
+    else {
+      this.repairOrderForm.get('statusId')?.clearValidators();
     }
   }
 
-
   onYesClick() {
     this.isSubmitted = true;
+
     if (this.repairOrderForm.valid) {
 
-      const clientCarDto: ClientCarEditDto = {
-        clientCarId: this.passedData?.clientCarRepairDetailId,
-        clientId: this.repairOrderForm.value.clientId,
-        carId: this.repairOrderForm.value.carId,
-        licensePlateNumber: this.repairOrderForm.value.licensePlateNumber,
+      const detailEditDto: CarRepairDetailEditDto = {
+        clientCarRepairDetailId: this.passedData?.clientCarRepairDetailId,
+        clientCarRepairId: this.repairOrderForm.value.clientCarRepairId,
+        repairTypeId: this.repairOrderForm.value.repairTypeId,
+        repairStatusId: this.passedData?.clientCarRepairDetailId > 0
+          ? this.repairOrderForm.value.statusId
+          : RepairStatusOption.ToDo,
+        price: this.repairOrderForm.value.price,
       };
 
-      this.clientCarService.edit(clientCarDto).subscribe(data => {
+      this.carRepairDetailService.edit(detailEditDto).subscribe(data => {
         if (data.isOk) {
           this.dialogRef.close({
-            clientCarId: data.result.clientCarId,
+            clientCarRepairDetailId: data.result.clientCarRepairDetailId,
             clientName: data.result.clientName,
-            carName: data.result.carName,
             licensePlateNumber: data.result.licensePlateNumber,
+            repairTypeName: data.result.repairTypeName,
+            price: data.result.price,
+            status: data.result.status
           });
         }
         else {
