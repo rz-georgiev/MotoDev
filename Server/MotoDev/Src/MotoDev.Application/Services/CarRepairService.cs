@@ -89,6 +89,7 @@ namespace MotoDev.Application.Services
             int userId = Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId")!.Value);
 
             currentClientCarRepair.ClientCarId = request.ClientCarId;
+            currentClientCarRepair.PerformedByMechanicUserId = request.MechanicUserId;
 
             if (request.CarRepairId > 0)
             {
@@ -145,7 +146,8 @@ namespace MotoDev.Application.Services
                 {
                     CarRepairId = carRepair.Id,
                     ClientCarId = clientCar.Id,
-                    ClientId = clientCar.ClientId
+                    ClientId = clientCar.ClientId,
+                    MechanicUserId = carRepair.PerformedByMechanicUserId,
                 }
             };
         }

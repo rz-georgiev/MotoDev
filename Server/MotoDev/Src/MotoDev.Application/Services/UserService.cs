@@ -110,7 +110,6 @@ namespace MotoDev.Application.Services
                 .Include(x => x.Role)
                 .SingleOrDefaultAsync();
 
-            
             user.FirstName = request.FirstName;
             user.LastName = request.LastName;
             user.Username = request.Username;
@@ -168,7 +167,6 @@ namespace MotoDev.Application.Services
                     CreatedByUserId = currentUserId
                 };
 
-
                 if (request.RoleId == (int)RoleOption.Client)
                 {
                     var client = new Client
@@ -179,7 +177,7 @@ namespace MotoDev.Application.Services
                     };
                     await _dbContext.Clients.AddAsync(client);
                 }
-                
+
                 await _dbContext.RepairShopUsers.AddAsync(repairShopUser);
                 await _dbContext.SaveChangesAsync();
 
@@ -301,6 +299,31 @@ namespace MotoDev.Application.Services
                     ImageUrl = imageUrl,
                     RefreshToken = refreshToken,
                 }
+            };
+        }
+
+        public async Task<BaseResponse<IEnumerable<MechanicUserResponse>>> GetMechanicUsersAsync()
+        {
+            var userId = Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId")!.Value);
+
+            var repairShopsIds = _dbContext.RepairShops.Where(x => x.OwnerUserId == userId)
+                .Select(x => x.Id);
+
+            var repairShopUsersIds = _dbContext.RepairShopUsers.Where(x => repairShopsIds.Contains(x.RepairShopId))
+                .Select(x => x.UserId);
+
+            var result = await _dbContext.Users.Where(x => repairShopUsersIds.Contains(x.Id)
+                   && x.RoleId == (int)RoleOption.Mechanic)
+           .Select(x => new MechanicUserResponse
+           {
+               MechanicUserId = x.Id,
+               Name = $"{x.FirstName} {x.LastName}"
+           }).ToListAsync();
+
+            return new BaseResponse<IEnumerable<MechanicUserResponse>>
+            {
+                IsOk = true,
+                Result = result
             };
         }
     }

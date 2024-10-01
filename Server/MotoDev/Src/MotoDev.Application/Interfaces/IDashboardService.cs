@@ -4,6 +4,6 @@ namespace MotoDev.Application.Interfaces
 {
     public interface IDashboardService
     {
-        Task<BaseResponse<DashboardResponse>> GetDashboardData();
+        Task<BaseResponse<DashboardResponse>> GetDashboardDataAsync();
     }
 }

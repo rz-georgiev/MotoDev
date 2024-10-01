@@ -6,7 +6,7 @@ using MotoDev.Common.Dtos;
 
 namespace MotoDev.Api.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Owner")]
     [ApiController]
     [Route("[controller]")]
     public class UsersController : ControllerBase
@@ -62,6 +62,13 @@ namespace MotoDev.Api.Controllers
         {
             return await
                 _userService.UpdateProfileImage(file);
+        }
+
+        [HttpGet("GetMechanicUsers")]
+        public async Task<BaseResponse<IEnumerable<MechanicUserResponse>>> GetMechanicUsers()
+        {
+            return await
+                _userService.GetMechanicUsersAsync();
         }
     }
 }

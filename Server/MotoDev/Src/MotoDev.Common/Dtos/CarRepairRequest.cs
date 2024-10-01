@@ -6,5 +6,7 @@
 
         public int ClientCarId { get; set; }
 
+        public int MechanicUserId { get; set; }
+
     }
 }

@@ -18,7 +18,7 @@ namespace MotoDev.Api.Controllers
         public async Task<BaseResponse<DashboardResponse>> GetDashboardData()
         {
             return await
-                _dashboardService.GetDashboardData();
+                _dashboardService.GetDashboardDataAsync();
         }
     }
 }

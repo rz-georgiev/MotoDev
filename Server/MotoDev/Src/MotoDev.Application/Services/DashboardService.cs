@@ -22,51 +22,39 @@ namespace MotoDev.Application.Services
         private readonly IHttpContextAccessor _accessor = accessor;
         private readonly MotoDevDbContext _dbContext = dbContext;
 
-        public async Task<BaseResponse<DashboardResponse>> GetDashboardData()
+        public async Task<BaseResponse<DashboardResponse>> GetDashboardDataAsync()
         {
             var userId = Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId")!.Value);
             var repairShopsIds = _dbContext.RepairShops.Where(x => x.OwnerUserId == userId).Select(x => x.Id).ToList();
             var usersIds = _dbContext.RepairShopUsers.Where(x => repairShopsIds.Contains(x.RepairShopId)).Select(x => x.UserId).ToList();
 
-            //var user = _dbContext.Users.Where(x => x.Id == userId);
-
-            //var data = _dbContext.RepairShops.Where(x => x.OwnerUserId == userId)
-            //    .Select(repairShop => new
-            //    {
-            //        RepairShopUsers = repairShop.RepairShopUsers
-            //            .Where(x => x.User.RoleId == (int)RoleOption.Client)
-            //            .Select(repairShopUser => new
-            //            {
-            //                User = repairShopUser.User
-            //            })
-            //    });
-
-
-
-
-            //var usersIds = _dbContext.RepairShopUsers.Where(x => repairShopsIds.Contains(x.RepairShopId)).Select(x => x.UserId).ToList();
-
             var clientsUsersIds = _dbContext.Users.Where(x => usersIds.Contains(x.Id) && x.RoleId == (int)RoleOption.Client).Select(x => x.Id).ToList();
             var clients = _dbContext.Clients.Where(x => clientsUsersIds.Contains(x.UserId)).ToList();
 
-            var clientsCars = _dbContext.ClientCars.Where(x => clients.Select(x => x.Id).Contains(x.ClientId))
+            var clientsCars = await _dbContext.ClientCars.Where(x => clients.Select(x => x.Id).Contains(x.ClientId))
                 .Select(x => new
                 {
                     x.Id,
-                    x.LicensePlateNumber
-                }).ToList();
+                    x.LicensePlateNumber,
+                    x.IsActive
+                })
+                .Where(x => x.IsActive)
+                .ToListAsync();
 
-            var clientsCarsRepairs = _dbContext.ClientCarRepairs.Where(x => clientsCars.Select(x => x.Id).Contains(x.ClientCarId))
+            var clientsCarsRepairs = await _dbContext.ClientCarRepairs.Where(x => clientsCars.Select(x => x.Id).Contains(x.ClientCarId))
             .Select(x => new
             {
                 x.Id,
                 x.CreatedAt,
                 x.ClientCarId,
                 x.RepairStatusId,
-            }).ToList();
+                x.IsActive
+            })
+            .Where(x => x.IsActive)
+            .ToListAsync();
 
             var clientCarsRepairsDetails = await _dbContext.ClientCarRepairsDetails
-                .Where(x => clientsCarsRepairs.Select(x => x.Id).Contains(x.ClientCarRepairId))
+                .Where(x => clientsCarsRepairs.Select(x => x.Id).Contains(x.ClientCarRepairId) && x.IsActive)
                 .ToListAsync();
 
             var repairTypes = await _dbContext.RepairTypes.ToListAsync();
@@ -85,7 +73,6 @@ namespace MotoDev.Application.Services
             {
                 var clientCar = clientsCars.SingleOrDefault(x => x.Id == clientCarRepair.ClientCarId);
                 var repairTypeId = clientCarsRepairsDetails?.LastOrDefault(x => x.ClientCarRepairId == clientCarRepair.Id)?.RepairTypeId;
-                //var repairType = repairTypes.SingleOrDefault(x => x.Id == repairTypeId);
 
                 dashboardRecentActivity.Add(new DashboardRecentActivity
                 {
@@ -107,14 +94,15 @@ namespace MotoDev.Application.Services
                 dashboardReports.TotalProfits.Add(monthRepairs.Sum(x => x.Price));
             }
 
-
             var response = new DashboardResponse
             {
                 RepairsThisYear = clientCarsRepairsDetails.Count(x => x.CreatedAt.Year == now.Year),
                 RepairsIncreaseThisYear = GetRepairsIncrease(clientCarsRepairsDetails),
 
                 RevenueThisMonth = Convert.ToInt32(clientCarsRepairsDetails
-                    .Where(x => x.CreatedAt.Year == now.Year && x.CreatedAt.Month == now.Month)
+                    .Where(x => x.CreatedAt.Year == now.Year
+                         && x.CreatedAt.Month == now.Month 
+                         && x.RepairStatusId == (int)RepairStatusOption.Done)
                     .Sum(x => x.Price)),
 
                 RevenueIncreaseThisMonth = GetRevenueIncrease(clientCarsRepairsDetails),
@@ -130,7 +118,7 @@ namespace MotoDev.Application.Services
                 Result = response,
             };
         }
-      
+
         private string GetTime(DateTime startedDateTime)
         {
             var now = DateTime.UtcNow;
@@ -151,7 +139,7 @@ namespace MotoDev.Application.Services
 
             return $"{difference.Days / 365} {(difference.Days / 365 == 1 ? "year" : "years")} ago";
         }
-        
+
         private int GetRevenueIncrease(IEnumerable<ClientCarRepairDetail> details)
         {
             var now = DateTime.UtcNow;
@@ -187,6 +175,5 @@ namespace MotoDev.Application.Services
             var result = ((decimal)(thisYear - previousYear) / previousYear);
             return (int)(result * 100);
         }
-      
     }
 }

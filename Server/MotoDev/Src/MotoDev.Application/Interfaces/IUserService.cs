@@ -18,5 +18,6 @@ namespace MotoDev.Application.Interfaces
 
         Task<BaseResponse<UserProfileImageUpdateResponse>> UpdateProfileImage(IFormFile file);
 
+        Task<BaseResponse<IEnumerable<MechanicUserResponse>>> GetMechanicUsersAsync();
     }
 }

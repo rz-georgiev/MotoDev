@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MotoDev.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using MotoDev.Infrastructure.Persistence;
 namespace MotoDev.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(MotoDevDbContext))]
-    partial class MotoDevDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241001092713_PerformedByMechanicUserId")]
+    partial class PerformedByMechanicUserId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -280,7 +283,7 @@ namespace MotoDev.Infrastructure.Persistence.Migrations
                     b.Property<string>("Notes")
                         .HasColumnType("longtext");
 
-                    b.Property<int>("PerformedByMechanicUserId")
+                    b.Property<int?>("PerformedByMechanicUserId")
                         .HasColumnType("int");
 
                     b.Property<int>("RepairStatusId")
@@ -767,9 +770,7 @@ namespace MotoDev.Infrastructure.Persistence.Migrations
 
                     b.HasOne("MotoDev.Domain.Entities.User", "PerformedByMechanicUser")
                         .WithMany()
-                        .HasForeignKey("PerformedByMechanicUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PerformedByMechanicUserId");
 
                     b.HasOne("MotoDev.Domain.Entities.RepairStatus", "RepairStatus")
                         .WithMany()

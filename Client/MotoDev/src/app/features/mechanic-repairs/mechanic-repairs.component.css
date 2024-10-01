@@ -1,14 +1,49 @@
-/* #randomCard {
+ /* #randomCard {
     height: 250px;
 }
 
- img {
-    height: 100%;
+ .card .mb-3 {
+   max-height: 200px;
+ }
+
+ .row .g-0 {
+   max-height: 200px;
  }
 
  .col-md-4 {
-    height: 250px;
+   max-height: 200px;
+ }
+ 
+ #img {
+   max-height: 200px;
+ }
+
+ #asdas {
+      max-height: 200px;
+
  } */
- #randomCard {
-    height: 50%;
+
+button {
+   /* width: 80px; */
+   margin-left: 20px;
+}
+
+.card-custom {
+   height: 200px;
+}
+.card-img-custom {
+   height: 100%;
+   width: auto;
+   object-fit: cover;
+}
+
+.card-body {
+   padding-left: 1rem;
+}
+.card-footer {
+   position: absolute;
+   bottom: 0;
+   right: 0;
+   left: 0;
+   padding: 0.75rem 1.25rem;
 }

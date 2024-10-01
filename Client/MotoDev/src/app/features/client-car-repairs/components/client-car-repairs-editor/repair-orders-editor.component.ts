@@ -26,6 +26,7 @@ import { ClientService } from '../../../clients/services/client.service';
 import { ClientCarService } from '../../../client-cars/services/client-car.service';
 import { CarRepairRequest } from '../../models/carRepairRequest';
 import { UtcToLocalPipe } from '../../../../core/pipes/utc-to-local.pipe';
+import { MechanicUserResponse } from '../../../users/models/mechanicUserResponse';
 
 @Component({
   selector: 'app-user-editor',
@@ -55,6 +56,7 @@ export class RepairOrdersEditorComponent {
   public repairOrderForm!: FormGroup;
   public clients!: ClientResponse[];
   public clientCars!: ClientCarResponse[];
+  public mechanicUsers!: MechanicUserResponse[];
   public isSubmitted!: boolean;
   public isInEditMode: boolean = false;
   public errorMessage!: string;
@@ -64,11 +66,13 @@ export class RepairOrdersEditorComponent {
     private carRepairService: CarRepairService,
     private clientService: ClientService,
     private clientCarService: ClientCarService,
+    private userService: UserService,
     private formBuilder: FormBuilder
   ) {
     this.repairOrderForm = this.formBuilder.group({
       clientId: ['', Validators.required],
-      clientCarId: ['', Validators.required]
+      clientCarId: ['', Validators.required],
+      mechanicUserId: ['', Validators.required],
     });
   }
 
@@ -80,10 +84,15 @@ export class RepairOrdersEditorComponent {
       this.clients = x.result;
     });
 
+    this.userService.getMechanicUsers().subscribe(x => {
+      this.mechanicUsers = x.result;
+    });
+
     if (this.passedData?.carRepairId > 0) {
       this.carRepairService.getById(this.passedData.carRepairId).subscribe(x => {
         this.repairOrderForm.patchValue({
-          clientId: x.result.clientId
+          clientId: x.result.clientId,
+          mechanicUserId: x.result.mechanicUserId
         });
 
         this.onClientChange();
@@ -102,7 +111,8 @@ export class RepairOrdersEditorComponent {
 
       const carRepair: CarRepairRequest = {
         carRepairId: this.passedData?.carRepairId,
-        clientCarId: this.repairOrderForm.get('clientCarId')?.value as number
+        clientCarId: this.repairOrderForm?.value.clientCarId,
+        mechanicUserId:this.repairOrderForm?.value.mechanicUserId
       };
 
       this.carRepairService.editCarRepair(carRepair).subscribe(data => {

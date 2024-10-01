@@ -10,6 +10,7 @@ import { BaseResponse } from '../../../shared/models/baseResponse';
 import { UserProfileImageUpdateResponse } from '../models/userProfileImageUpdateResponse';
 import { UserDtoMinimized } from '../models/userDtoMinimized';
 import { UserExtendedDto } from '../models/UserExtendedDto';
+import { MechanicUserResponse } from '../models/mechanicUserResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -44,6 +45,10 @@ export class UserService {
 
   updateProfileImage(formData: FormData): Observable<BaseResponse<UserProfileImageUpdateResponse>> {
     return this.http.post<BaseResponse<UserProfileImageUpdateResponse>>(`${this.baseUrl}/Users/UpdateProfileImage`, formData);
+  }
+  
+  getMechanicUsers(): Observable<BaseResponse<MechanicUserResponse[]>> {
+    return this.http.get<BaseResponse<MechanicUserResponse[]>>(`${this.baseUrl}/Users/GetMechanicUsers`);
   }
   
 

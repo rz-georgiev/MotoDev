@@ -26,6 +26,16 @@
   </select>
 </div>
 
+<div class="col-lg-12">
+  <label for="mechanicUserId" class="form-label">Mechanic</label>
+  <select class="form-select" id="mechanicUserId" formControlName="mechanicUserId" required>
+    <option selected disabled value="">Select below...</option>
+    @for(mechanic of mechanicUsers; track mechanic) {
+      <option [ngValue]="mechanic.mechanicUserId">{{mechanic.name}}</option>
+    }     
+  </select>
+</div>
+
     
     @if (errorMessage) {
       <div class="alert alert-danger" role="alert">
