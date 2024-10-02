@@ -43,18 +43,27 @@ export class MechanicRepairsComponent {
   }
 
   onFocusOut(detail: MechanicRepairResponseDetail, $event: any) {
+
     const newNote = $event.currentTarget.value;
+    if (detail.notes === newNote)
+      return;
+
+    detail.notes = newNote;
     this.mechanicRepairService.updateDetail({
-      repairDetailId: detail.repairDetailId, 
+      repairDetailId: detail.repairDetailId,
       newStatusId: detail.statusId,
       newNotes: newNote
-    }).subscribe();
+    }).subscribe(); 
   }
 
   onStatusChangerClick(detail: MechanicRepairResponseDetail, newStatusId: number) {
+
+    if (detail.statusId === newStatusId)
+      return;
+
     detail.statusId = newStatusId;
     this.mechanicRepairService.updateDetail({
-      repairDetailId: detail.repairDetailId, 
+      repairDetailId: detail.repairDetailId,
       newStatusId: newStatusId,
       newNotes: detail.notes
     }).subscribe();
