@@ -3,13 +3,14 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { RepairShopUserDto } from '../models/repairShopUser';
 import { BaseResponse } from '../../../shared/models/baseResponse';
+import { Urls } from '../../../shared/consts/urls';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RepairShopUserService {
 
-  private baseUrl = `https://localhost:5078/RepairShopUsers`; 
+  private baseUrl = `${Urls.ApiUrl}/RepairShopUsers`; 
 
   constructor(private http: HttpClient) { }
 

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Urls } from '../../../shared/consts/urls';
 
 
 @Injectable({
@@ -9,7 +10,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class SidebarService {
 
-  private baseUrl = 'https://localhost:5078/Account';
+  private baseUrl =  `${Urls.ApiUrl}/Account`; 
 
   private isLoggedInSubject = new BehaviorSubject<boolean>(false);
   public isLoggedIn$ = this.isLoggedInSubject.asObservable();
