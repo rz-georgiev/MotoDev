@@ -6,7 +6,7 @@ using MotoDev.Common.Dtos;
 
 namespace MotoDev.Api.Controllers
 {
-    [Authorize(Roles = "Owner")]
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class UsersController : ControllerBase

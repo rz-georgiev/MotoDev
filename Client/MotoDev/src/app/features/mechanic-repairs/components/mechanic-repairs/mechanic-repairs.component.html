@@ -34,7 +34,9 @@
                           <div class="col-md-8 repairItem">
                             <div class="card-body">
                               <h5 class="card-title">Vehicle data</h5>
-                              <p>{{repairOrder.carDescription}}</p>
+                              
+                                <p [innerHTML]="repairOrder.carDescription"></p>
+                                
                             </div>
                           </div>
                         </div>

@@ -24,7 +24,6 @@
                         }" class="badge rounded-pill text-dark"> {{detail.repairName}} - {{detail.statusName}} </span>
                         <p *ngIf="detail.repairStartDateTime">Started on: {{detail.repairStartDateTime | utcToLocal }}</p>
                         <p *ngIf="detail.repairEndDateTime">Ended on: {{detail.repairEndDateTime | utcToLocal }}</p>
-                        <p *ngIf="detail.statusId === RepairStatusOption.ToDo">Not started yet</p>
                       </div>
                     }
                   </div>
