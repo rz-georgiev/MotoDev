@@ -22,6 +22,8 @@
 
         public string ImageId { get; set; }
 
+        public string Description { get; set; }
+
         public Brand Brand { get; set; }
 
         public Model Model { get; set; }

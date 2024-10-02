@@ -17,6 +17,13 @@ import { MechanicRepairResponse } from '../../models/mechanicRepairReponse';
   styleUrl: './mechanic-repairs.component.css'
 })
 export class MechanicRepairsComponent {
+onFocusOut($event: any) {
+  const a = $event.currentTarget.innerHTML;
+console.log(a.innerText);
+console.log(a.textContent);
+console.log(a.outerText);
+}
+
   public response!: ClientCarStatusResponse[];
   public data!: MechanicRepairResponse[];
   RepairStatusOption = RepairStatusOption;

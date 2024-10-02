@@ -9,11 +9,13 @@ namespace MotoDev.Application.Services
 {
     public class MechanicRepairService(MotoDevDbContext dbContext,
         IMapper mapper,
-        IHttpContextAccessor accessor) : IMechanicRepairService
+        IHttpContextAccessor accessor,
+        ICloudinaryService cloudinaryService) : IMechanicRepairService
     {
         private readonly MotoDevDbContext _dbContext = dbContext;
         private readonly IMapper _mapper = mapper;
         private readonly IHttpContextAccessor _accessor = accessor;
+        private readonly ICloudinaryService _cloudinaryService = cloudinaryService;
 
         public async Task<BaseResponse<IEnumerable<MechanicRepairResponse>>> GetLastTenOrdersAsync()
         {
@@ -22,6 +24,8 @@ namespace MotoDev.Application.Services
             var result = await _dbContext.ClientCarRepairs.Where(x => x.PerformedByMechanicUserId == userId)
                 .Select(repair => new MechanicRepairResponse
                 {
+                    CarImageUrl = _cloudinaryService.GetImageUrlById(repair.ClientCar.Car.ImageId),
+                    CarDescription = repair.ClientCar.Car.Description,
                     OrderName = $"#{repair.Id} / {repair.ClientCar.Client.User.FirstName} " +
                     $"{repair.ClientCar.Client.User.LastName} / {repair.ClientCar.Car.Brand.Name} " +
                     $"{repair.ClientCar.Car.Model.Name} " +
