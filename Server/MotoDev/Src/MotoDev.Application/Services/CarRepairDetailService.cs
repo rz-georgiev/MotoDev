@@ -22,6 +22,7 @@ namespace MotoDev.Application.Services
         IEmailService emailService,
         IHttpContextAccessor accessor,
         ICloudinaryService cloudinaryService,
+        IUserService userService,
         MotoDevDbContext dbContext) : ICarRepairDetailService
     {
         private readonly IConfiguration _configuration = configuration;
@@ -29,12 +30,11 @@ namespace MotoDev.Application.Services
         private readonly IHttpContextAccessor _accessor = accessor;
         private readonly ICloudinaryService _cloudinaryService = cloudinaryService;
         private readonly MotoDevDbContext _dbContext = dbContext;
+        private readonly IUserService _userService = userService;
 
         public async Task<BaseResponse<IEnumerable<CarRepairDetailListingResponse>>> GetAllAsync()
         {
-            var userId = Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId")!.Value);
-
-            var repairShops = _dbContext.RepairShops.Where(x => x.OwnerUserId == userId)
+            var repairShops = _dbContext.RepairShops.Where(x => x.OwnerUserId == _userService.CurrentUserId)
                 .Include(x => x.RepairShopUsers.Where(x => x.User.RoleId == (int)RoleOption.Client))
                 .ThenInclude(x => x.User);
 
@@ -84,8 +84,6 @@ namespace MotoDev.Application.Services
                 ? await _dbContext.ClientCarRepairsDetails.SingleOrDefaultAsync(x => x.Id == request.ClientCarRepairDetailId)
                 : new ClientCarRepairDetail();
 
-            int userId = Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId")!.Value);
-
             repairDetail.ClientCarRepairId = request.ClientCarRepairId;
             repairDetail.RepairTypeId = request.RepairTypeId;
             repairDetail.RepairStatusId = request.RepairStatusId;
@@ -94,7 +92,7 @@ namespace MotoDev.Application.Services
             if (request.ClientCarRepairDetailId > 0)
             {
                 repairDetail.LastUpdatedAt = DateTime.UtcNow;
-                repairDetail.LastUpdatedByUserId = userId;
+                repairDetail.LastUpdatedByUserId = _userService.CurrentUserId;
 
                 _dbContext.Update(repairDetail);
             }
@@ -102,7 +100,7 @@ namespace MotoDev.Application.Services
             {
                 repairDetail.RepairStatusId = (int)RepairStatusOption.ToDo;
                 repairDetail.CreatedAt = DateTime.UtcNow;
-                repairDetail.CreatedByUserId = userId;
+                repairDetail.CreatedByUserId = _userService.CurrentUserId;
                 repairDetail.IsActive = true;
 
                 await _dbContext.AddAsync(repairDetail);

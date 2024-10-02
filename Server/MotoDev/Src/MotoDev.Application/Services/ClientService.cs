@@ -9,16 +9,16 @@ namespace MotoDev.Application.Services
 {
     public class ClientService(
         IHttpContextAccessor accessor,
+        IUserService userService,
         MotoDevDbContext dbContext) : IClientService
     {
         private readonly IHttpContextAccessor _accessor = accessor;
-
+        private readonly IUserService _userService = userService;
         private readonly MotoDevDbContext _dbContext = dbContext;
 
         public async Task<BaseResponse<IEnumerable<ClientResponse>>> GetAllClientsAsync()
         {
-            var userId = Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId")!.Value);
-            var repairShops = _dbContext.RepairShops.Where(x => x.OwnerUserId == userId);
+            var repairShops = _dbContext.RepairShops.Where(x => x.OwnerUserId == _userService.CurrentUserId);
 
             var repairShopUsers = _dbContext.RepairShopUsers.Where(x => repairShops.Select(x => x.Id).Contains(x.RepairShopId)).ToList();
             var users = await _dbContext.Users.Where(x => repairShopUsers.Select(x => x.UserId).Contains(x.Id) && x.RoleId == (int)RoleOption.Client)
@@ -43,9 +43,7 @@ namespace MotoDev.Application.Services
 
         public async Task<BaseResponse<IEnumerable<ClientCarStatusResponse>>> GetMyCarsStatusesAsync()
         {
-            var userId = Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId")!.Value);
-
-            var clientData = await _dbContext.Clients.Where(x => x.UserId == userId)
+            var clientData = await _dbContext.Clients.Where(x => x.UserId == _userService.CurrentUserId)
                 .Include(x => x.ClientCars)
                     .ThenInclude(x => x.Car)
                     .ThenInclude(x => x.CarType)

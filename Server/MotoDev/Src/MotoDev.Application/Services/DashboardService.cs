@@ -17,15 +17,16 @@ using System.Text.Json.Serialization;
 namespace MotoDev.Application.Services
 {
     public class DashboardService(IHttpContextAccessor accessor,
+        IUserService userService,
         MotoDevDbContext dbContext) : IDashboardService
     {
         private readonly IHttpContextAccessor _accessor = accessor;
+        private readonly IUserService _userService = userService;
         private readonly MotoDevDbContext _dbContext = dbContext;
 
         public async Task<BaseResponse<DashboardResponse>> GetDashboardDataAsync()
         {
-            var userId = Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId")!.Value);
-            var repairShopsIds = _dbContext.RepairShops.Where(x => x.OwnerUserId == userId).Select(x => x.Id).ToList();
+            var repairShopsIds = _dbContext.RepairShops.Where(x => x.OwnerUserId == _userService.CurrentUserId).Select(x => x.Id).ToList();
             var usersIds = _dbContext.RepairShopUsers.Where(x => repairShopsIds.Contains(x.RepairShopId)).Select(x => x.UserId).ToList();
 
             var clientsUsersIds = _dbContext.Users.Where(x => usersIds.Contains(x.Id) && x.RoleId == (int)RoleOption.Client).Select(x => x.Id).ToList();

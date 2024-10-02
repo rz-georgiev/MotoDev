@@ -105,8 +105,7 @@ namespace MotoDev.Application.Services
 
         public async Task<BaseResponse<UserResponse>> EditMinimizedAsync(UserMinimizedRequest request)
         {
-            var userId = Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId")!.Value);
-            var user = await _dbContext.Users.Where(x => x.Id == userId)
+            var user = await _dbContext.Users.Where(x => x.Id == CurrentUserId)
                 .Include(x => x.Role)
                 .SingleOrDefaultAsync();
 
@@ -147,7 +146,6 @@ namespace MotoDev.Application.Services
             if (userResponse.IsOk)
             {
                 var user = await _dbContext.Users.SingleOrDefaultAsync(x => x.Email == request.Email);
-                int currentUserId = Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId")!.Value);
 
                 //user = _mapper.Map<UserRequest, User>(request);
                 user.FirstName = request.FirstName;
@@ -164,7 +162,7 @@ namespace MotoDev.Application.Services
                 {
                     UserId = user.Id,
                     RepairShopId = request.RepairShopId,
-                    CreatedByUserId = currentUserId
+                    CreatedByUserId = CurrentUserId
                 };
 
                 if (request.RoleId == (int)RoleOption.Client)
@@ -173,7 +171,7 @@ namespace MotoDev.Application.Services
                     {
                         UserId = user.Id,
                         CreatedAt = DateTime.UtcNow,
-                        CreatedByUserId = currentUserId,
+                        CreatedByUserId = CurrentUserId,
                     };
                     await _dbContext.Clients.AddAsync(client);
                 }
@@ -237,7 +235,7 @@ namespace MotoDev.Application.Services
                 {
                     UserId = user.Id,
                     RepairShopId = request.RepairShopId,
-                    CreatedByUserId = Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId")!.Value)
+                    CreatedByUserId = CurrentUserId,
                 });
             }
 
@@ -272,8 +270,7 @@ namespace MotoDev.Application.Services
 
         public async Task<BaseResponse<UserProfileImageUpdateResponse>> UpdateProfileImage(IFormFile file)
         {
-            var userId = Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId")!.Value);
-            var user = await _dbContext.Users.Where(x => x.Id == userId)
+            var user = await _dbContext.Users.Where(x => x.Id == CurrentUserId)
                 .Include(x => x.Role)
                 .SingleOrDefaultAsync();
 
@@ -304,9 +301,7 @@ namespace MotoDev.Application.Services
 
         public async Task<BaseResponse<IEnumerable<MechanicUserResponse>>> GetMechanicUsersAsync()
         {
-            var userId = Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId")!.Value);
-
-            var repairShopsIds = _dbContext.RepairShops.Where(x => x.OwnerUserId == userId)
+            var repairShopsIds = _dbContext.RepairShops.Where(x => x.OwnerUserId == CurrentUserId)
                 .Select(x => x.Id);
 
             var repairShopUsersIds = _dbContext.RepairShopUsers.Where(x => repairShopsIds.Contains(x.RepairShopId))
@@ -325,6 +320,14 @@ namespace MotoDev.Application.Services
                 IsOk = true,
                 Result = result
             };
+        }
+
+        public int CurrentUserId
+        {
+            get
+            {
+                return Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId")!.Value);
+            }
         }
     }
 }

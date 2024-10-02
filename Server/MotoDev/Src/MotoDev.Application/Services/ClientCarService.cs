@@ -11,17 +11,16 @@ namespace MotoDev.Application.Services
 {
     public class ClientCarService(
         IHttpContextAccessor accessor,
+        IUserService userService,
         MotoDevDbContext dbContext) : IClientCarService
     {
         private readonly IHttpContextAccessor _accessor = accessor;
-
+        private readonly IUserService _userService = userService;
         private readonly MotoDevDbContext _dbContext = dbContext;
 
         public async Task<BaseResponse<IEnumerable<ClientCarListingReponse>>> GetAllClientCarsAsync()
         {
-            var userId = Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId")!.Value);
-
-            var repairShops = _dbContext.RepairShops.Where(x => x.OwnerUserId == userId)
+            var repairShops = _dbContext.RepairShops.Where(x => x.OwnerUserId == _userService.CurrentUserId)
                 .Include(x => x.RepairShopUsers.Where(x => x.User.RoleId == (int)RoleOption.Client))
                 .ThenInclude(x => x.User);
 
@@ -66,9 +65,7 @@ namespace MotoDev.Application.Services
         }
 
         public async Task<BaseResponse<ClientCarListingReponse>> EditAsync(ClientCarEditDto request)
-        {
-            int userId = Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId")!.Value);
-           
+        {           
             var currentClientCar = request.ClientCarId > 0 
                 ? await _dbContext.ClientCars.SingleOrDefaultAsync(x => x.Id == request.ClientCarId)
                 : new ClientCar();
@@ -80,14 +77,14 @@ namespace MotoDev.Application.Services
             if (request.ClientCarId > 0)
             {
                 currentClientCar.LastUpdatedAt = DateTime.UtcNow;
-                currentClientCar.LastUpdatedByUserId = userId;
+                currentClientCar.LastUpdatedByUserId = _userService.CurrentUserId;
                 
                 _dbContext.Update(currentClientCar);
             }
             else
             {
                 currentClientCar.CreatedAt = DateTime.UtcNow;
-                currentClientCar.CreatedByUserId = userId;
+                currentClientCar.CreatedByUserId = _userService.CurrentUserId;
                 currentClientCar.IsActive = true;
 
                 await _dbContext.AddAsync(currentClientCar);

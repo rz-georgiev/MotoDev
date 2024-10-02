@@ -10,10 +10,14 @@ using System.Collections.Generic;
 
 namespace MotoDev.Application.Services
 {
-    public class RepairShopService(MotoDevDbContext dbContext, IMapper mapper, IHttpContextAccessor accessor) : IRepairShopService
+    public class RepairShopService(MotoDevDbContext dbContext,
+        IMapper mapper, 
+        IUserService userService,
+        IHttpContextAccessor accessor) : IRepairShopService
     {
         private readonly MotoDevDbContext _dbContext = dbContext;
         private readonly IMapper _mapper = mapper;
+        private readonly IUserService _userService = userService;
         private readonly IHttpContextAccessor _accessor = accessor;
 
         public async Task<BaseResponse<IEnumerable<RepairShopResponse>>> GetForSpecifiedIds(IEnumerable<int> repairShopsIds)
@@ -101,7 +105,6 @@ namespace MotoDev.Application.Services
         public async Task<BaseResponse<RepairShopResponse>> EditAsync(RepairShopRequest request)
         {
             var newRepairShop = new RepairShop();
-            int userId = Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId")!.Value);
 
             if (request.Id > 0)
             {
@@ -113,15 +116,15 @@ namespace MotoDev.Application.Services
                 repairShop.VatNumber = request.VatNumber;
                 repairShop.PhoneNumber = request.PhoneNumber;
                 repairShop.LastUpdatedAt = DateTime.UtcNow;
-                repairShop.LastUpdatedByUserId = userId;
+                repairShop.LastUpdatedByUserId = _userService.CurrentUserId;
 
                 _dbContext.Update(repairShop);
             }
             else
             {
                 newRepairShop = _mapper.Map<RepairShop>(request);
-                newRepairShop.OwnerUserId = userId;
-                newRepairShop.CreatedByUserId = userId;
+                newRepairShop.OwnerUserId = _userService.CurrentUserId;
+                newRepairShop.CreatedByUserId = _userService.CurrentUserId;
                 newRepairShop.IsActive = true;
 
                 await _dbContext.AddAsync(newRepairShop);       

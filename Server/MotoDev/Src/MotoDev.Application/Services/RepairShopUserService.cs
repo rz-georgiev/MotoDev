@@ -10,16 +10,17 @@ namespace MotoDev.Application.Services
 {
     public class RepairShopUserService(MotoDevDbContext dbContext,
         IMapper mapper,
+        IUserService userService,
         IHttpContextAccessor accessor) : IRepairShopUserService
     {
         private readonly MotoDevDbContext _dbContext = dbContext;
         private readonly IMapper _mapper = mapper;
+        private readonly IUserService _userService = userService;
         private readonly IHttpContextAccessor _accessor = accessor;
 
         public async Task<BaseResponse<IEnumerable<RepairShopUserResponse>>> GetRepairShopsForCurrentUser()
         {
-            var userId = Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId").Value);
-            var repairShopUsers = await _dbContext.RepairShopUsers.Where(x => x.UserId == userId)
+            var repairShopUsers = await _dbContext.RepairShopUsers.Where(x => x.UserId == _userService.CurrentUserId)
                 .ToListAsync();
             
             return new BaseResponse<IEnumerable<RepairShopUserResponse>>

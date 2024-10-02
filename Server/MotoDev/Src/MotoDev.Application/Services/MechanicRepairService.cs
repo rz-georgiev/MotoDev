@@ -11,18 +11,19 @@ namespace MotoDev.Application.Services
     public class MechanicRepairService(MotoDevDbContext dbContext,
         IMapper mapper,
         IHttpContextAccessor accessor,
-        ICloudinaryService cloudinaryService) : IMechanicRepairService
+        ICloudinaryService cloudinaryService,
+        IUserService _userService) : IMechanicRepairService
     {
         private readonly MotoDevDbContext _dbContext = dbContext;
         private readonly IMapper _mapper = mapper;
         private readonly IHttpContextAccessor _accessor = accessor;
         private readonly ICloudinaryService _cloudinaryService = cloudinaryService;
+        private readonly IUserService userService = _userService;
 
         public async Task<BaseResponse<IEnumerable<MechanicRepairResponse>>> GetLastTenOrdersAsync()
         {
-            var userId = Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId")!.Value);
-            
-            var result = await _dbContext.ClientCarRepairs.Where(x => x.PerformedByMechanicUserId == userId)
+
+            var result = await _dbContext.ClientCarRepairs.Where(x => x.PerformedByMechanicUserId == _userService.CurrentUserId)
                 .Select(repair => new MechanicRepairResponse
                 {
                     CarImageUrl = _cloudinaryService.GetImageUrlById(repair.ClientCar.Car.ImageId),
@@ -60,8 +61,9 @@ namespace MotoDev.Application.Services
             detail.RepairStatusId = request.NewStatusId;
 
             detail.LastUpdatedAt = DateTime.UtcNow;
-            detail.LastUpdatedByUserId = Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId")!.Value);
-           
+            detail.LastUpdatedByUserId = _userService.CurrentUserId;
+
+
             _dbContext.Update(detail);
             await _dbContext.SaveChangesAsync();
             

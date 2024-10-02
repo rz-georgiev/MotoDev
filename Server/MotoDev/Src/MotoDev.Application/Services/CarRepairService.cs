@@ -1,20 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 using MotoDev.Application.Interfaces;
-using MotoDev.Common.Constants;
 using MotoDev.Common.Dtos;
 using MotoDev.Common.Enums;
-using MotoDev.Common.Extensions;
 using MotoDev.Domain.Entities;
 using MotoDev.Infrastructure.ExternalServices.Email;
 using MotoDev.Infrastructure.Persistence;
-using MotoDev.Infrastructure.Persistence.Migrations;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace MotoDev.Application.Services
 {
@@ -22,21 +14,21 @@ namespace MotoDev.Application.Services
         IEmailService emailService,
         IHttpContextAccessor accessor,
         ICloudinaryService cloudinaryService,
+        IUserService userService,
         MotoDevDbContext dbContext) : ICarRepairService
     {
         private readonly IConfiguration _configuration = configuration;
         private readonly IEmailService _emailService = emailService;
         private readonly IHttpContextAccessor _accessor = accessor;
         private readonly ICloudinaryService _cloudinaryService = cloudinaryService;
+        private readonly IUserService _userService = userService;
         private readonly MotoDevDbContext _dbContext = dbContext;
 
         public async Task<BaseResponse<IEnumerable<CarRepairResponse>>> GetAllCarsRepairsAsync()
         {
-            var userId = Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId")!.Value);
-
             var result = new List<CarRepairResponse>();
 
-            var repairShops = await _dbContext.RepairShops.Where(x => x.OwnerUserId == userId)
+            var repairShops = await _dbContext.RepairShops.Where(x => x.OwnerUserId == _userService.CurrentUserId)
                 .Include(x => x.RepairShopUsers.Where(x => x.User.RoleId == (int)RoleOption.Client))
                 .ThenInclude(x => x.User).ToListAsync();
 
@@ -78,15 +70,12 @@ namespace MotoDev.Application.Services
                 Result = result
             };
         }
-        
+
         public async Task<BaseResponse<CarRepairResponse>> EditAsync(CarRepairRequest request)
         {
-
-            var currentClientCarRepair = request.CarRepairId > 0 
-                ? await _dbContext.ClientCarRepairs.SingleOrDefaultAsync(x => x.Id == request.CarRepairId) 
+            var currentClientCarRepair = request.CarRepairId > 0
+                ? await _dbContext.ClientCarRepairs.SingleOrDefaultAsync(x => x.Id == request.CarRepairId)
                 : new ClientCarRepair();
-
-            int userId = Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId")!.Value);
 
             currentClientCarRepair.ClientCarId = request.ClientCarId;
             currentClientCarRepair.PerformedByMechanicUserId = request.MechanicUserId;
@@ -94,7 +83,7 @@ namespace MotoDev.Application.Services
             if (request.CarRepairId > 0)
             {
                 currentClientCarRepair.LastUpdatedAt = DateTime.UtcNow;
-                currentClientCarRepair.LastUpdatedByUserId = userId;
+                currentClientCarRepair.LastUpdatedByUserId = _userService.CurrentUserId;
 
                 _dbContext.Update(currentClientCarRepair);
             }
@@ -102,7 +91,7 @@ namespace MotoDev.Application.Services
             {
                 currentClientCarRepair.RepairStatusId = (int)RepairStatusOption.ToDo;
                 currentClientCarRepair.CreatedAt = DateTime.UtcNow;
-                currentClientCarRepair.CreatedByUserId = userId;
+                currentClientCarRepair.CreatedByUserId = _userService.CurrentUserId;
                 currentClientCarRepair.IsActive = true;
 
                 await _dbContext.AddAsync(currentClientCarRepair);
@@ -156,10 +145,10 @@ namespace MotoDev.Application.Services
         {
             var carRepair = await _dbContext.ClientCarRepairs.SingleOrDefaultAsync(x => x.Id == carRepairId);
             carRepair.IsActive = false;
-         
+
             _dbContext.Update(carRepair);
             await _dbContext.SaveChangesAsync();
-            
+
             return new BaseResponse<bool>
             {
                 IsOk = true,
@@ -179,7 +168,7 @@ namespace MotoDev.Application.Services
 
             return new BaseResponse<IEnumerable<CarRepairSelectResponse>>
             {
-                IsOk =  true,
+                IsOk = true,
                 Result = result,
             };
         }
