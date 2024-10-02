@@ -8,6 +8,9 @@ import { RepairTrackerService } from '../../../repair-tracker/services/repair-tr
 import { MechanicRepairItemComponent } from "../mechanic-repair-item/mechanic-repair-item.component";
 import { MechanicRepairService } from '../../services/mechanic-repair.service';
 import { MechanicRepairResponse } from '../../models/mechanicRepairReponse';
+import { MechanicDetailUpdateRequest } from '../../models/mechanicDetailUpdateRequest';
+import { RoleOption } from '../../../../shared/consts/roleOption';
+import { MechanicRepairResponseDetail } from '../../models/mechanicRepairReponseDetail';
 
 @Component({
   selector: 'app-mechanic-repairs',
@@ -17,12 +20,7 @@ import { MechanicRepairResponse } from '../../models/mechanicRepairReponse';
   styleUrl: './mechanic-repairs.component.css'
 })
 export class MechanicRepairsComponent {
-onFocusOut($event: any) {
-  const a = $event.currentTarget.innerHTML;
-console.log(a.innerText);
-console.log(a.textContent);
-console.log(a.outerText);
-}
+
 
   public response!: ClientCarStatusResponse[];
   public data!: MechanicRepairResponse[];
@@ -42,7 +40,24 @@ console.log(a.outerText);
         this.data = x.result;
       });
     });
-
-
   }
+
+  onFocusOut(detail: MechanicRepairResponseDetail, $event: any) {
+    const newNote = $event.currentTarget.value;
+    this.mechanicRepairService.updateDetail({
+      repairDetailId: detail.repairDetailId, 
+      newStatusId: detail.statusId,
+      newNotes: newNote
+    }).subscribe();
+  }
+
+  onStatusChangerClick(detail: MechanicRepairResponseDetail, newStatusId: number) {
+    detail.statusId = newStatusId;
+    this.mechanicRepairService.updateDetail({
+      repairDetailId: detail.repairDetailId, 
+      newStatusId: newStatusId,
+      newNotes: detail.notes
+    }).subscribe();
+  }
+
 }

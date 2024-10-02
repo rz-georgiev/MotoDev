@@ -49,18 +49,19 @@
                               <div class="row mb-3">
                                 <label for="inputPassword" class="col-sm-2 col-form-label">Notes</label>
                                 <div class="col-sm-10">
-                                  <textarea  (focusout)="onFocusOut($event)" class="form-control" style="height: 100px">{{detail.notes}}</textarea>
+                                  <textarea  (focusout)="onFocusOut(detail, $event)" class="form-control" style="height: 100px">{{detail.notes}}</textarea>  
                                 </div>
+
                               </div>
-                              <button type="button" class="btn repairItem" [ngClass]="{
+                              <button (click)="onStatusChangerClick(detail, RepairStatusOption.ToDo)"  type="button" class="btn repairItem" [ngClass]="{
                                   'btn-outline-danger': detail.statusId !== RepairStatusOption.ToDo,
                                   'btn-danger':  detail.statusId === RepairStatusOption.ToDo
                                 }">ToDo</button>
-                              <button type="button" class="btn repairItem" [ngClass]="{
+                              <button (click)="onStatusChangerClick(detail, RepairStatusOption.InProgress)" type="button" class="btn repairItem" [ngClass]="{
                                   'btn-outline-warning': detail.statusId !== RepairStatusOption.InProgress,
                                   'btn-warning':  detail.statusId === RepairStatusOption.InProgress
                                 }">In Progress</button>
-                              <button type="button" class="btn repairItem" [ngClass]="{
+                              <button (click)="onStatusChangerClick(detail, RepairStatusOption.Done)" type="button" class="btn repairItem" [ngClass]="{
                                   'btn-outline-success': detail.statusId !== RepairStatusOption.Done,
                                   'btn-success':  detail.statusId === RepairStatusOption.Done
                                 }">Done</button>

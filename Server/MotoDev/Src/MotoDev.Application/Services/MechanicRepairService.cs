@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using MotoDev.Application.Interfaces;
 using MotoDev.Common.Dtos;
 using MotoDev.Infrastructure.Persistence;
+using System.Runtime.CompilerServices;
 
 namespace MotoDev.Application.Services
 {
@@ -48,6 +49,26 @@ namespace MotoDev.Application.Services
             {
                 IsOk = true,
                 Result = result,
+            };
+        }
+
+        public async Task<BaseResponse<bool>> UpdateDetailAsync(MechanicDetailUpdateRequest request)
+        {
+            var detail = await _dbContext.ClientCarRepairsDetails.SingleOrDefaultAsync(x => x.Id == request.RepairDetailId);
+          
+            detail.Notes = request.NewNotes;
+            detail.RepairStatusId = request.NewStatusId;
+
+            detail.LastUpdatedAt = DateTime.UtcNow;
+            detail.LastUpdatedByUserId = Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId")!.Value);
+           
+            _dbContext.Update(detail);
+            await _dbContext.SaveChangesAsync();
+            
+            return new BaseResponse<bool>
+            {
+                IsOk = true,
+                Result = true,
             };
         }
     }

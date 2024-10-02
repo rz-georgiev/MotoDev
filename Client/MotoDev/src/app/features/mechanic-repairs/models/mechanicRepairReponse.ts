@@ -1,3 +1,4 @@
+import { MechanicDetailUpdateRequest } from "./mechanicDetailUpdateRequest";
 import { MechanicRepairResponseDetail } from "./mechanicRepairReponseDetail";
 
 export interface MechanicRepairResponse {
