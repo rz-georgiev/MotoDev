@@ -4,26 +4,23 @@ import { Observable } from 'rxjs';
 import { RepairShopUserDto } from '../../repair-shop-users/models/repairShopUser';
 import { BaseResponse } from '../../../shared/models/baseResponse';
 import { RepairShopDto } from '../models/repairShopDto';
+import { Urls } from '../../../shared/consts/urls';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RepairShopService {
 
-  private baseUrl = `https://localhost:5078`; 
+  private baseUrl = `${Urls.ApiUrl}/RepairShops`;
 
   constructor(private http: HttpClient) { }
 
   getById(id: number): Observable<BaseResponse<RepairShopDto>> {
-    return this.http.get<BaseResponse<RepairShopDto>>(`${this.baseUrl}/RepairShops/GetById/${id}`);
+    return this.http.get<BaseResponse<RepairShopDto>>(`${this.baseUrl}/GetById/${id}`);
   }
 
   getRepairShopsForSpecifiedOwner(ownerUserId: number): Observable<BaseResponse<RepairShopDto[]>> {
-    return this.http.get<BaseResponse<RepairShopDto[]>>(`${this.baseUrl}/RepairShops/GetForSpecifiedOwner?ownerUserId=${ownerUserId}`);
-  }
-
-  getRepairShopUserById(id: number): Observable<BaseResponse<RepairShopUserDto>> {
-    return this.http.get<BaseResponse<RepairShopUserDto>>(`${this.baseUrl}/RepairShopUsers/GetById?id=${id}`);
+    return this.http.get<BaseResponse<RepairShopDto[]>>(`${this.baseUrl}/GetForSpecifiedOwner?ownerUserId=${ownerUserId}`);
   }
 
   getForSpecifiedIds(ids: number[]): Observable<BaseResponse<RepairShopDto[]>> {
@@ -31,14 +28,14 @@ export class RepairShopService {
     ids.forEach(id => {
       params = params.append('repairShopsIds', id);
     })
-    return this.http.get<BaseResponse<RepairShopDto[]>>(`${this.baseUrl}/RepairShops/GetForSpecifiedIds`, { params });
+    return this.http.get<BaseResponse<RepairShopDto[]>>(`${this.baseUrl}/GetForSpecifiedIds`, { params });
   }
 
   edit(data: RepairShopDto): Observable<BaseResponse<RepairShopDto>> {
-    return this.http.post<BaseResponse<RepairShopDto>>(`${this.baseUrl}/RepairShops/Edit`, data);
+    return this.http.post<BaseResponse<RepairShopDto>>(`${this.baseUrl}/Edit`, data);
   }
 
   deactivateById(id: number): Observable<BaseResponse<boolean>> {
-    return this.http.get<BaseResponse<boolean>>(`${this.baseUrl}/RepairShops/DeactivateById/${id}`);
+    return this.http.get<BaseResponse<boolean>>(`${this.baseUrl}/DeactivateById/${id}`);
   }
 }

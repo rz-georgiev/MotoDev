@@ -6,13 +6,14 @@ import { ExtendedJwtPayload } from '../models/extendedJwtPayload';
 import { CurrentUser } from '../models/currentUser';
 import { Router } from '@angular/router';
 import { UserService } from '../../users/services/user.service';
+import { Urls } from '../../../shared/consts/urls';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private baseUrl = 'https://localhost:5078/Accounts';
+  private baseUrl = `${Urls.ApiUrl}/Accounts`;
   private isLoggedInSubject = new BehaviorSubject<boolean>(false);
   public isLoggedIn$ = this.isLoggedInSubject.asObservable();
   public currentUser!: CurrentUser;

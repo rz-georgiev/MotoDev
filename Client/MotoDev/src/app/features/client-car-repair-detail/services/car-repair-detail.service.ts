@@ -7,29 +7,30 @@ import { ClientCarEditDto } from '../../client-cars/models/clientCarEditDto';
 import { ClientCarListingReponse } from '../../client-cars/models/clientCarListingResponse';
 import { CarRepairDetailListingResponse } from '../models/carRepairDetailListingResponse';
 import { CarRepairDetailEditDto } from '../models/carRepairDetailEditDto';
+import { Urls } from '../../../shared/consts/urls';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CarRepairDetailService {
-  private baseUrl = `https://localhost:5078`;
+  private baseUrl = `${Urls.ApiUrl}/CarRepairDetails`;
 
   constructor(private http: HttpClient) { }
 
   getAll(): Observable<BaseResponse<CarRepairDetailListingResponse[]>> {
-    return this.http.get<BaseResponse<CarRepairDetailListingResponse[]>>(`${this.baseUrl}/CarRepairDetails/GetAll`);
+    return this.http.get<BaseResponse<CarRepairDetailListingResponse[]>>(`${this.baseUrl}/GetAll`);
   }
   
   getById(detailId: number): Observable<BaseResponse<CarRepairDetailEditDto>> {
-    return this.http.get<BaseResponse<CarRepairDetailEditDto>>(`${this.baseUrl}/CarRepairDetails/GetById?detailId=${detailId}`);
+    return this.http.get<BaseResponse<CarRepairDetailEditDto>>(`${this.baseUrl}/GetById?detailId=${detailId}`);
   }
 
   edit(data: CarRepairDetailEditDto): Observable<BaseResponse<CarRepairDetailListingResponse>> {
-    return this.http.post<BaseResponse<CarRepairDetailListingResponse>>(`${this.baseUrl}/CarRepairDetails/Edit`, data);
+    return this.http.post<BaseResponse<CarRepairDetailListingResponse>>(`${this.baseUrl}/Edit`, data);
   }
   
   deactivateByCientCarRepairDetailId(detailId: number): Observable<BaseResponse<CarRepairDetailListingResponse[]>> {
-    return this.http.put<BaseResponse<CarRepairDetailListingResponse[]>>(`${this.baseUrl}/CarRepairDetails/DeactivateByDetailId?detailId=${detailId}`, null);
+    return this.http.put<BaseResponse<CarRepairDetailListingResponse[]>>(`${this.baseUrl}/DeactivateByDetailId?detailId=${detailId}`, null);
   }
 
 }

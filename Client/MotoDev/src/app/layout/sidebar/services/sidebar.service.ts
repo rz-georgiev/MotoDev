@@ -9,8 +9,8 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class SidebarService {
 
-  
   private baseUrl = 'https://localhost:5078/Account';
+
   private isLoggedInSubject = new BehaviorSubject<boolean>(false);
   public isLoggedIn$ = this.isLoggedInSubject.asObservable();
   

@@ -12,33 +12,34 @@ import { ClientCarResponse } from '../models/clientCarResponse';
 import { CarRepairRequest } from '../models/carRepairRequest';
 import { ClientCarEditResponse } from '../models/clientCarEditResponse';
 import { CarRepairSelectResponse } from '../models/carRepairSelectResponse';
+import { Urls } from '../../../shared/consts/urls';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CarRepairService {
 
-  private baseUrl = `https://localhost:5078`;
+  private baseUrl = `${Urls.ApiUrl}/CarRepairs`;
 
   constructor(private http: HttpClient) { }
 
   getAllCarsRepairs(): Observable<BaseResponse<CarRepairResponse[]>> {
-    return this.http.get<BaseResponse<CarRepairResponse[]>>(`${this.baseUrl}/CarRepairs/GetAllCarsRepairs`);
+    return this.http.get<BaseResponse<CarRepairResponse[]>>(`${this.baseUrl}/GetAllCarsRepairs`);
   }
 
   getById(id: number): Observable<BaseResponse<ClientCarEditResponse>> {
-    return this.http.get<BaseResponse<ClientCarEditResponse>>(`${this.baseUrl}/CarRepairs/GetById?carRepairId=${id}`);
+    return this.http.get<BaseResponse<ClientCarEditResponse>>(`${this.baseUrl}/GetById?carRepairId=${id}`);
   }
 
   editCarRepair(carRepairData: CarRepairRequest): Observable<BaseResponse<CarRepairResponse>> {
-    return this.http.post<BaseResponse<CarRepairResponse>>(`${this.baseUrl}/CarRepairs/Edit`, carRepairData);
+    return this.http.post<BaseResponse<CarRepairResponse>>(`${this.baseUrl}/Edit`, carRepairData);
   }
 
   deactivateByCarRepairIdAsync(carRepairId: number): Observable<BaseResponse<boolean>> {
-    return this.http.put<BaseResponse<boolean>>(`${this.baseUrl}/CarRepairs/DeactivateByCarRepairId?carRepairId=${carRepairId}`, null);
+    return this.http.put<BaseResponse<boolean>>(`${this.baseUrl}/DeactivateByCarRepairId?carRepairId=${carRepairId}`, null);
   }
 
   getClientsRepairs(): Observable<BaseResponse<CarRepairSelectResponse[]>> {
-    return this.http.get<BaseResponse<CarRepairSelectResponse[]>>(`${this.baseUrl}/CarRepairs/GetClientsRepairs`);
+    return this.http.get<BaseResponse<CarRepairSelectResponse[]>>(`${this.baseUrl}/GetClientsRepairs`);
   }
 }

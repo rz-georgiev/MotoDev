@@ -11,44 +11,45 @@ import { UserProfileImageUpdateResponse } from '../models/userProfileImageUpdate
 import { UserDtoMinimized } from '../models/userDtoMinimized';
 import { UserExtendedDto } from '../models/UserExtendedDto';
 import { MechanicUserResponse } from '../models/mechanicUserResponse';
+import { Urls } from '../../../shared/consts/urls';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  private baseUrl = `https://localhost:5078`;
+  private baseUrl = `${Urls.ApiUrl}/Users`;
 
   constructor(private http: HttpClient,
     private authService: AuthService) { }
 
   getById(id: number): Observable<BaseResponse<UserDto>> {
-    return this.http.get<BaseResponse<UserDto>>(`${this.baseUrl}/Users/GetById?id=${id}`);
+    return this.http.get<BaseResponse<UserDto>>(`${this.baseUrl}/GetById?id=${id}`);
   }
 
   getAllForCurrentOwnerUserId(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/Users/GetAllForCurrentOwnerUserId?ownerUserId=${this.authService.currentUser.id}`);
+    return this.http.get(`${this.baseUrl}/GetAllForCurrentOwnerUserId?ownerUserId=${this.authService.currentUser.id}`);
   }
 
   deactivateRepairUserById(id: number): Observable<any> {
-    return this.http.put(`${this.baseUrl}/Users/DeactivateRepairUserById?id=${id}`, null);
+    return this.http.put(`${this.baseUrl}/DeactivateRepairUserById?id=${id}`, null);
   }
 
   editUser(userData: UserDto): Observable<BaseResponse<UserDto>> {
-    return this.http.post<BaseResponse<UserDto>>(`${this.baseUrl}/Users/Edit`, userData);
+    return this.http.post<BaseResponse<UserDto>>(`${this.baseUrl}/Edit`, userData);
   }
 
   // Used when the user is editing his/her information themselves
   editUserMinimized(userData: UserDtoMinimized): Observable<BaseResponse<UserExtendedDto>> {
-    return this.http.post<BaseResponse<UserExtendedDto>>(`${this.baseUrl}/Users/EditMinimized`, userData);
+    return this.http.post<BaseResponse<UserExtendedDto>>(`${this.baseUrl}/EditMinimized`, userData);
   }
 
   updateProfileImage(formData: FormData): Observable<BaseResponse<UserProfileImageUpdateResponse>> {
-    return this.http.post<BaseResponse<UserProfileImageUpdateResponse>>(`${this.baseUrl}/Users/UpdateProfileImage`, formData);
+    return this.http.post<BaseResponse<UserProfileImageUpdateResponse>>(`${this.baseUrl}/UpdateProfileImage`, formData);
   }
   
   getMechanicUsers(): Observable<BaseResponse<MechanicUserResponse[]>> {
-    return this.http.get<BaseResponse<MechanicUserResponse[]>>(`${this.baseUrl}/Users/GetMechanicUsers`);
+    return this.http.get<BaseResponse<MechanicUserResponse[]>>(`${this.baseUrl}/GetMechanicUsers`);
   }
   
 

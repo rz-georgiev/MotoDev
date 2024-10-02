@@ -9,15 +9,16 @@ import { BaseResponse } from '../../../shared/models/baseResponse';
 })
 export class RepairShopUserService {
 
-  private baseUrl = `https://localhost:5078`; 
+  private baseUrl = `https://localhost:5078/RepairShopUsers`; 
 
   constructor(private http: HttpClient) { }
 
   getRepairShopsForCurrentUser(): Observable<BaseResponse<RepairShopUserDto[]>> {
-    return this.http.get<BaseResponse<RepairShopUserDto[]>>(`${this.baseUrl}/RepairShopUsers/GetRepairShopsForCurrentUser`);
+    return this.http.get<BaseResponse<RepairShopUserDto[]>>(`${this.baseUrl}/GetRepairShopsForCurrentUser`);
   }
 
   getRepairShopUserById(id: number): Observable<BaseResponse<RepairShopUserDto>> {
-    return this.http.get<BaseResponse<RepairShopUserDto>>(`${this.baseUrl}/RepairShopUsers/GetById?id=${id}`);
+    return this.http.get<BaseResponse<RepairShopUserDto>>(`${this.baseUrl}/GetById?id=${id}`);
   }
+
 }

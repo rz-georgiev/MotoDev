@@ -4,18 +4,19 @@ import { Observable } from 'rxjs';
 import { RepairShopUserDto } from '../../repair-shop-users/models/repairShopUser';
 import { BaseResponse } from '../../../shared/models/baseResponse';
 import { DashboardResponse } from '../models/dashboardResponse';
+import { Urls } from '../../../shared/consts/urls';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DashboardService {
 
-  private baseUrl = `https://localhost:5078`; 
+  private baseUrl = `${Urls.ApiUrl}/Dashboard`;
 
   constructor(private http: HttpClient) { }
 
   getDashboardData(): Observable<BaseResponse<DashboardResponse>> {
-    return this.http.get<BaseResponse<DashboardResponse>>(`${this.baseUrl}/Dashboard/GetDashboardData`);
+    return this.http.get<BaseResponse<DashboardResponse>>(`${this.baseUrl}/GetDashboardData`);
   }
 
 }

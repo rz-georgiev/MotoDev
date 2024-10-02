@@ -7,6 +7,7 @@ import { ClientCarEditDto } from '../../client-cars/models/clientCarEditDto';
 import { ClientCarListingReponse } from '../../client-cars/models/clientCarListingResponse';
 import { RepairTypeResponse } from '../../repairTypes/models/repairTypeResponse';
 import { RepairStatusResponse } from '../models/repairStatusResponse';
+import { Urls } from '../../../shared/consts/urls';
 
 @Injectable({
   providedIn: 'root'
@@ -14,11 +15,11 @@ import { RepairStatusResponse } from '../models/repairStatusResponse';
 export class RepairStatusService {
 
  
-  private baseUrl = `https://localhost:5078`;
+  private baseUrl = `${Urls.ApiUrl}/RepairStatuses`;
 
   constructor(private http: HttpClient) { }
 
   getAll(): Observable<BaseResponse<RepairStatusResponse[]>> {
-    return this.http.get<BaseResponse<RepairStatusResponse[]>>(`${this.baseUrl}/RepairStatuses/GetAll`);
+    return this.http.get<BaseResponse<RepairStatusResponse[]>>(`${this.baseUrl}/GetAll`);
   }
 }
