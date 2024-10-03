@@ -41,27 +41,23 @@ namespace MotoDev.Application.Services
                 LicensePlateNumber = x.LicensePlateNumber,
             });
 
-            return new BaseResponse<IEnumerable<ClientCarListingReponse>>
-            {
-                IsOk = true,
-                Result = result,
-            };
+            return ResponseHelper.Success<IEnumerable<ClientCarListingReponse>>(result);
+
         }
 
         public async Task<BaseResponse<ClientCarEditDto>> GetByIdAsync(int clientCarId)
         {
             var clientCar = await _dbContext.ClientCars.SingleOrDefaultAsync(x => x.Id == clientCarId);
-            return new BaseResponse<ClientCarEditDto>
+            var response = new ClientCarEditDto
             {
-                IsOk = true,
-                Result = new ClientCarEditDto
-                {
-                    ClientCarId = clientCar.Id,
-                    CarId = clientCar.CarId,
-                    ClientId = clientCar.ClientId,
-                    LicensePlateNumber = clientCar.LicensePlateNumber
-                }
+                ClientCarId = clientCar.Id,
+                CarId = clientCar.CarId,
+                ClientId = clientCar.ClientId,
+                LicensePlateNumber = clientCar.LicensePlateNumber
             };
+
+            return ResponseHelper.Success(response);
+
         }
 
         public async Task<BaseResponse<ClientCarListingReponse>> EditAsync(ClientCarEditDto request)
@@ -98,20 +94,17 @@ namespace MotoDev.Application.Services
             var car = await _dbContext.Cars.Where(x => x.Id == currentClientCar.CarId)
                 .Include(x => x.Brand)
                 .Include(x => x.Model).SingleOrDefaultAsync();
-             
 
-            return new BaseResponse<ClientCarListingReponse>
+            var response = new ClientCarListingReponse
             {
-                IsOk = true,
-                Message = "",
-                Result = new ClientCarListingReponse
-                {
-                    ClientCarId = currentClientCar.Id,
-                    CarName = $"{car.Brand.Name} {car.Model.Name} {car.Year}",
-                    ClientName = $"{user.FirstName} {user.LastName}",
-                    LicensePlateNumber = currentClientCar.LicensePlateNumber,
-                }
+                ClientCarId = currentClientCar.Id,
+                CarName = $"{car.Brand.Name} {car.Model.Name} {car.Year}",
+                ClientName = $"{user.FirstName} {user.LastName}",
+                LicensePlateNumber = currentClientCar.LicensePlateNumber,
             };
+
+            return ResponseHelper.Success(response);
+
         }
 
         public async Task<BaseResponse<bool>> DeactivateByCarRepairIdAsync(int clientCarId)
@@ -122,11 +115,8 @@ namespace MotoDev.Application.Services
             _dbContext.Update(clientCar);
             await _dbContext.SaveChangesAsync();
 
-            return new BaseResponse<bool>
-            {
-                IsOk = true,
-                Result = true
-            };
+            return ResponseHelper.Success(true);
+
         }
 
         public async Task<BaseResponse<IEnumerable<ClientCarResponse>>> GetClientCarsAsync(int clientId)
@@ -143,11 +133,8 @@ namespace MotoDev.Application.Services
                 CarName = $"{x.Car.Brand.Name} {x.Car.Model.Name} {x.Car.Year} -> {x.LicensePlateNumber}"
             });
 
-            return new BaseResponse<IEnumerable<ClientCarResponse>>
-            {
-                IsOk = true,
-                Result = result
-            };
+            return ResponseHelper.Success(result);
+
         }
     }
 }

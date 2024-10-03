@@ -7,6 +7,7 @@ using MotoDev.Common.Enums;
 using MotoDev.Domain.Entities;
 using MotoDev.Infrastructure.ExternalServices.Email;
 using MotoDev.Infrastructure.Persistence;
+using System.Collections.Generic;
 
 namespace MotoDev.Application.Services
 {
@@ -64,11 +65,7 @@ namespace MotoDev.Application.Services
                 }
             }
 
-            return new BaseResponse<IEnumerable<CarRepairResponse>>
-            {
-                IsOk = true,
-                Result = result
-            };
+            return ResponseHelper.Success<IEnumerable<CarRepairResponse>>(result);
         }
 
         public async Task<BaseResponse<CarRepairResponse>> EditAsync(CarRepairRequest request)
@@ -106,21 +103,17 @@ namespace MotoDev.Application.Services
             var user = await _dbContext.Users.SingleOrDefaultAsync(x => x.Id == client.UserId);
             var repairStatus = _dbContext.RepairStatuses.SingleOrDefault(x => x.Id == currentClientCarRepair.RepairStatusId);
 
-            return new BaseResponse<CarRepairResponse>
+            var response = new CarRepairResponse
             {
-                IsOk = true,
-                Message = "",
-                Result = new CarRepairResponse
-                {
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    LicensePlateNumber = clientCar.LicensePlateNumber,
-                    CarRepairId = currentClientCarRepair.Id,
-                    Status = repairStatus.Name,
-                    StatusId = repairStatus.Id,
-                    RepairDateTime = currentClientCarRepair.CreatedAt,
-                }
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                LicensePlateNumber = clientCar.LicensePlateNumber,
+                CarRepairId = currentClientCarRepair.Id,
+                Status = repairStatus.Name,
+                StatusId = repairStatus.Id,
+                RepairDateTime = currentClientCarRepair.CreatedAt,
             };
+            return ResponseHelper.Success(response);
         }
 
         public async Task<BaseResponse<CarRepairEditResponse>> GetByIdAsync(int carRepairId)
@@ -128,17 +121,15 @@ namespace MotoDev.Application.Services
             var carRepair = await _dbContext.ClientCarRepairs.SingleOrDefaultAsync(x => x.Id == carRepairId);
             var clientCar = await _dbContext.ClientCars.SingleOrDefaultAsync(x => x.Id == carRepair.ClientCarId);
 
-            return new BaseResponse<CarRepairEditResponse>
+            var response = new CarRepairEditResponse
             {
-                IsOk = true,
-                Result = new CarRepairEditResponse
-                {
-                    CarRepairId = carRepair.Id,
-                    ClientCarId = clientCar.Id,
-                    ClientId = clientCar.ClientId,
-                    MechanicUserId = carRepair.PerformedByMechanicUserId,
-                }
+                CarRepairId = carRepair.Id,
+                ClientCarId = clientCar.Id,
+                ClientId = clientCar.ClientId,
+                MechanicUserId = carRepair.PerformedByMechanicUserId,
             };
+
+            return ResponseHelper.Success(response);
         }
 
         public async Task<BaseResponse<bool>> DeactivateByCarRepairIdAsync(int carRepairId)
@@ -154,11 +145,7 @@ namespace MotoDev.Application.Services
 
             await _dbContext.SaveChangesAsync();
 
-            return new BaseResponse<bool>
-            {
-                IsOk = true,
-                Result = true,
-            };
+            return ResponseHelper.Success(true);
         }
 
         public async Task<BaseResponse<IEnumerable<CarRepairSelectResponse>>> GetClientsRepairsAsync()
@@ -171,11 +158,8 @@ namespace MotoDev.Application.Services
             })
             .OrderBy(x => x.ClientCarRepairId);
 
-            return new BaseResponse<IEnumerable<CarRepairSelectResponse>>
-            {
-                IsOk = true,
-                Result = result,
-            };
+            return ResponseHelper.Success<IEnumerable<CarRepairSelectResponse>>(result);
+
         }
     }
 }

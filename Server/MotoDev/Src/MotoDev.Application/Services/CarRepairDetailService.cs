@@ -7,6 +7,7 @@ using MotoDev.Common.Enums;
 using MotoDev.Domain.Entities;
 using MotoDev.Infrastructure.ExternalServices.Email;
 using MotoDev.Infrastructure.Persistence;
+using System.Collections.Generic;
 
 namespace MotoDev.Application.Services
 {
@@ -48,11 +49,7 @@ namespace MotoDev.Application.Services
                     Status = x.RepairStatus.Name,
                 }).ToListAsync();
 
-            return new BaseResponse<IEnumerable<CarRepairDetailListingResponse>>
-            {
-                IsOk = true,
-                Result = result
-            };
+            return ResponseHelper.Success<IEnumerable<CarRepairDetailListingResponse>>(result);
         }
 
         public async Task<BaseResponse<CarRepairDetailListingResponse>> EditAsync(CarRepairDetailEditDto request)
@@ -96,38 +93,34 @@ namespace MotoDev.Application.Services
             var repairStatus = _dbContext.RepairStatuses.SingleOrDefault(x => x.Id == repairDetail.RepairStatusId);
             var repairType = _dbContext.RepairTypes.SingleOrDefault(x => x.Id == repairDetail.RepairTypeId);
 
-            return new BaseResponse<CarRepairDetailListingResponse>
+            var response = new CarRepairDetailListingResponse
             {
-                IsOk = true,
-                Message = "",
-                Result = new CarRepairDetailListingResponse
-                {
-                    ClientCarRepairDetailId = repairDetail.Id,
-                    ClientName = $"{user.FirstName} {user.LastName}",
-                    LicensePlateNumber = clientCar.LicensePlateNumber,
-                    Price = repairDetail.Price,
-                    RepairTypeName = repairType.Name,
-                    Status = repairStatus.Name
-                }
+                ClientCarRepairDetailId = repairDetail.Id,
+                ClientName = $"{user.FirstName} {user.LastName}",
+                LicensePlateNumber = clientCar.LicensePlateNumber,
+                Price = repairDetail.Price,
+                RepairTypeName = repairType.Name,
+                Status = repairStatus.Name
             };
+
+            return ResponseHelper.Success(response);
+
         }
 
         public async Task<BaseResponse<CarRepairDetailEditDto>> GetByIdAsync(int detailId)
         {
             var detail = await _dbContext.ClientCarRepairsDetails.SingleOrDefaultAsync(x => x.Id == detailId);
 
-            return new BaseResponse<CarRepairDetailEditDto>
+            var response = new CarRepairDetailEditDto
             {
-                IsOk = true,
-                Result = new CarRepairDetailEditDto
-                {
-                    ClientCarRepairDetailId = detail.Id,
-                    ClientCarRepairId = detail.ClientCarRepairId,
-                    Price = detail.Price,
-                    RepairStatusId = detail.RepairStatusId,
-                    RepairTypeId = detail.RepairTypeId,
-                }
+                ClientCarRepairDetailId = detail.Id,
+                ClientCarRepairId = detail.ClientCarRepairId,
+                Price = detail.Price,
+                RepairStatusId = detail.RepairStatusId,
+                RepairTypeId = detail.RepairTypeId,
             };
+            return ResponseHelper.Success(response);
+
         }
 
         public async Task<BaseResponse<bool>> DeactivateByDetailIdAsync(int detailId)
@@ -138,11 +131,7 @@ namespace MotoDev.Application.Services
             _dbContext.Update(detail);
             await _dbContext.SaveChangesAsync();
 
-            return new BaseResponse<bool>
-            {
-                IsOk = true,
-                Result = true,
-            };
+            return ResponseHelper.Success(true);
         }
     }
 }

@@ -26,7 +26,7 @@ namespace MotoDev.Application.Services
                 .ToListAsync();
 
             var clients = await _dbContext.Clients.Where(x => users.Select(x => x.Id).Contains(x.UserId))
-                .ToListAsync(); 
+                .ToListAsync();
 
             var result = clients.Select(client => new ClientResponse
             {
@@ -35,11 +35,7 @@ namespace MotoDev.Application.Services
                 $" {users.SingleOrDefault(x => x.Id == client.UserId)!.LastName}"
             });
 
-            return new BaseResponse<IEnumerable<ClientResponse>>
-            {
-                IsOk = true,
-                Result = result
-            };
+            return ResponseHelper.Success(result);
         }
 
         public async Task<BaseResponse<IEnumerable<ClientCarStatusResponse>>> GetMyCarsStatusesAsync()
@@ -93,11 +89,7 @@ namespace MotoDev.Application.Services
                 }
             }
 
-            return new BaseResponse<IEnumerable<ClientCarStatusResponse>>
-            {
-                IsOk = true,
-                Result = result,
-            };
+            return ResponseHelper.Success<IEnumerable<ClientCarStatusResponse>>(result);
         }
     }
 }

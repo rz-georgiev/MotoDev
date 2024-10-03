@@ -50,11 +50,8 @@ namespace MotoDev.Application.Services
                 .Where(x => x.Details.Any())
                 .ToListAsync();
 
-            return new BaseResponse<IEnumerable<MechanicRepairResponse>>
-            {
-                IsOk = true,
-                Result = result,
-            };
+            return ResponseHelper.Success<IEnumerable<MechanicRepairResponse>>(result);
+
         }
 
         public async Task<BaseResponse<bool>> UpdateDetailAsync(MechanicDetailUpdateRequest request)
@@ -82,11 +79,8 @@ namespace MotoDev.Application.Services
 
             await _dbContext.SaveChangesAsync();
 
-            return new BaseResponse<bool>
-            {
-                IsOk = true,
-                Result = true,
-            };
+            return ResponseHelper.Success(true);
+
         }
     }
 }

@@ -99,11 +99,7 @@ namespace MotoDev.Application.Services
             //var message = $"Please click here to confirm your account -> http://localhost:4200/confirmAccount/{randomHash}";
             await _emailService.SendEmailAsync(request.Email, message);
 
-            return new BaseResponse
-            {
-                IsOk = true,
-                Message = message,
-            };
+            return ResponseHelper.Success(message);
         }
 
         public async Task<BaseResponse> ConfirmAccountAsync(ConfirmAccountRequest request)
@@ -120,11 +116,8 @@ namespace MotoDev.Application.Services
                 user.ResetPasswordToken = null;
                 await _dbContext.SaveChangesAsync();
 
-                return new BaseResponse
-                {
-                    IsOk = true,
-                    Message = "Account is activated successfully"
-                };
+                return ResponseHelper.Success("Account is activated successfully");
+
             }
             catch (Exception ex)
             {
@@ -139,11 +132,7 @@ namespace MotoDev.Application.Services
                 var user = await _dbContext.Users.SingleOrDefaultAsync(x => x.Email == request.RecipientEmail);
                 if (user == null)
                 {
-                    return new BaseResponse
-                    {
-                        IsOk = true,
-                        Message = $"If such a user exists, a password reset email will be send"
-                    };
+                    return ResponseHelper.Success($"If such a user exists, a password reset email will be send");
                 }
 
                 var bytes = new byte[16];
@@ -161,11 +150,8 @@ namespace MotoDev.Application.Services
                     return ResponseHelper.Failure($"An error occurred while sending a reset password link");
                 }
 
-                return new BaseResponse
-                {
-                    IsOk = true,
-                    Message = "A password reset link is sent. Please check your email",
-                };
+                return ResponseHelper.Success("A password reset link is sent. Please check your email");
+
             }
             catch (Exception ex)
             {
@@ -192,11 +178,8 @@ namespace MotoDev.Application.Services
                 user.ResetPasswordToken = null;
                 await _dbContext.SaveChangesAsync();
 
-                return new BaseResponse
-                {
-                    IsOk = true,
-                    Message = "Password is changed successfully"
-                };
+                return ResponseHelper.Success("Password is changed successfully");
+
             }
             catch (Exception ex)
             {

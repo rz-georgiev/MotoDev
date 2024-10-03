@@ -41,11 +41,8 @@ namespace MotoDev.Application.Services
                     CarName = $"{x.Brand.Name} {x.Model.Name} {x.Year}",
                 }).ToListAsync();
 
-            return new BaseResponse<IEnumerable<CarResponse>>
-            {
-                IsOk = true,
-                Result = cars
-            };
+            return ResponseHelper.Success<IEnumerable<CarResponse>>(cars);
+
         }
     }
 }
