@@ -31,7 +31,7 @@ namespace MotoDev.Application.Services
         public async Task<BaseResponse<IEnumerable<UserResponse>>> GetAllForCurrentOwnerUserIdAsync(int ownerUserId)
         {
             var result = new List<UserResponse>();
-            var repairShops = await _dbContext.RepairShops.Where(x => x.OwnerUserId == ownerUserId)
+            var repairShops = await _dbContext.RepairShops.Where(x => x.OwnerUserId == ownerUserId && x.IsActive)
                 .Include(x => x.RepairShopUsers.Where(s => s.IsActive))
                     .ThenInclude(x => x.User)
                         .ThenInclude(x => x.Role)
@@ -208,6 +208,21 @@ namespace MotoDev.Application.Services
             var repairShopUser = await _dbContext.RepairShopUsers.SingleOrDefaultAsync(x => x.Id == request.RepairShopUserId);
             var user = await _dbContext.Users.SingleOrDefaultAsync(x => x.Id == repairShopUser.UserId);
 
+            if (request.RoleId == (int)RoleOption.Client)
+            {
+                var client = await _dbContext.Clients.SingleOrDefaultAsync(x => x.UserId == user.Id);
+                if (client == null)
+                {
+                    client = new Client
+                    {
+                        UserId = user.Id,
+                        CreatedAt = DateTime.UtcNow,
+                        CreatedByUserId = CurrentUserId,
+                    };
+                    await _dbContext.Clients.AddAsync(client);
+                }
+            }
+
             user.FirstName = request.FirstName;
             user.LastName = request.LastName;
             user.Email = request.Email;
@@ -301,13 +316,13 @@ namespace MotoDev.Application.Services
 
         public async Task<BaseResponse<IEnumerable<MechanicUserResponse>>> GetMechanicUsersAsync()
         {
-            var repairShopsIds = _dbContext.RepairShops.Where(x => x.OwnerUserId == CurrentUserId)
+            var repairShopsIds = _dbContext.RepairShops.Where(x => x.OwnerUserId == CurrentUserId && x.IsActive)
                 .Select(x => x.Id);
 
-            var repairShopUsersIds = _dbContext.RepairShopUsers.Where(x => repairShopsIds.Contains(x.RepairShopId))
+            var repairShopUsersIds = _dbContext.RepairShopUsers.Where(x => repairShopsIds.Contains(x.RepairShopId) && x.IsActive)
                 .Select(x => x.UserId);
 
-            var result = await _dbContext.Users.Where(x => repairShopUsersIds.Contains(x.Id)
+            var result = await _dbContext.Users.Where(x => repairShopUsersIds.Contains(x.Id) && x.IsActive
                    && x.RoleId == (int)RoleOption.Mechanic)
            .Select(x => new MechanicUserResponse
            {

@@ -18,10 +18,11 @@ namespace MotoDev.Application.Services
 
         public async Task<BaseResponse<IEnumerable<ClientResponse>>> GetAllClientsAsync()
         {
-            var repairShops = _dbContext.RepairShops.Where(x => x.OwnerUserId == _userService.CurrentUserId);
+            var repairShops = _dbContext.RepairShops.Where(x => x.OwnerUserId == _userService.CurrentUserId && x.IsActive);
 
-            var repairShopUsers = _dbContext.RepairShopUsers.Where(x => repairShops.Select(x => x.Id).Contains(x.RepairShopId)).ToList();
-            var users = await _dbContext.Users.Where(x => repairShopUsers.Select(x => x.UserId).Contains(x.Id) && x.RoleId == (int)RoleOption.Client)
+            var repairShopUsers = _dbContext.RepairShopUsers.Where(x => repairShops.Select(x => x.Id).Contains(x.RepairShopId) && x.IsActive).ToList();
+            var users = await _dbContext.Users.Where(x => repairShopUsers.Select(x => x.UserId).Contains(x.Id) && x.RoleId == (int)RoleOption.Client
+                && x.IsActive)
                 .ToListAsync();
 
             var clients = await _dbContext.Clients.Where(x => users.Select(x => x.Id).Contains(x.UserId))
@@ -44,7 +45,7 @@ namespace MotoDev.Application.Services
         public async Task<BaseResponse<IEnumerable<ClientCarStatusResponse>>> GetMyCarsStatusesAsync()
         {
             var clientData = await _dbContext.Clients.Where(x => x.UserId == _userService.CurrentUserId)
-                .Include(x => x.ClientCars)
+                .Include(x => x.ClientCars.Where(x => x.IsActive))
                     .ThenInclude(x => x.Car)
                     .ThenInclude(x => x.CarType)
                     .Include(x => x.ClientCars)

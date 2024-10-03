@@ -20,8 +20,8 @@ namespace MotoDev.Application.Services
 
         public async Task<BaseResponse<IEnumerable<ClientCarListingReponse>>> GetAllClientCarsAsync()
         {
-            var repairShops = _dbContext.RepairShops.Where(x => x.OwnerUserId == _userService.CurrentUserId)
-                .Include(x => x.RepairShopUsers.Where(x => x.User.RoleId == (int)RoleOption.Client))
+            var repairShops = _dbContext.RepairShops.Where(x => x.OwnerUserId == _userService.CurrentUserId && x.IsActive)
+                .Include(x => x.RepairShopUsers.Where(x => x.IsActive && x.User.RoleId == (int)RoleOption.Client) )
                 .ThenInclude(x => x.User);
 
             var usersIds = repairShops.SelectMany(x => x.RepairShopUsers.Select(x => x.User.Id));
@@ -131,7 +131,7 @@ namespace MotoDev.Application.Services
 
         public async Task<BaseResponse<IEnumerable<ClientCarResponse>>> GetClientCarsAsync(int clientId)
         {
-            var data = await _dbContext.ClientCars.Where(x => x.ClientId == clientId)
+            var data = await _dbContext.ClientCars.Where(x => x.ClientId == clientId && x.IsActive)
                 .Include(x => x.Car)
                 .ThenInclude(x => x.Model)
                 .ThenInclude(x => x.Brand)

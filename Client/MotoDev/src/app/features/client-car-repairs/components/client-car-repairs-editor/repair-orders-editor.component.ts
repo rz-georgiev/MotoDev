@@ -143,5 +143,8 @@ export class RepairOrdersEditorComponent {
     this.clientCarService.getClientCars(clientId).subscribe(x => {
       this.clientCars = x.result;
     });
+    this.repairOrderForm.patchValue({
+      clientCarId: ''
+    });
   }
 }

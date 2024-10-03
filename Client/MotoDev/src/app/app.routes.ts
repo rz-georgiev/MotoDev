@@ -10,7 +10,6 @@ import { MainScreenComponent } from './features/main-screen/components/main-scre
 import { ConfirmAccountComponent } from './features/auth/components/confirm-account/confirm-account.component';
 import { ForgottenPasswordConfirmComponent } from './features/auth/components/forgotten-password-confirm/forgotten-password-confirm.component';
 import { UsersComponent } from './features/users/components/users/users.component';
-import { ClientsComponent } from './features/clients/components/clients.component';
 import { StatisticsComponent } from './features/statistics/components/statistics.component';
 import { CarsComponent } from './features/cars/components/cars.component';
 import { RepairShopsComponent } from './features/repair-shops/components/repair-shops/repair-shops.component';
