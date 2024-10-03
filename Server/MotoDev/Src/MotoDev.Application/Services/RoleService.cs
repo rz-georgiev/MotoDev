@@ -3,6 +3,7 @@ using MotoDev.Application.Interfaces;
 using MotoDev.Common.Dtos;
 using MotoDev.Common.Enums;
 using MotoDev.Infrastructure.Persistence;
+using System.Collections.Generic;
 
 namespace MotoDev.Application.Services
 {
@@ -31,11 +32,7 @@ namespace MotoDev.Application.Services
             }
             catch (Exception)
             {
-                return new BaseResponse<RoleResponse>
-                {
-                    IsOk = false,
-                    Message = "An error occurred while fetching data"
-                };
+                return ResponseHelper.Failure(new RoleResponse { }, "An error occurred while fetching data");
             }
         }
 
@@ -62,11 +59,9 @@ namespace MotoDev.Application.Services
             }
             catch (Exception)
             {
-                return new BaseResponse<IEnumerable<RoleResponse>>
-                {
-                    IsOk = false,
-                    Message = "An error occurred while fetching data"
-                };
+                return ResponseHelper.Failure<IEnumerable<RoleResponse>> (new List<RoleResponse> { },
+                    "An error occurred while fetching data");
+
             }
         }
     }

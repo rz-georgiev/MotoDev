@@ -37,11 +37,7 @@ namespace MotoDev.Application.Services
             }
             catch (Exception)
             {
-                return new BaseResponse<IEnumerable<RepairShopResponse>>
-                {
-                    IsOk = false,
-                    Message = "An error occurred while fetching data"
-                };
+                return ResponseHelper.Failure<IEnumerable<RepairShopResponse>>(new List<RepairShopResponse> { } ,"An error occurred while fetching data");
             }
         }
 
@@ -63,11 +59,7 @@ namespace MotoDev.Application.Services
             }
             catch (Exception)
             {
-                return new BaseResponse<RepairShopResponse>
-                {
-                    IsOk = false,
-                    Message = "An error occurred while fetching data"
-                };
+                return ResponseHelper.Failure<RepairShopResponse>(new RepairShopResponse { }, "An error occurred while fetching data");
             }
         }
 
@@ -94,11 +86,8 @@ namespace MotoDev.Application.Services
             }
             catch (Exception)
             {
-                return new BaseResponse<IEnumerable<RepairShopResponse>>
-                {
-                    IsOk = false,
-                    Message = "An error occurred while fetching data"
-                };
+                return ResponseHelper.Failure<IEnumerable<RepairShopResponse>>(new List<RepairShopResponse> { },
+                    $"An error occurred while fetching data");
             }
         }
 
@@ -149,11 +138,7 @@ namespace MotoDev.Application.Services
             var repairShop = await _dbContext.RepairShops.SingleOrDefaultAsync(x => x.Id == id);
             if (repairShop == null)
             {
-                return new BaseResponse<bool>
-                {
-                    IsOk = false,
-                    Result = false
-                };
+                return ResponseHelper.Failure(false);
             }
 
             repairShop.IsActive = false;

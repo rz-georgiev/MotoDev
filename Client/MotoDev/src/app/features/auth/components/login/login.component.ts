@@ -5,7 +5,7 @@ import { AuthService } from '../../services/auth.service';
 import { Router, RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from '../../../../app.routes';
-import { SpinnerService } from '../../../../shared/services/spinner.service';
+import { SpinnerService } from '../../../../shared/services/spinner/spinner.service';
 import { delay } from 'rxjs';
 
 @Component({

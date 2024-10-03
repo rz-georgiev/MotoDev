@@ -6,13 +6,14 @@ import { SidebarComponent } from "../../../layout/sidebar/components/sidebar.com
 import { NavbarComponent } from "../../../layout/header/components/navbar.component";
 import { AuthService } from '../../../features/auth/services/auth.service';
 import { slideInAnimation } from '../animations';
+import { AlertComponent } from "../../../shared/components/alert/alert.component";
 
 @Component({
     selector: 'app-root',
     standalone: true,
     templateUrl: './app.component.html',
     styleUrl: './app.component.css',
-    imports: [RouterOutlet, LoginComponent, RouterModule, SpinnerComponent, SidebarComponent, NavbarComponent],
+    imports: [RouterOutlet, LoginComponent, RouterModule, SpinnerComponent, SidebarComponent, NavbarComponent, AlertComponent],
     animations: [
         // slideInAnimation
     ]

@@ -45,19 +45,11 @@ namespace MotoDev.Infrastructure.ExternalServices.Email
                 // Send the email.
                 await smtpClient.SendMailAsync(mailMessage);
 
-                return new BaseResponse
-                {
-                    IsOk = true,
-                    Message = "Email sent successfully"
-                };
+                return ResponseHelper.Success($"Email sent successfully");
             }
             catch (Exception ex)
             {
-                return new BaseResponse
-                {
-                    IsOk = false,
-                    Message = $"Email not sent successfully -> {ex.ToString()}"
-                };
+                return ResponseHelper.Failure($"Email not sent successfully-> { ex.ToString()}");
             }
         }
     }

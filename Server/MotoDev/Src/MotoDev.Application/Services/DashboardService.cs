@@ -116,11 +116,7 @@ namespace MotoDev.Application.Services
                 DashboardReports = dashboardReports,
             };
 
-            return new BaseResponse<DashboardResponse>
-            {
-                IsOk = true,
-                Result = response,
-            };
+            return ResponseHelper.Success(response);
         }
 
         private string GetTime(DateTime startedDateTime)

@@ -6,7 +6,7 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideClientHydration } from '@angular/platform-browser';
 import { authInterceptor } from './core/interceptors/auth/auth.interceptor';
 import { spinnerInterceptor } from './core/interceptors/spinner/spinner.interceptor';
-import { SpinnerService } from './shared/services/spinner.service';
+import { SpinnerService } from './shared/services/spinner/spinner.service';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export const appConfig: ApplicationConfig = {

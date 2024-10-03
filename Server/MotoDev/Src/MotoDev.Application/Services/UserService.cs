@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging.Abstractions;
 using MotoDev.Application.Interfaces;
 using MotoDev.Common.Dtos;
 using MotoDev.Common.Enums;
@@ -75,11 +76,7 @@ namespace MotoDev.Application.Services
             }
             catch (Exception)
             {
-                return new BaseResponse
-                {
-                    IsOk = false,
-                    Message = "An error occurred while trying to deactivate the record"
-                };
+                return ResponseHelper.Failure("An error occurred while trying to deactivate the record");
             }
         }
 
@@ -90,11 +87,7 @@ namespace MotoDev.Application.Services
 
             if (!doesRepairShopExist || !doesRepairShopExist)
             {
-                return new BaseResponse<UserResponse>
-                {
-                    IsOk = false,
-                    Message = "Provided role and/or repair shop do not exist",
-                };
+                return ResponseHelper.Failure(new UserResponse { }, "Provided role and/or repair shop do not exist");
             }
 
             if (request.RepairShopUserId == null)
@@ -199,11 +192,7 @@ namespace MotoDev.Application.Services
             }
             else
             {
-                return new BaseResponse<UserResponse>
-                {
-                    IsOk = false,
-                    Message = userResponse.Message,
-                };
+                return ResponseHelper.Failure(new UserResponse { }, userResponse.Message);
             }
         }
 
@@ -242,11 +231,8 @@ namespace MotoDev.Application.Services
 
                 if (isAlreadyAssignedToTheSpecifiedPlace)
                 {
-                    return new BaseResponse<UserResponse>
-                    {
-                        IsOk = false,
-                        Message = "User is already assigned to the specified place"
-                    };
+                    return ResponseHelper.Failure(new UserResponse { },
+                        "User is already assigned to the specified place");
                 }
 
                 _dbContext.Remove(repairShopUser);
@@ -261,11 +247,7 @@ namespace MotoDev.Application.Services
             _dbContext.Update(user);
             await _dbContext.SaveChangesAsync();
 
-            return new BaseResponse<UserResponse>
-            {
-                IsOk = true,
-                Message = "Successfully changed",
-            };
+            return ResponseHelper.Success<UserResponse>(new UserResponse { }, "Successfully changed");
         }
 
         public async Task<BaseResponse<UserExtendedResponse>> GetByIdAsync(int id)
@@ -334,11 +316,7 @@ namespace MotoDev.Application.Services
                Name = $"{x.FirstName} {x.LastName}"
            }).ToListAsync();
 
-            return new BaseResponse<IEnumerable<MechanicUserResponse>>
-            {
-                IsOk = true,
-                Result = result
-            };
+            return ResponseHelper.Success<IEnumerable<MechanicUserResponse>>(result);
         }
 
         public int CurrentUserId

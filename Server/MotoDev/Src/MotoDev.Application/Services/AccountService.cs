@@ -44,19 +44,11 @@ namespace MotoDev.Application.Services
             if (user != null)
             {
                 var token = GenerateToken(user);
-                return new BaseResponse
-                {
-                    IsOk = true,
-                    Message = token,
-                };
+                return ResponseHelper.Success(token);
             }
             else
             {
-                return new BaseResponse
-                {
-                    IsOk = false,
-                    Message = "Invalid username/email or password"
-                };
+                return ResponseHelper.Failure("Invalid username/email or password");
             }
         }
 
@@ -66,37 +58,21 @@ namespace MotoDev.Application.Services
                     || x.Email == request.Email
                     || x.Username == request.Username);
             if (doesExist)
-                return new BaseResponse
-                {
-                    IsOk = false,
-                    Message = "A user with the provided username/email already exists"
-                };
+                return ResponseHelper.Failure("A user with the provided username/email already exists");
 
             if (request.Email.Length < 8 || !request.Email.Any(char.IsLetter))
             {
-                return new BaseResponse
-                {
-                    IsOk = false,
-                    Message = "Username/email should be at least 8 characters long and should contain letters"
-                };
+                return ResponseHelper.Failure("Username/email should be at least 8 characters long and should contain letters");
             }
 
             if (!IsValidEmail(request.Email))
             {
-                return new BaseResponse
-                {
-                    IsOk = false,
-                    Message = "Invalid email provided"
-                };
+                return ResponseHelper.Failure("Invalid email provided");
             }
 
             if (request.Password.Length < 8 || !request.Password.Any(char.IsLetter))
             {
-                return new BaseResponse
-                {
-                    IsOk = false,
-                    Message = "Password should be at least 8 characters long and should contain letters"
-                };
+                return ResponseHelper.Failure("Password should be at least 8 characters long and should contain letters");
             }
 
             var bytes = new byte[16];
@@ -137,11 +113,7 @@ namespace MotoDev.Application.Services
                 var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.ResetPasswordToken == request.ConfirmHash);
                 if (user == null)
                 {
-                    return new BaseResponse
-                    {
-                        IsOk = false,
-                        Message = $"The provided token is invalid"
-                    };
+                    return ResponseHelper.Failure("The provided token is invalid");
                 }
 
                 user.IsActive = true;
@@ -156,11 +128,7 @@ namespace MotoDev.Application.Services
             }
             catch (Exception ex)
             {
-                return new BaseResponse
-                {
-                    IsOk = false,
-                    Message = $"An error occurred while activating your account"
-                };
+                return ResponseHelper.Failure($"An error occurred while activating your account");
             }
         }
 
@@ -190,11 +158,7 @@ namespace MotoDev.Application.Services
                 var isSent = await _emailService.SendEmailAsync(request.RecipientEmail, message);
                 if (!isSent.IsOk)
                 {
-                    return new BaseResponse
-                    {
-                        IsOk = false,
-                        Message = $"An error occurred while sending a reset password link"
-                    };
+                    return ResponseHelper.Failure($"An error occurred while sending a reset password link");
                 }
 
                 return new BaseResponse
@@ -205,11 +169,7 @@ namespace MotoDev.Application.Services
             }
             catch (Exception ex)
             {
-                return new BaseResponse
-                {
-                    IsOk = false,
-                    Message = $"An error occurred while sending a reset password link"
-                };
+                return ResponseHelper.Failure($"An error occurred while sending a reset password link");
             }
         }
 
@@ -220,20 +180,12 @@ namespace MotoDev.Application.Services
                 var user = await _dbContext.Users.FirstOrDefaultAsync(x => x.ResetPasswordToken == request.ResetPasswordToken);
                 if (user == null)
                 {
-                    return new BaseResponse
-                    {
-                        IsOk = false,
-                        Message = $"The provided token is invalid"
-                    };
+                    return ResponseHelper.Failure($"The provided token is invalid");
                 }
 
                 if (request.Password.Length < 8 || !request.Password.Any(char.IsLetter))
                 {
-                    return new BaseResponse
-                    {
-                        IsOk = false,
-                        Message = "Password should be at least 8 characters long and should contain letters"
-                    };
+                    return ResponseHelper.Failure("Password should be at least 8 characters long and should contain letters");
                 }
 
                 user.Password = request.Password.GenerateHash();
@@ -248,11 +200,7 @@ namespace MotoDev.Application.Services
             }
             catch (Exception ex)
             {
-                return new BaseResponse
-                {
-                    IsOk = false,
-                    Message = $"An error occurred while changing the password"
-                };
+                return ResponseHelper.Failure($"An error occurred while changing the password");
             }
         }
 
