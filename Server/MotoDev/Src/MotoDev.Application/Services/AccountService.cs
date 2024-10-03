@@ -106,19 +106,21 @@ namespace MotoDev.Application.Services
             var user = await _dbContext.AddAsync(new User
             {
                 Username = request.Email,
+                FirstName = request.FirstName,
+                LastName = request.LastName,
                 Password = request.Password.GenerateHash(),
                 Email = request.Email,
                 CreatedAt = DateTime.UtcNow,
                 RoleId = (int)RoleOption.Owner,
                 ResetPasswordToken = randomHash,
                 IsActive = false,
-                CreatedByUserId = Convert.ToInt32(_accessor.HttpContext.User.FindFirst("userId")!.Value)
+                CreatedByUserId = null
             });
 
             await _dbContext.SaveChangesAsync();
 
-            //var message = $"Please click here to confirm your account -> http://www.motodev.space/confirmAccount/{randomHash}";
-            var message = $"Please click here to confirm your account -> http://localhost:4200/confirmAccount/{randomHash}";
+            var message = $"Please click here to confirm your account -> http://www.motodev.space/confirmAccount/{randomHash}";
+            //var message = $"Please click here to confirm your account -> http://localhost:4200/confirmAccount/{randomHash}";
             await _emailService.SendEmailAsync(request.Email, message);
 
             return new BaseResponse

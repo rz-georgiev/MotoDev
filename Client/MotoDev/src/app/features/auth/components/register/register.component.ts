@@ -33,6 +33,8 @@ export class RegisterComponent {
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
       email: ['', Validators.required],
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(8)]],
       acceptTerms: [false, Validators.required]
     });
@@ -42,6 +44,8 @@ export class RegisterComponent {
   onSubmit() {
     this.isSubmitted = true;
     if (this.registerForm?.valid) {
+      // Temp
+      this.registerForm.value.username = this.registerForm.value.email;
       this.authService.register(this.registerForm.value).subscribe(
         response => {      
           if (response.isOk) {
