@@ -81,7 +81,7 @@ export class RepairOrdersComponent {
 
   deleteAction(element: any): void {
     let dialogRef = this.matDialog.open(ConfirmationModalComponent, {
-      data: { message: "Are you sure you want to deactivate the record?" }
+      data: { message: "Are you sure you want to deactivate the repair and its details?" }
     });
 
     dialogRef.afterClosed().subscribe(result => {

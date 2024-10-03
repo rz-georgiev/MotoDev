@@ -146,7 +146,12 @@ namespace MotoDev.Application.Services
             var carRepair = await _dbContext.ClientCarRepairs.SingleOrDefaultAsync(x => x.Id == carRepairId);
             carRepair.IsActive = false;
 
+            var details = await _dbContext.ClientCarRepairsDetails.Where(x => x.ClientCarRepairId == carRepair.Id).ToListAsync();
+            details.ForEach(x => x.IsActive = false);
+
             _dbContext.Update(carRepair);
+            _dbContext.UpdateRange(details);
+
             await _dbContext.SaveChangesAsync();
 
             return new BaseResponse<bool>

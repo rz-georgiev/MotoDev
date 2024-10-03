@@ -34,8 +34,8 @@ namespace MotoDev.Application.Services
 
         public async Task<BaseResponse<IEnumerable<CarRepairDetailListingResponse>>> GetAllAsync()
         {
-            var repairShops = _dbContext.RepairShops.Where(x => x.OwnerUserId == _userService.CurrentUserId)
-                .Include(x => x.RepairShopUsers.Where(x => x.User.RoleId == (int)RoleOption.Client))
+            var repairShops = _dbContext.RepairShops.Where(x => x.OwnerUserId == _userService.CurrentUserId && x.IsActive)
+                .Include(x => x.RepairShopUsers.Where(x => x.IsActive && x.User.RoleId == (int)RoleOption.Client) )
                 .ThenInclude(x => x.User);
 
             var usersIds = repairShops.SelectMany(x => x.RepairShopUsers.Select(x => x.User.Id));
@@ -46,7 +46,7 @@ namespace MotoDev.Application.Services
                     .ThenInclude(x => x.Brand)
                 .Include(x => x.ClientCars)
                     .ThenInclude(x => x.ClientCarRepairs)
-                    .ThenInclude(x => x.ClientCarRepairsDetails
+                    .ThenInclude(x => x.ClientCarRepairsDetails.Where(x => x.IsActive)
                         .Where(x => x.IsActive))
                     .ThenInclude(x => x.RepairType)
                      .Include(x => x.ClientCars)
