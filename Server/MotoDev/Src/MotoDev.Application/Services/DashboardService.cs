@@ -69,7 +69,7 @@ namespace MotoDev.Application.Services
                 TotalProfits = new List<decimal>()
             };
 
-            var lastSixRepairs = clientsCarsRepairs.OrderByDescending(x => x.CreatedAt).Take(6).ToList();
+            var lastSixRepairs = clientsCarsRepairs.Where(x => x.IsActive).OrderByDescending(x => x.CreatedAt).Take(6).ToList();
             foreach (var clientCarRepair in lastSixRepairs)
             {
                 var clientCar = clientsCars.SingleOrDefault(x => x.Id == clientCarRepair.ClientCarId);
@@ -88,7 +88,10 @@ namespace MotoDev.Application.Services
                 var previousMonth = now.AddMonths(-index);
                 var monthStart = new DateTime(previousMonth.Year, previousMonth.Month, 1);
                 var monthEnd = monthStart.AddMonths(1).AddDays(-1);
-                var monthRepairs = clientCarsRepairsDetails.Where(x => x.CreatedAt >= monthStart && x.CreatedAt <= monthEnd);
+                var monthRepairs = clientCarsRepairsDetails.Where(x => 
+                x.CreatedAt >= monthStart && 
+                x.CreatedAt <= monthEnd && 
+                x.IsActive);
 
                 dashboardReports.Dates.Add(monthStart);
                 dashboardReports.Repairs.Add(monthRepairs.Count());

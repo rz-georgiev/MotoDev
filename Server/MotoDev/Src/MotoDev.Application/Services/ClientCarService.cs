@@ -25,7 +25,7 @@ namespace MotoDev.Application.Services
                 .ThenInclude(x => x.User);
 
             var usersIds = repairShops.SelectMany(x => x.RepairShopUsers.Select(x => x.User.Id));
-            var clients = await _dbContext.Clients.Where(x => usersIds.Contains(x.UserId))
+            var clients = await _dbContext.Clients.Where(x => usersIds.Contains(x.UserId) && x.User.IsActive)
                 .Include(x => x.ClientCars.Where(x => x.IsActive))
                 .ThenInclude(x => x.Car)
                 .ThenInclude(x => x.Model)

@@ -1,20 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 using MotoDev.Application.Interfaces;
-using MotoDev.Common.Constants;
 using MotoDev.Common.Dtos;
 using MotoDev.Common.Enums;
-using MotoDev.Common.Extensions;
 using MotoDev.Domain.Entities;
 using MotoDev.Infrastructure.ExternalServices.Email;
 using MotoDev.Infrastructure.Persistence;
-using System.IdentityModel.Tokens.Jwt;
-using System.Runtime.CompilerServices;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace MotoDev.Application.Services
 {
@@ -35,41 +27,26 @@ namespace MotoDev.Application.Services
         public async Task<BaseResponse<IEnumerable<CarRepairDetailListingResponse>>> GetAllAsync()
         {
             var repairShops = _dbContext.RepairShops.Where(x => x.OwnerUserId == _userService.CurrentUserId && x.IsActive)
-                .Include(x => x.RepairShopUsers.Where(x => x.IsActive && x.User.RoleId == (int)RoleOption.Client) )
+                .Include(x => x.RepairShopUsers.Where(x => x.IsActive && x.User.RoleId == (int)RoleOption.Client && x.User.IsActive))
                 .ThenInclude(x => x.User);
 
             var usersIds = repairShops.SelectMany(x => x.RepairShopUsers.Select(x => x.User.Id));
-            var clients = await _dbContext.Clients.Where(x => usersIds.Contains(x.UserId))
-                .Include(x => x.ClientCars.Where(x => x.IsActive))
-                    .ThenInclude(x => x.Car)
-                    .ThenInclude(x => x.Model)
-                    .ThenInclude(x => x.Brand)
-                .Include(x => x.ClientCars)
-                    .ThenInclude(x => x.ClientCarRepairs)
-                    .ThenInclude(x => x.ClientCarRepairsDetails.Where(x => x.IsActive)
-                        .Where(x => x.IsActive))
-                    .ThenInclude(x => x.RepairType)
-                     .Include(x => x.ClientCars)
-                    .ThenInclude(x => x.ClientCarRepairs)
-                    .ThenInclude(x => x.ClientCarRepairsDetails)
-                    .ThenInclude(x => x.RepairStatus)
-                .Include(x => x.User).ToListAsync();
 
-            var repairsDetails = clients
-                .SelectMany(x => x.ClientCars
-                .SelectMany(x => x.ClientCarRepairs
-                .SelectMany(x => x.ClientCarRepairsDetails)));
-
-            var result = repairsDetails.Select(x => new CarRepairDetailListingResponse
-            {
-                ClientCarRepairDetailId = x.Id,
-                ClientName = $"{x.ClientCarRepair.ClientCar.Client.User.FirstName}" +
-                $" {x.ClientCarRepair.ClientCar.Client.User.LastName}",
-                LicensePlateNumber = x.ClientCarRepair.ClientCar.LicensePlateNumber,
-                Price = x.Price,
-                RepairTypeName = x.RepairType.Name,
-                Status = x.RepairStatus.Name
-            });
+            var result = await _dbContext.ClientCarRepairsDetails.Where(x =>
+                    usersIds.Contains(x.ClientCarRepair.ClientCar.Client.UserId) &&
+                    x.ClientCarRepair.IsActive &&
+                    x.ClientCarRepair.ClientCar.Client.User.IsActive &&
+                    x.IsActive)
+                .Select(x => new CarRepairDetailListingResponse
+                {
+                    ClientCarRepairDetailId = x.Id,
+                    ClientName = $"{x.ClientCarRepair.ClientCar.Client.User.FirstName}" +
+                    $" {x.ClientCarRepair.ClientCar.Client.User.LastName}",
+                    LicensePlateNumber = x.ClientCarRepair.ClientCar.LicensePlateNumber,
+                    Price = x.Price,
+                    RepairTypeName = x.RepairType.Name,
+                    Status = x.RepairStatus.Name,
+                }).ToListAsync();
 
             return new BaseResponse<IEnumerable<CarRepairDetailListingResponse>>
             {
@@ -107,7 +84,6 @@ namespace MotoDev.Application.Services
             }
 
             await _dbContext.SaveChangesAsync();
-
 
             var repair = await
                 _dbContext.ClientCarRepairs.SingleOrDefaultAsync(x => x.Id == repairDetail.ClientCarRepairId);

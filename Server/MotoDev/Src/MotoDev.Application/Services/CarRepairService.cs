@@ -29,11 +29,11 @@ namespace MotoDev.Application.Services
             var result = new List<CarRepairResponse>();
 
             var repairShops = await _dbContext.RepairShops.Where(x => x.OwnerUserId == _userService.CurrentUserId)
-                .Include(x => x.RepairShopUsers.Where(x => x.User.RoleId == (int)RoleOption.Client))
+                .Include(x => x.RepairShopUsers.Where(x => x.User.RoleId == (int)RoleOption.Client && x.User.IsActive))
                 .ThenInclude(x => x.User).ToListAsync();
 
             var usersIds = repairShops.SelectMany(x => x.RepairShopUsers.Select(x => x.UserId));
-            var clients = await _dbContext.Clients.Where(x => usersIds.Contains(x.UserId))
+            var clients = await _dbContext.Clients.Where(x => usersIds.Contains(x.UserId) && x.User.IsActive)
                 .Include(x => x.ClientCars)
                 .ThenInclude(x => x.ClientCarRepairs.Where(x => x.IsActive == true))
                 .ThenInclude(x => x.RepairStatus)

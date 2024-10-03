@@ -61,6 +61,10 @@ namespace MotoDev.Application.Services
             {
                 var repairUser = _dbContext.RepairShopUsers.SingleOrDefault(x => x.Id == id);
                 repairUser!.IsActive = false;
+
+                var user = await _dbContext.Users.SingleOrDefaultAsync(x => x.Id == repairUser.UserId);
+                user.IsActive = false;
+
                 await _dbContext.SaveChangesAsync();
 
                 return new BaseResponse

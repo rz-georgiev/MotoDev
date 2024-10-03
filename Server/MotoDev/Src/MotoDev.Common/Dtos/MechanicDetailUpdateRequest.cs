@@ -6,7 +6,7 @@
 
         public int NewStatusId { get; set; }
 
-        public string NewNotes { get; set; }
+        public string? NewNotes { get; set; }
 
     }
 }

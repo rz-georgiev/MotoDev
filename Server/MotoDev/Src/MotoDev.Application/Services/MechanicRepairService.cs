@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using MotoDev.Application.Interfaces;
 using MotoDev.Common.Dtos;
+using MotoDev.Common.Enums;
 using MotoDev.Infrastructure.Persistence;
 using System.Runtime.CompilerServices;
 
@@ -22,8 +23,11 @@ namespace MotoDev.Application.Services
 
         public async Task<BaseResponse<IEnumerable<MechanicRepairResponse>>> GetLastTenOrdersAsync()
         {
-
-            var result = await _dbContext.ClientCarRepairs.Where(x => x.PerformedByMechanicUserId == _userService.CurrentUserId)
+            var result = await _dbContext.ClientCarRepairs.Where(x =>
+                    x.PerformedByMechanicUserId == _userService.CurrentUserId &&
+                    x.IsActive)
+                .OrderByDescending(x => x.Id)
+                .Take(10)
                 .Select(repair => new MechanicRepairResponse
                 {
                     CarImageUrl = _cloudinaryService.GetImageUrlById(repair.ClientCar.Car.ImageId),
@@ -36,12 +40,12 @@ namespace MotoDev.Application.Services
                     Details = repair.ClientCarRepairsDetails
                         .Where(x => x.IsActive)
                         .Select(detail => new MechanicRepairResponseDetail
-                    {
-                        RepairDetailId = detail.Id,
-                        Notes = detail.Notes,
-                        RepairName = detail.RepairType.Name,
-                        StatusId = detail.RepairStatusId,
-                    })   
+                        {
+                            RepairDetailId = detail.Id,
+                            Notes = detail.Notes,
+                            RepairName = detail.RepairType.Name,
+                            StatusId = detail.RepairStatusId,
+                        })
                 })
                 .Where(x => x.Details.Any())
                 .ToListAsync();
@@ -56,17 +60,28 @@ namespace MotoDev.Application.Services
         public async Task<BaseResponse<bool>> UpdateDetailAsync(MechanicDetailUpdateRequest request)
         {
             var detail = await _dbContext.ClientCarRepairsDetails.SingleOrDefaultAsync(x => x.Id == request.RepairDetailId);
-          
+
             detail.Notes = request.NewNotes;
             detail.RepairStatusId = request.NewStatusId;
 
             detail.LastUpdatedAt = DateTime.UtcNow;
             detail.LastUpdatedByUserId = _userService.CurrentUserId;
 
-
             _dbContext.Update(detail);
             await _dbContext.SaveChangesAsync();
-            
+
+            var repair = await _dbContext.ClientCarRepairs.SingleOrDefaultAsync(x => x.Id == detail.ClientCarRepairId);
+            var allDetails = await _dbContext.ClientCarRepairsDetails.Where(x => x.ClientCarRepairId == repair.Id).ToListAsync();
+
+            if (allDetails.Where(x => x.RepairStatusId == (int)RepairStatusOption.ToDo).Count() == allDetails.Count())
+                repair.RepairStatusId = (int)RepairStatusOption.ToDo;
+            else if (allDetails.Where(x => x.RepairStatusId == (int)RepairStatusOption.Done).Count() == allDetails.Count())
+                repair.RepairStatusId = (int)RepairStatusOption.Done;
+            else
+                repair.RepairStatusId = (int)RepairStatusOption.InProgress;
+
+            await _dbContext.SaveChangesAsync();
+
             return new BaseResponse<bool>
             {
                 IsOk = true,
