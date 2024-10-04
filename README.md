@@ -197,22 +197,8 @@ LinkedIn: https://www.linkedin.com/in/radoslav-georgiev-b53761194/
 [user-profile-screenshot]: https://res.cloudinary.com/scmanager/image/upload/v1728047611/MotoDevScreenshots/userProfile_gzxgxn.png
 [orders-details-screenshot]: https://res.cloudinary.com/scmanager/image/upload/v1728047610/MotoDevScreenshots/ordersDetails_cqktaj.png
 [repair-orders-screenshot]: https://res.cloudinary.com/scmanager/image/upload/v1728047611/MotoDevScreenshots/repairOrders_pjuzq6.png
-[clients-screen]: https://res.cloudinary.com/scmanager/image/upload/v1728047611/MotoDevScreenshots/clientsScreen_hbfhmd.png
+[clients-screen-screenshot]: https://res.cloudinary.com/scmanager/image/upload/v1728047611/MotoDevScreenshots/clientsScreen_hbfhmd.png
 [mechanics-screen-screenshot]: https://res.cloudinary.com/scmanager/image/upload/v1728047611/MotoDevScreenshots/mechanicScreen_ttfeky.png
-
-### Screenshots of the main screens
-#### Dashboard
-[![Product Name Screen Shot][dashboard-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1728047610/MotoDevScreenshots/mainScreen_lfdp0p.png)
-#### User Profile Editor
-[![Product Name Screen Shot][user-profile-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1728047611/MotoDevScreenshots/userProfile_gzxgxn.png)
-#### Repair Orders Detail / Editor
-[![Product Name Screen Shot][orders-details-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1728047610/MotoDevScreenshots/ordersDetails_cqktaj.png)
-#### Repair Orders Screen
-[![Product Name Screen Shot][repair-orders-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1728047611/MotoDevScreenshots/repairOrders_pjuzq6.png)
-#### Clients Repair Tracker
-[![Product Name Screen Shot][clients-screen-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1728047611/MotoDevScreenshots/clientsScreen_hbfhmd.png)
-#### Mechanics Management Screen
-[![Product Name Screen Shot][mechanics-screen-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1728047611/MotoDevScreenshots/mechanicScreen_ttfeky.png)
 
 [C#]: https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=csharp&logoColor=white
 [C#-url]: https://learn.microsoft.com/en-us/dotnet/csharp/
