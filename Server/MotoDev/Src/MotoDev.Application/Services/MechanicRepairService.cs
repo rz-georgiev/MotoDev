@@ -64,6 +64,22 @@ namespace MotoDev.Application.Services
             detail.LastUpdatedAt = DateTime.UtcNow;
             detail.LastUpdatedByUserId = _userService.CurrentUserId;
 
+            if (request.NewStatusId == (int)RepairStatusOption.InProgress)
+            {
+                detail.RepairStartDateTime = DateTime.UtcNow;
+                detail.RepairEndDateTime = null;
+            }
+            else if (request.NewStatusId == (int)RepairStatusOption.Done)
+            {
+                detail.RepairEndDateTime = DateTime.UtcNow;
+            }
+            else
+            {
+                detail.RepairStartDateTime = null;
+                detail.RepairEndDateTime = null;
+            }
+
+
             _dbContext.Update(detail);
             await _dbContext.SaveChangesAsync();
 

@@ -65,6 +65,21 @@ namespace MotoDev.Application.Services
 
             if (request.ClientCarRepairDetailId > 0)
             {
+                if (request.RepairStatusId == (int)RepairStatusOption.InProgress)
+                {
+                    repairDetail.RepairStartDateTime = DateTime.UtcNow;
+                    repairDetail.RepairEndDateTime = null;
+                }
+                else if (request.RepairStatusId == (int)RepairStatusOption.Done)
+                {
+                    repairDetail.RepairEndDateTime = DateTime.UtcNow;
+                }
+                else
+                {
+                    repairDetail.RepairStartDateTime = null;
+                    repairDetail.RepairEndDateTime = null;
+                }
+
                 repairDetail.LastUpdatedAt = DateTime.UtcNow;
                 repairDetail.LastUpdatedByUserId = _userService.CurrentUserId;
 
