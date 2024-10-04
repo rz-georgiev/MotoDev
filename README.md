@@ -118,9 +118,7 @@ _Below is an example of how you can instruct your audience on installing and set
    npm install
    ```
 3. Configure your API in `appsettings.json`, by filling blank properties inside
-   ```js
-   
-   ```
+
 4. Startup MotoDev.Api
    ```sh
    Get your localhost address and replace it in MotoDev.Client -> Urls.ts file
