@@ -6,7 +6,7 @@ import { AppRoutingModule, routes } from '../../../../app.routes';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationModalComponent } from '../../../../shared/components/confirmation-modal/confirmation-modal.component';
-import { InfoModalComponent } from '../../../../info-modal/info-modal.component';
+import { InfoModalComponent } from '../../../../shared/components/info-modal/info-modal.component';
 
 @Component({
   selector: 'app-register',

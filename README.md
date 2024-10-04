@@ -71,22 +71,27 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1723813885/Screenshot_2024-08-16_160924_tfbz4q.png)
+MotoDev is a car repair shops management system, used for storing employees, clients and car repairs data.
+It is created after watching SoftUni's Angular and other tutorials to gain more skills in Angular, .NET & MySql /especially Angular/
 
-There are many great README templates available on GitHub; however, I didn't find one that really suited my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
+## You can directly browse and test the app on 
+* Url: http://motodev.space/
+* Username: owner.owner@gmail.com
+* Password: !Motodev1
 
-Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should implement DRY principles to the rest of your life :smile:
-
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have contributed to expanding this template!
-
-Use the `BLANK_README.md` to get started.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
+### Screenshots of the main screens
+#### Dashboard
+[![Product Name Screen Shot][dashboard-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1728047610/MotoDevScreenshots/mainScreen_lfdp0p.png)
+#### User Profile Editor
+[![Product Name Screen Shot][user-profile-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1728047611/MotoDevScreenshots/userProfile_gzxgxn.png)
+#### Repair Orders Detail / Editor
+[![Product Name Screen Shot][orders-details-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1728047610/MotoDevScreenshots/ordersDetails_cqktaj.png)
+#### Repair Orders Screen
+[![Product Name Screen Shot][repair-orders-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1728047611/MotoDevScreenshots/repairOrders_pjuzq6.png)
+#### Clients Repair Tracker
+[![Product Name Screen Shot][clients-screen-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1728047611/MotoDevScreenshots/clientsScreen_hbfhmd.png)
+#### Mechanics Management Screen
+[![Product Name Screen Shot][mechanics-screen-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1728047611/MotoDevScreenshots/mechanicScreen_ttfeky.png)
 
 ### Built With
 
@@ -96,6 +101,13 @@ Use the `BLANK_README.md` to get started.
 * [![MySQL][MySQL]][MySQL-url]
 *  [![Bootstrap][Bootstrap.com]][Bootstrap-url]
 
+#### Plain text description
+* C#/.NET
+* Angular
+* MySQL
+* Bootstrap - Nice Admin template
+* Material UI for the data tables
+* NG-ApexCharts for the dashboard screen 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -121,35 +133,31 @@ _Below is an example of how you can instruct your audience on installing and set
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/github_username/repo_name.git
+   git clone https://github.com/rz-georgiev/MotoDev.git
    ```
 2. Install NPM packages
    ```sh
    npm install
    ```
-3. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
-4. Change git remote url to avoid accidental pushes to base project
+
+3. Setup a local mysql server
+   
+4. Configure your API in `appsettings.json`, by filling blank properties inside
+
+5. Run "update-database" in your MotoDev.Infrastructure project
+
+6. Startup MotoDev.Api
    ```sh
-   git remote set-url origin github_username/repo_name
-   git remote -v # confirm the changes
+   Get your localhost address and replace it in MotoDev.Client -> Urls.ts file
+   Also set the IsInProd bool to false or true, depending on your environment purposes
    ```
 
+7. Startup your MotoDev.Client project using VSCode for example
+   ```sh
+   Get your localhost address and replace it in MotoDev.Client -> Urls.ts file
+   Also set the IsInProd bool to false or true, depending on your environment purposes
+   ```
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- USAGE EXAMPLES -->
-## Usage
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 <!-- LICENSE -->
 ## License
@@ -197,7 +205,13 @@ LinkedIn: https://www.linkedin.com/in/radoslav-georgiev-b53761194/
 [license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/radoslav-georgiev-b53761194
-[product-screenshot]: https://res.cloudinary.com/scmanager/image/upload/v1723813885/Screenshot_2024-08-16_160924_tfbz4q.png
+[dashboard-screenshot]: https://res.cloudinary.com/scmanager/image/upload/v1728047610/MotoDevScreenshots/mainScreen_lfdp0p.png
+[user-profile-screenshot]: https://res.cloudinary.com/scmanager/image/upload/v1728047611/MotoDevScreenshots/userProfile_gzxgxn.png
+[orders-details-screenshot]: https://res.cloudinary.com/scmanager/image/upload/v1728047610/MotoDevScreenshots/ordersDetails_cqktaj.png
+[repair-orders-screenshot]: https://res.cloudinary.com/scmanager/image/upload/v1728047611/MotoDevScreenshots/repairOrders_pjuzq6.png
+[clients-screen-screenshot]: https://res.cloudinary.com/scmanager/image/upload/v1728047611/MotoDevScreenshots/clientsScreen_hbfhmd.png
+[mechanics-screen-screenshot]: https://res.cloudinary.com/scmanager/image/upload/v1728047611/MotoDevScreenshots/mechanicScreen_ttfeky.png
+
 [C#]: https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=csharp&logoColor=white
 [C#-url]: https://learn.microsoft.com/en-us/dotnet/csharp/
 [.NET]: https://img.shields.io/badge/.NET-5C2D91?style=for-the-badge&logo=.net&logoColor=white
