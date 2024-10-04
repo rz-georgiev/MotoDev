@@ -77,8 +77,16 @@ It is created after watching SoftUni's Angular and other tutorials to gain more 
 ### Screenshots of the main screens
 #### Dashboard
 [![Product Name Screen Shot][product-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1728047610/MotoDevScreenshots/mainScreen_lfdp0p.png)
-[![Product Name Screen Shot][product-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1723813885/Screenshot_2024-08-16_160924_tfbz4q.png)
-
+#### User Profile Editor
+[![Product Name Screen Shot][product-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1728047611/MotoDevScreenshots/userProfile_gzxgxn.png)
+#### Repair Orders Detail / Editor
+[![Product Name Screen Shot][product-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1728047610/MotoDevScreenshots/ordersDetails_cqktaj.png)
+#### Repair Orders Screen
+[![Product Name Screen Shot][product-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1728047611/MotoDevScreenshots/repairOrders_pjuzq6.png)
+#### Clients Repair Tracker
+[![Product Name Screen Shot][product-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1728047611/MotoDevScreenshots/clientsScreen_hbfhmd.png)
+#### Mechanics Management Screen
+[![Product Name Screen Shot][product-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1728047611/MotoDevScreenshots/mechanicScreen_ttfeky.png)
 
 ### Built With
 
