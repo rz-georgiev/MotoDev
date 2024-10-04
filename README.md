@@ -111,20 +111,48 @@ _Below is an example of how you can instruct your audience on installing and set
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/github_username/repo_name.git
+   git clone https://github.com/rz-georgiev/MotoDev.git
    ```
 2. Install NPM packages
    ```sh
    npm install
    ```
-3. Enter your API in `config.js`
+3. Configure your API in `appsettings.json`, by filling the following properties
    ```js
-   const API_KEY = 'ENTER YOUR API';
+ {
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "ConnectionStrings": {
+    "MotoDev": ""
+  },
+  "Jwt": {
+    "Issuer": ",
+    "Audience": "",
+    "Key": ""
+  },
+  "EmailSender": {
+    "From": "",
+    "Password": "",
+    "Host": ""
+  },
+  "Cloudinary": {
+    "CloudName": "",
+    "ApiKey": "",
+    "ApiSecret": ""
+  },
+  "DefaultUserImageUrl": "",
+  "AllowedHosts": "*"
+}
+
    ```
-4. Change git remote url to avoid accidental pushes to base project
+4. Startup MotoDev.Api
    ```sh
-   git remote set-url origin github_username/repo_name
-   git remote -v # confirm the changes
+   Get your localhost address and replace it in MotoDev.Client -> Urls.ts file
+   Also set the IsInProd bool to false or true, depending on your environment purposes
    ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
