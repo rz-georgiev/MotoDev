@@ -73,18 +73,8 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1723813885/Screenshot_2024-08-16_160924_tfbz4q.png)
 
-There are many great README templates available on GitHub; however, I didn't find one that really suited my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
-
-Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should implement DRY principles to the rest of your life :smile:
-
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have contributed to expanding this template!
-
-Use the `BLANK_README.md` to get started.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+MotoDev is a car repair shops management system, used for storing employees, clients and car repairs data.
+It is created after watching SoftUni's Angular and other tutorials to gain more skills in Angular, .NET & MySql /especially Angular/
 
 
 
