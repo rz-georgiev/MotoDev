@@ -117,37 +117,9 @@ _Below is an example of how you can instruct your audience on installing and set
    ```sh
    npm install
    ```
-3. Configure your API in `appsettings.json`, by filling the following properties
+3. Configure your API in `appsettings.json`, by filling blank properties inside
    ```js
- {
-  "Logging": {
-    "LogLevel": {
-      "Default": "Information",
-      "Microsoft.AspNetCore": "Warning"
-    }
-  },
-  "ConnectionStrings": {
-    "MotoDev": ""
-  },
-  "Jwt": {
-    "Issuer": ",
-    "Audience": "",
-    "Key": ""
-  },
-  "EmailSender": {
-    "From": "",
-    "Password": "",
-    "Host": ""
-  },
-  "Cloudinary": {
-    "CloudName": "",
-    "ApiKey": "",
-    "ApiSecret": ""
-  },
-  "DefaultUserImageUrl": "",
-  "AllowedHosts": "*"
-}
-
+   
    ```
 4. Startup MotoDev.Api
    ```sh
