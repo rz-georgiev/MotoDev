@@ -27,6 +27,7 @@
 <div align="center">
   <a href="https://github.com/othneildrew/Best-README-Template">
     <img src="https://res.cloudinary.com/scmanager/image/upload/v1723813006/favicon_g8sndw.png" alt="Logo" ">
+    <img src="https://res.cloudinary.com/scmanager/image/upload/v1723813006/favicon_g8sndw.png" alt="Logo" ">
   </a>
 
   <h3 align="center">MotoDev</h3>
