@@ -74,8 +74,9 @@
 MotoDev is a car repair shops management system, used for storing employees, clients and car repairs data.
 It is created after watching SoftUni's Angular and other tutorials to gain more skills in Angular, .NET & MySql /especially Angular/
 
-## Screenshots of the main screens
-[![Product Name Screen Shot][product-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1723813885/Screenshot_2024-08-16_160924_tfbz4q.png)
+### Screenshots of the main screens
+#### Dashboard
+[![Product Name Screen Shot][product-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1728047610/MotoDevScreenshots/mainScreen_lfdp0p.png)
 [![Product Name Screen Shot][product-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1723813885/Screenshot_2024-08-16_160924_tfbz4q.png)
 
 
