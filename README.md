@@ -76,17 +76,17 @@ It is created after watching SoftUni's Angular and other tutorials to gain more 
 
 ### Screenshots of the main screens
 #### Dashboard
-[![Product Name Screen Shot][product-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1728047610/MotoDevScreenshots/mainScreen_lfdp0p.png)
+[![Product Name Screen Shot][dashboard-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1728047610/MotoDevScreenshots/mainScreen_lfdp0p.png)
 #### User Profile Editor
-[![Product Name Screen Shot][product-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1728047611/MotoDevScreenshots/userProfile_gzxgxn.png)
+[![Product Name Screen Shot][user-profile-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1728047611/MotoDevScreenshots/userProfile_gzxgxn.png)
 #### Repair Orders Detail / Editor
-[![Product Name Screen Shot][product-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1728047610/MotoDevScreenshots/ordersDetails_cqktaj.png)
+[![Product Name Screen Shot][orders-details-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1728047610/MotoDevScreenshots/ordersDetails_cqktaj.png)
 #### Repair Orders Screen
-[![Product Name Screen Shot][product-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1728047611/MotoDevScreenshots/repairOrders_pjuzq6.png)
+[![Product Name Screen Shot][repair-orders-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1728047611/MotoDevScreenshots/repairOrders_pjuzq6.png)
 #### Clients Repair Tracker
-[![Product Name Screen Shot][product-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1728047611/MotoDevScreenshots/clientsScreen_hbfhmd.png)
+[![Product Name Screen Shot][clients-screen-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1728047611/MotoDevScreenshots/clientsScreen_hbfhmd.png)
 #### Mechanics Management Screen
-[![Product Name Screen Shot][product-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1728047611/MotoDevScreenshots/mechanicScreen_ttfeky.png)
+[![Product Name Screen Shot][mechanics-screen-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1728047611/MotoDevScreenshots/mechanicScreen_ttfeky.png)
 
 ### Built With
 
@@ -193,7 +193,27 @@ LinkedIn: https://www.linkedin.com/in/radoslav-georgiev-b53761194/
 [license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/radoslav-georgiev-b53761194
-[product-screenshot]: https://res.cloudinary.com/scmanager/image/upload/v1723813885/Screenshot_2024-08-16_160924_tfbz4q.png
+[dashboard-screenshot]: https://res.cloudinary.com/scmanager/image/upload/v1728047610/MotoDevScreenshots/mainScreen_lfdp0p.png
+[user-profile-screenshot]: https://res.cloudinary.com/scmanager/image/upload/v1728047611/MotoDevScreenshots/userProfile_gzxgxn.png
+[orders-details-screenshot]: https://res.cloudinary.com/scmanager/image/upload/v1728047610/MotoDevScreenshots/ordersDetails_cqktaj.png
+[repair-orders-screenshot]: https://res.cloudinary.com/scmanager/image/upload/v1728047611/MotoDevScreenshots/repairOrders_pjuzq6.png
+[clients-screen]: https://res.cloudinary.com/scmanager/image/upload/v1728047611/MotoDevScreenshots/clientsScreen_hbfhmd.png
+[mechanics-screen-screenshot]: https://res.cloudinary.com/scmanager/image/upload/v1728047611/MotoDevScreenshots/mechanicScreen_ttfeky.png
+
+### Screenshots of the main screens
+#### Dashboard
+[![Product Name Screen Shot][dashboard-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1728047610/MotoDevScreenshots/mainScreen_lfdp0p.png)
+#### User Profile Editor
+[![Product Name Screen Shot][user-profile-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1728047611/MotoDevScreenshots/userProfile_gzxgxn.png)
+#### Repair Orders Detail / Editor
+[![Product Name Screen Shot][orders-details-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1728047610/MotoDevScreenshots/ordersDetails_cqktaj.png)
+#### Repair Orders Screen
+[![Product Name Screen Shot][repair-orders-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1728047611/MotoDevScreenshots/repairOrders_pjuzq6.png)
+#### Clients Repair Tracker
+[![Product Name Screen Shot][clients-screen-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1728047611/MotoDevScreenshots/clientsScreen_hbfhmd.png)
+#### Mechanics Management Screen
+[![Product Name Screen Shot][mechanics-screen-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1728047611/MotoDevScreenshots/mechanicScreen_ttfeky.png)
+
 [C#]: https://img.shields.io/badge/c%23-%23239120.svg?style=for-the-badge&logo=csharp&logoColor=white
 [C#-url]: https://learn.microsoft.com/en-us/dotnet/csharp/
 [.NET]: https://img.shields.io/badge/.NET-5C2D91?style=for-the-badge&logo=.net&logoColor=white
