@@ -27,7 +27,6 @@
 <div align="center">
   <a href="https://github.com/othneildrew/Best-README-Template">
     <img src="https://res.cloudinary.com/scmanager/image/upload/v1723813006/favicon_g8sndw.png" alt="Logo" ">
-    <img src="https://res.cloudinary.com/scmanager/image/upload/v1723813006/favicon_g8sndw.png" alt="Logo" ">
   </a>
 
   <h3 align="center">MotoDev</h3>
@@ -72,6 +71,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
+[![Product Name Screen Shot][product-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1723813885/Screenshot_2024-08-16_160924_tfbz4q.png)
 [![Product Name Screen Shot][product-screenshot]](https://res.cloudinary.com/scmanager/image/upload/v1723813885/Screenshot_2024-08-16_160924_tfbz4q.png)
 
 MotoDev is a car repair shops management system, used for storing employees, clients and car repairs data.
