@@ -35,16 +35,18 @@
 
                     <div class="col-12">
                       <label for="firstName" class="form-label">First Name</label>
-                      <input type="firstName" name="firstName" class="form-control" id="firstName" formControlName="firstName" required>
+                      <input type="firstName" name="firstName" class="form-control" id="firstName"
+                        formControlName="firstName" required>
                       <div class="invalid-feedback">Please enter a valid first name</div>
                     </div>
 
                     <div class="col-12">
                       <label for="lastName" class="form-label">Last Name</label>
-                      <input type="lastName" name="lastName" class="form-control" id="lastName" formControlName="lastName" required>
+                      <input type="lastName" name="lastName" class="form-control" id="lastName"
+                        formControlName="lastName" required>
                       <div class="invalid-feedback">Please enter a valid last name</div>
                     </div>
-                    
+
                     <div class="col-12">
                       <label for="password" class="form-label">Password</label>
                       <input type="password" name="password" class="form-control" id="password"
@@ -53,27 +55,27 @@
                     </div>
 
                     <div class="col-12">
-                        <div class="form-check">
-                            <input class="form-check-input" name="terms" type="checkbox" value="" id="acceptTerms"
-                                   formControlName="acceptTerms" required>
-                            <label class="form-check-label" for="acceptTerms">
-                                I agree and accept the <a (click)="isGdprModalOpened=true">
-                                    terms and
-                                    conditions
-                                </a>
-                            </label>
-                            <div class="invalid-feedback">You must agree before submitting.</div>
-                        </div>
+                      <div class="form-check">
+                        <input class="form-check-input" name="terms" type="checkbox" value="" id="acceptTerms"
+                          formControlName="acceptTerms" required>
+                        <label class="form-check-label" for="acceptTerms">
+                          I agree and accept the
+                          terms and
+                          conditions
+                        </label>
+                        <div class="invalid-feedback">You must agree before submitting.</div>
+                      </div>
 
-                        @if (errorMessage) {
-                        <div class="alert alert-danger" role="alert">
-                            {{errorMessage}}
-                        </div>
-                        }
+                      @if (errorMessage) {
+                      <div class="alert alert-danger" role="alert">
+                        {{errorMessage}}
+                      </div>
+                      }
 
                     </div>
 
                     <div class="col-12">
+                      <button class="btn btn-outline-primary w-100" type="button" (click)="checkTermsAndConditions()">Check Terms and Conditions</button>
                       <button class="btn btn-primary w-100" type="submit">Create Account</button>
                     </div>
                     <div class="col-12">
