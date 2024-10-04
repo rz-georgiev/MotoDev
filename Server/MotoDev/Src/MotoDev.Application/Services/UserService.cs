@@ -33,7 +33,7 @@ namespace MotoDev.Application.Services
         {
             var result = new List<UserResponse>();
             var repairShops = await _dbContext.RepairShops.Where(x => x.OwnerUserId == ownerUserId && x.IsActive)
-                .Include(x => x.RepairShopUsers.Where(s => s.IsActive))
+                .Include(x => x.RepairShopUsers.Where(s => s.IsActive && s.UserId != ownerUserId))
                     .ThenInclude(x => x.User)
                         .ThenInclude(x => x.Role)
                 .ToListAsync();
