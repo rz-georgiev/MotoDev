@@ -117,27 +117,25 @@ _Below is an example of how you can instruct your audience on installing and set
    ```sh
    npm install
    ```
-3. Configure your API in `appsettings.json`, by filling blank properties inside
 
-4. Startup MotoDev.Api
+3. Setup a local mysql server
+   
+4. Configure your API in `appsettings.json`, by filling blank properties inside
+
+5. Run "update-database" in your MotoDev.Infrastructure project
+
+6. Startup MotoDev.Api
    ```sh
    Get your localhost address and replace it in MotoDev.Client -> Urls.ts file
    Also set the IsInProd bool to false or true, depending on your environment purposes
    ```
 
+7. Startup your MotoDev.Client project using VSCode for example
+   ```sh
+   Get your localhost address and replace it in MotoDev.Client -> Urls.ts file
+   Also set the IsInProd bool to false or true, depending on your environment purposes
+   ```
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
-
-<!-- USAGE EXAMPLES -->
-## Usage
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 <!-- LICENSE -->
 ## License
