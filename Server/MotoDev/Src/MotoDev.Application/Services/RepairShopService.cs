@@ -11,7 +11,7 @@ using System.Collections.Generic;
 namespace MotoDev.Application.Services
 {
     public class RepairShopService(MotoDevDbContext dbContext,
-        IMapper mapper, 
+        IMapper mapper,
         IUserService userService,
         IHttpContextAccessor accessor) : IRepairShopService
     {
@@ -27,17 +27,11 @@ namespace MotoDev.Application.Services
                 var repairShops = await _dbContext.RepairShops.Where(x => repairShopsIds.Contains(x.Id))
                     .ToListAsync();
 
-                var response = new BaseResponse<IEnumerable<RepairShopResponse>>
-                {
-                    IsOk = true,
-                    Result = _mapper.Map<IEnumerable<RepairShopResponse>>(repairShops)
-                };
-
-                return response;
+                return ResponseHelper.Success(_mapper.Map<IEnumerable<RepairShopResponse>>(repairShops));
             }
             catch (Exception)
             {
-                return ResponseHelper.Failure<IEnumerable<RepairShopResponse>>(new List<RepairShopResponse> { } ,"An error occurred while fetching data");
+                return ResponseHelper.Failure<IEnumerable<RepairShopResponse>>(new List<RepairShopResponse> { }, "An error occurred while fetching data");
             }
         }
 
@@ -47,15 +41,9 @@ namespace MotoDev.Application.Services
             {
                 var repairShop = await _dbContext.RepairShops.SingleOrDefaultAsync(x =>
                 x.Id == id);
-                
-                var result = _mapper.Map<RepairShopResponse>(repairShop);
-                var response = new BaseResponse<RepairShopResponse>
-                {
-                    IsOk = true,
-                    Result = result
-                };
 
-                return response;
+                var result = _mapper.Map<RepairShopResponse>(repairShop);
+                return ResponseHelper.Success(result);
             }
             catch (Exception)
             {
@@ -70,19 +58,16 @@ namespace MotoDev.Application.Services
                 var repairShops = await _dbContext.RepairShops
                 .Where(x => x.OwnerUserId == ownerUserId && x.IsActive == true).ToListAsync();
 
-                var response = new BaseResponse<IEnumerable<RepairShopResponse>>
+                var result = repairShops.Select(x => new RepairShopResponse
                 {
-                    IsOk = true,
-                    Result = repairShops.Select(x => new RepairShopResponse
-                    {
-                        Id = x.Id,
-                        Name = x.Name,
-                        Address = x.Address,
-                        VatNumber = x.VatNumber,
-                    }).ToList()
-                };
+                    Id = x.Id,
+                    Name = x.Name,
+                    Address = x.Address,
+                    VatNumber = x.VatNumber,
+                }).ToList();
 
-                return response;
+                return ResponseHelper.Success<IEnumerable<RepairShopResponse>>(result);
+
             }
             catch (Exception)
             {
@@ -98,7 +83,7 @@ namespace MotoDev.Application.Services
             if (request.Id > 0)
             {
                 var repairShop = await _dbContext.RepairShops.SingleOrDefaultAsync(x => x.Id == request.Id);
-                
+
                 repairShop.Name = request.Name;
                 repairShop.Email = request.Email;
                 repairShop.City = request.City;
@@ -116,21 +101,29 @@ namespace MotoDev.Application.Services
                 newRepairShop.CreatedByUserId = _userService.CurrentUserId;
                 newRepairShop.IsActive = true;
 
-                await _dbContext.AddAsync(newRepairShop);       
+                await _dbContext.AddAsync(newRepairShop);
             }
 
             await _dbContext.SaveChangesAsync();
 
-            request.Id = request.Id == 0 
+            // Add current owner to the new repair shop
+            var repairShopUser = new RepairShopUser
+            {
+                RepairShopId = newRepairShop.Id,
+                UserId = _userService.CurrentUserId,
+                CreatedAt = DateTime.UtcNow,
+                CreatedByUserId = _userService.CurrentUserId,
+            };
+
+            await _dbContext.AddAsync(repairShopUser);
+            await _dbContext.SaveChangesAsync();
+
+            request.Id = request.Id == 0
                 ? newRepairShop.Id :
                 request.Id;
-            
-            return new BaseResponse<RepairShopResponse>
-            {
-                IsOk = true,
-                Message = "",
-                Result = _mapper.Map<RepairShopResponse>(request),
-            };
+
+            return ResponseHelper.Success(_mapper.Map<RepairShopResponse>(request));
+
         }
 
         public async Task<BaseResponse<bool>> DeactivateByIdAsync(int id)
@@ -142,16 +135,12 @@ namespace MotoDev.Application.Services
             }
 
             repairShop.IsActive = false;
-          
+
             _dbContext.Update(repairShop);
             await _dbContext.SaveChangesAsync();
 
-            return new BaseResponse<bool>
-            {
-                IsOk = true,
-                Result = true
-            };         
+            return ResponseHelper.Success(true);
+
         }
-       
     }
 }

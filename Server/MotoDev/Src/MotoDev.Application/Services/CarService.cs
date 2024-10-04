@@ -1,20 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
 using MotoDev.Application.Interfaces;
-using MotoDev.Common.Constants;
 using MotoDev.Common.Dtos;
-using MotoDev.Common.Enums;
-using MotoDev.Common.Extensions;
-using MotoDev.Domain.Entities;
 using MotoDev.Infrastructure.ExternalServices.Email;
 using MotoDev.Infrastructure.Persistence;
-using MotoDev.Infrastructure.Persistence.Migrations;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace MotoDev.Application.Services
 {
@@ -42,7 +32,6 @@ namespace MotoDev.Application.Services
                 }).ToListAsync();
 
             return ResponseHelper.Success<IEnumerable<CarResponse>>(cars);
-
         }
     }
 }

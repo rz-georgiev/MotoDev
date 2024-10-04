@@ -23,7 +23,7 @@ export class AlertService {
     }
 
     this.alertTimer = setTimeout(() => {
-      this.alertSubject.next('ghjghj');
+      this.alertSubject.next('');
     }, duration);
   }
 }

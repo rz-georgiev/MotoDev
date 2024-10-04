@@ -22,11 +22,8 @@ namespace MotoDev.Application.Services
                 Name = x.Name
             }).ToListAsync();
 
-            return new BaseResponse<IEnumerable<RepairTypeResponse>>
-            {
-                IsOk = true,
-                Result = result,
-            };
+            return ResponseHelper.Success<IEnumerable<RepairTypeResponse>>(result);
+
         }
     }
 }

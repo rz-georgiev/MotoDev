@@ -18,17 +18,14 @@ namespace MotoDev.Application.Services
                 var role = await _dbContext.Roles.SingleOrDefaultAsync(x =>
                 x.Id == id);
 
-                var response = new BaseResponse<RoleResponse>
+                var roleResponse = new RoleResponse
                 {
-                    IsOk = true,
-                    Result = new RoleResponse
-                    {
-                        Id = role.Id,
-                        Name = role.Name,
-                    }
+                    Id = role.Id,
+                    Name = role.Name,
                 };
 
-                return response;
+                return ResponseHelper.Success(roleResponse);
+
             }
             catch (Exception)
             {
@@ -45,17 +42,13 @@ namespace MotoDev.Application.Services
                 x.Id == (int)RoleOption.Mechanic)
                     .ToListAsync();
 
-                var response = new BaseResponse<IEnumerable<RoleResponse>>
+                var roleResponses = roles.Select(x => new RoleResponse
                 {
-                    IsOk = true,
-                    Result = roles.Select(x => new RoleResponse
-                    {
-                        Id = x.Id,
-                        Name = x.Name,
-                    }).ToList()
-                };
+                    Id = x.Id,
+                    Name = x.Name,
+                }).ToList();
 
-                return response;
+                return ResponseHelper.Success<IEnumerable<RoleResponse>>(roleResponses);
             }
             catch (Exception)
             {

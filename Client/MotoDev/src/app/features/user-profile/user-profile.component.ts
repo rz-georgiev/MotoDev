@@ -66,8 +66,8 @@ export class UserProfileComponent {
       username: ['', Validators.required],
       password: ['', Validators.nullValidator],
       phoneNumber: ['', Validators.required],
-      repairShop: ['', Validators.required],
-      role: ['', Validators.required],
+      repairShop: ['', Validators.nullValidator],
+      role: ['', Validators.nullValidator],
       imageUrl: ['', Validators.nullValidator]
     });
 

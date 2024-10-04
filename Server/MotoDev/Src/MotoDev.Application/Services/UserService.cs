@@ -68,11 +68,8 @@ namespace MotoDev.Application.Services
 
                 await _dbContext.SaveChangesAsync();
 
-                return new BaseResponse
-                {
-                    IsOk = true,
-                    Message = "Successfully deactivated record"
-                };
+                return ResponseHelper.Success("Successfully deactivated record");
+
             }
             catch (Exception)
             {
@@ -121,14 +118,13 @@ namespace MotoDev.Application.Services
             _dbContext.Update(user);
             await _dbContext.SaveChangesAsync();
 
-            return new BaseResponse<UserResponse>
+            var response = new UserResponse
             {
-                IsOk = true,
-                Result = new UserResponse
-                {
-                    RefreshToken = refreshToken
-                }
+                RefreshToken = refreshToken
             };
+
+            return ResponseHelper.Success(response);
+
         }
 
         private async Task<BaseResponse<UserResponse>> AddAsync(UserRequest request)
@@ -176,19 +172,17 @@ namespace MotoDev.Application.Services
                 await _dbContext.RepairShopUsers.AddAsync(repairShopUser);
                 await _dbContext.SaveChangesAsync();
 
-                return new BaseResponse<UserResponse>
+                var response = new UserResponse
                 {
-                    IsOk = true,
-                    Message = "",
-                    Result = new UserResponse
-                    {
-                        RepairShopUserId = repairShopUser.Id,
-                        FirstName = request.FirstName,
-                        LastName = request.LastName,
-                        Position = (await _dbContext.Roles.SingleOrDefaultAsync(x => x.Id == user.RoleId))!.Name,
-                        RepairShop = (await _dbContext.RepairShops.SingleOrDefaultAsync(x => x.Id == request.RepairShopId))!.Name,
-                    }
+                    RepairShopUserId = repairShopUser.Id,
+                    FirstName = request.FirstName,
+                    LastName = request.LastName,
+                    Position = (await _dbContext.Roles.SingleOrDefaultAsync(x => x.Id == user.RoleId))!.Name,
+                    RepairShop = (await _dbContext.RepairShops.SingleOrDefaultAsync(x => x.Id == request.RepairShopId))!.Name,
                 };
+
+                return ResponseHelper.Success(response);
+
             }
             else
             {
@@ -289,15 +283,14 @@ namespace MotoDev.Application.Services
             _dbContext.Update(user);
             await _dbContext.SaveChangesAsync();
 
-            return new BaseResponse<UserProfileImageUpdateResponse>
+            var response = new UserProfileImageUpdateResponse
             {
-                IsOk = true,
-                Result = new UserProfileImageUpdateResponse
-                {
-                    ImageUrl = imageUrl,
-                    RefreshToken = refreshToken,
-                }
+                ImageUrl = imageUrl,
+                RefreshToken = refreshToken,
             };
+
+            return ResponseHelper.Success(response);
+
         }
 
         public async Task<BaseResponse<IEnumerable<MechanicUserResponse>>> GetMechanicUsersAsync()
