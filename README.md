@@ -96,6 +96,13 @@ It is created after watching SoftUni's Angular and other tutorials to gain more 
 * [![MySQL][MySQL]][MySQL-url]
 *  [![Bootstrap][Bootstrap.com]][Bootstrap-url]
 
+#### Plain text description
+* C#/.NET
+* Angular
+* MySQL
+* Bootstrap - Nice Admin template
+* Material UI for the data tables
+* NG-ApexCharts for the dashboard screen 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
