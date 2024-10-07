@@ -45,7 +45,6 @@ import { UserService } from '../../services/user.service';
 })
 export class UserEditorComponent {
 
-
   public registerForm!: FormGroup;
   public isSubmitted!: boolean;
   public repairShops!: any[];
@@ -56,6 +55,7 @@ export class UserEditorComponent {
   public userDto!: UserDto;
   public repairShopUser!: RepairShopUserDto;
   public isClientRoleSelected!: boolean;
+  private previousRoleSelected!: string;
 
   constructor(public dialogRef: MatDialogRef<UserEditorComponent>,
     @Inject(MAT_DIALOG_DATA) private passedData: any,
@@ -156,17 +156,20 @@ export class UserEditorComponent {
   }
 
   onNameChange() {
-    if (this.isClientRoleSelected && !this.isInEditMode) {
-      const usernameInput = this.registerForm.get('username');
-      const names: {
-        firstName: 'firstName',
-        lastName: 'lastName'
-      } = this.registerForm.value
+    // if (this.isClientRoleSelected && !this.isInEditMode) {
+    //   const usernameInput = this.registerForm.get('username');
+    //   const names: {
+    //     firstName: 'firstName',
+    //     lastName: 'lastName'
+    //   } = this.registerForm.value
 
-      const randomNumber = Math.floor(1000 + Math.random() * 9999);
-      const newUsername = `${names.firstName}.${names.lastName}.${randomNumber}`.toLowerCase();
-      usernameInput?.setValue(newUsername);
-    }
+    //   const randomNumber = Math.floor(1000 + Math.random() * 9999);
+    //   const newUsername = `${names.firstName}.${names.lastName}.${randomNumber}`.toLowerCase();
+    //   usernameInput?.setValue(newUsername);
+
+    //   this.registerForm.markAsDirty();
+    //   this.registerForm.markAsTouched();
+    // }
 
   }
 
@@ -175,7 +178,7 @@ export class UserEditorComponent {
     const roleId = Number(selectedRole.value.split(': ').at(1));
     this.isClientRoleSelected = roleId === RoleOption.Client;
 
-    const usernameInput = this.registerForm.get('username');
+    // const usernameInput = this.registerForm.get('username');
     const passwordInput = this.registerForm.get('password');
 
     if (this.isInEditMode) {
@@ -194,7 +197,9 @@ export class UserEditorComponent {
     }
     else {
       passwordInput?.setValue('');
-      usernameInput?.setValue('')
+      // usernameInput?.setValue('')
     }
+    this.registerForm.markAsDirty();
+    this.registerForm.markAsTouched();
   }
 }
