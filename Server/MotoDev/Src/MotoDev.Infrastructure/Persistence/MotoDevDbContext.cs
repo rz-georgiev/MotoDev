@@ -41,6 +41,8 @@ namespace MotoDev.Infrastructure.Persistence
 
         public DbSet<RepairStatus> RepairStatuses { get; set; }
 
+        public DbSet<RequestLogEntry> RequestLogEntries { get; set; }
+
 
     }
 }
