@@ -23,7 +23,7 @@ jobs:
           dotnet-version: '8.x'
 
       - name: Build with dotnet
-        run: dotnet build MotoDev/Server/MotoDev/Src/MotoDev.Api/MotoDev.Api.csproj --configuration $(buildConfiguration)
+        run: dotnet build MotoDev/Server/MotoDev/Src/MotoDev.Api/MotoDev.Api.csproj --configuration Release
         
       - name: dotnet publish
         run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/Server/Motodev"
