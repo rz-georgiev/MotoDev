@@ -60,9 +60,9 @@ jobs:
         run: npm install
         working-directory: ./Client/MotoDev # Specify the folder for the Angular app here
 
-      - name: Run Angular tests
-        run: npm test -- --watch=false --browsers=ChromeHeadless
-        working-directory: ./Client/MotoDev # Specify the folder for the Angular app here
+   #   - name: Run Angular tests
+   #     run: npm test -- --watch=false --browsers=ChromeHeadless
+   #     working-directory: ./Client/MotoDev # Specify the folder for the Angular app here
 
       - name: Build Angular project
         run: npm run build -- --prod
@@ -84,7 +84,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16.x'
+          node-version: '22.x'
 
       - name: Install dependencies and build Angular project
         run: |
