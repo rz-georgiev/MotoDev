@@ -42,13 +42,13 @@ jobs:
           dotnet-version: ${{ matrix.dotnet-version }}
 
       - name: Restore .NET dependencies
-        run: dotnet restore ./Server/MotoDev # Specify the folder for the .NET app here
+        run: dotnet restore ./Server/MotoDev/Src/MotoDev.Api # Specify the folder for the .NET app here
 
       - name: Build .NET project
-        run: dotnet build ./Server/MotoDev --no-restore --configuration Release # Specify the folder for the .NET app here
+        run: dotnet build ./Server/MotoDev/Src/MotoDev.Api --no-restore --configuration Release # Specify the folder for the .NET app here
 
       - name: Run .NET tests
-        run: dotnet test ./Server/MotoDev --no-build --verbosity normal # Specify the folder for the .NET app here
+        run: dotnet test ./Server/MotoDev/Src/MotoDev.Api --no-build --verbosity normal # Specify the folder for the .NET app here
 
       # Set up Node.js
       - name: Setup Node.js
@@ -94,5 +94,5 @@ jobs:
 
       - name: Publish .NET API
         run: |
-          dotnet publish ./Server/MotoDev -c Release -o publish # Specify the folder for the .NET app here
+          dotnet publish ./Server/MotoDev/Src/MotoDev.Api -c Release -o publish # Specify the folder for the .NET app here
           # Add your deployment script here (e.g., copy files to a server or upload to a cloud service)
