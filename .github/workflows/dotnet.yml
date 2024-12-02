@@ -65,7 +65,7 @@ jobs:
    #     working-directory: ./Client/MotoDev # Specify the folder for the Angular app here
 
       - name: Build Angular project
-        run: npm run build -- --prod
+        run: npm run build
         working-directory: ./Client/MotoDev # Specify the folder for the Angular app here
 
   deploy:
